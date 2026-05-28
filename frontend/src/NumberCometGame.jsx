@@ -1,7 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Confetti from "react-confetti";
-import * as Tooltip from '@radix-ui/react-tooltip';
-
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 import { Play, Pause, Volume2, X } from 'lucide-react';
 import './numberComet.css';
