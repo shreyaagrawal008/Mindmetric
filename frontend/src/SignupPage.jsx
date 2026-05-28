@@ -462,7 +462,7 @@ async function postJson(path, body) {
     }
     if (!response.ok) {
         const text = await response.text();
-        const error = new Error(readSpringMessage(text) || "Request failed");
+        const error = new Error(readSpringMessage(text) || `Request failed. Status: ${response.status}. Raw text: '${text}'`);
         error.status = response.status;
         throw error;
     }
