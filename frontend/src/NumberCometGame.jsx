@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
+const API_BASE = import.meta.env.PROD ? "/api" : "http://localhost:8081/api";
 import { Play, Pause, Volume2, X } from 'lucide-react';
 import './numberComet.css';
 import DeliverySpacePortGame from './DeliverySpacePortGame';

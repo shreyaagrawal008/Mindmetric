@@ -14,7 +14,7 @@ import {
   VolumeX
 } from "lucide-react";
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
+const API_BASE = import.meta.env.PROD ? "/api" : "http://localhost:8081/api";
 const DEFAULT_TOPIC = "WORD_NEBULA_FOUNDATIONS";
 const BGM_SRC = "/assets/audio/kids-fun-space-adventure.mp3";
 const DEFAULT_VOLUME = 0.7;

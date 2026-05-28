@@ -14,7 +14,7 @@ import NumberCometGame from "./NumberCometGame.jsx";
 import "./styles.css";
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
+const API_BASE = import.meta.env.PROD ? "/api" : "http://localhost:8081/api";
 const LOGO = "/assets/brand-logo.jpeg";
 const MASCOT = "/assets/WhatsApp Image 2026-05-03 at 2.18.35 PM.jpeg";
 const FALLBACK_LOGO = "/assets/brand-logo.jpeg";

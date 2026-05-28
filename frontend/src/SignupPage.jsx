@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import { AtSign, BookOpen, Eye, EyeOff, KeyRound, Lock, Phone, UserRound, X, ChevronLeft } from "lucide-react";
 import { GoogleLogin } from "@react-oauth/google";
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
+const API_BASE = import.meta.env.PROD ? "/api" : "http://localhost:8081/api";
 const LOGO = "/assets/logo.jpeg";
 const grades = ["Pre-K", "K", "Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6"];
 
