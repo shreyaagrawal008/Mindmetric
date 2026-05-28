@@ -1,4 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Confetti from "react-confetti";
+import * as Tooltip from '@radix-ui/react-tooltip';
+
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 import { Play, Pause, Volume2, X } from 'lucide-react';
 import './numberComet.css';
 import DeliverySpacePortGame from './DeliverySpacePortGame';
@@ -2767,7 +2771,7 @@ export default function NumberCometGame({ userId, onExit }) {
     const loadQuestions = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`/api/questions/level/${activeLevel}/topic/${activeTopic}`);
+        const response = await fetch(`${API_BASE}/questions/level/${activeLevel}/topic/${activeTopic}`);
         if (response.ok) {
           const data = await response.json();
           setQuestions(data);
