@@ -1,0 +1,667 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #0B0E26;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #0B0E26;
+}
+
+#root {
+  height: 100vh;
+  max-height: 100vh;
+  width: 100vw;
+  max-width: 100vw;
+  overflow: hidden;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+svg {
+  display: inline-block;
+}
+
+@layer components {
+  .neon-btn {
+    @apply inline-flex min-h-14 items-center gap-2 rounded-xl border px-5 py-3 text-base font-black text-white transition hover:-translate-y-0.5 focus:outline-none focus:ring-4;
+  }
+
+  .neon-btn.cyan {
+    @apply border-cyanGlow bg-cyanGlow/10 shadow-cyan focus:ring-cyanGlow/25;
+  }
+
+  .neon-btn.lime {
+    @apply border-limeGlow bg-limeGlow/10 shadow-lime focus:ring-limeGlow/25;
+  }
+
+  .neon-btn.pink {
+    @apply border-pinkGlow bg-pinkGlow/10 shadow-pink focus:ring-pinkGlow/25;
+  }
+
+  .field {
+    @apply min-h-12 rounded-xl border border-cyanGlow/40 bg-space px-4 text-white outline-none focus:border-limeGlow focus:ring-4 focus:ring-limeGlow/20;
+  }
+
+  .eyebrow {
+    @apply text-xs font-black uppercase tracking-normal text-limeGlow;
+  }
+
+  .game-tile {
+    @apply grid h-full min-h-0 py-4 content-center justify-items-center gap-1 rounded-xl border border-white/10 bg-white/[0.04] p-2 text-center text-xs font-black text-slate-100 transition hover:-translate-y-0.5 hover:border-cyanGlow;
+  }
+
+  .game-tile.active {
+    @apply border-cyanGlow bg-cyanGlow/15 text-white shadow-cyan;
+  }
+
+  .pill {
+    @apply rounded-full border px-3 py-1 text-xs font-black;
+  }
+
+  .pill.cyan {
+    @apply border-cyanGlow/60 bg-cyanGlow/10 text-cyanGlow;
+  }
+
+  .pill.lime {
+    @apply border-limeGlow/60 bg-limeGlow/10 text-limeGlow;
+  }
+
+  .pill.pink {
+    @apply border-pinkGlow/60 bg-pinkGlow/10 text-pinkGlow;
+  }
+
+  .knowledge-leaf {
+    @apply absolute z-10 flex max-w-36 items-center gap-1 rounded-full border border-limeGlow bg-limeGlow px-3 py-2 text-xs font-black text-space shadow-lime;
+  }
+}
+
+.signup-shell {
+  position: relative;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(34, 211, 238, 0.24), transparent 22rem),
+    radial-gradient(circle at 84% 16%, rgba(244, 114, 182, 0.17), transparent 21rem),
+    radial-gradient(circle at 50% 100%, rgba(132, 204, 22, 0.18), transparent 24rem),
+    linear-gradient(135deg, #0B0E26 0%, #11133a 48%, #061c2d 100%);
+}
+
+.signup-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  opacity: 0.2;
+  background-image:
+    radial-gradient(circle at 10px 10px, rgba(34, 211, 238, .5) 1px, transparent 2px),
+    radial-gradient(circle at 36px 28px, rgba(244, 114, 182, .35) 2px, transparent 3px),
+    radial-gradient(circle at 68px 52px, rgba(132, 204, 22, .35) 1px, transparent 2px);
+  background-size: 92px 92px;
+}
+
+.animal-sky {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+}
+
+.animal-float {
+  position: absolute;
+  opacity: 0.54;
+  filter: drop-shadow(0 18px 26px rgba(0, 0, 0, .34));
+  animation: animal-drift 6s ease-in-out infinite;
+}
+
+.animal-float:nth-child(2n) {
+  animation-delay: -2s;
+}
+
+.animal-float:nth-child(3n) {
+  animation-delay: -4s;
+}
+
+@keyframes animal-drift {
+  0%, 100% { transform: translateY(0) rotate(-4deg); }
+  50% { transform: translateY(-14px) rotate(4deg); }
+}
+
+.signup-logo {
+  display: block;
+  width: min(420px, 80vw);
+  height: auto;
+  object-fit: contain;
+  justify-self: center;
+  filter: drop-shadow(0 18px 32px rgba(34, 211, 238, .22));
+}
+
+.signup-logo-top {
+  width: min(330px, 76vw);
+  margin: 0 auto .75rem;
+}
+
+.signup-card {
+  border: 1px solid rgba(34, 211, 238, .22);
+  border-radius: 18px;
+  background: rgba(11, 14, 38, .84);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, .36), inset 0 1px 0 rgba(255,255,255,.08);
+  padding: clamp(1rem, 2vw, 1.45rem);
+  backdrop-filter: blur(22px);
+  max-width: 720px;
+  margin-inline: auto;
+}
+
+.google-button,
+.signup-submit {
+  display: inline-flex;
+  min-height: 48px;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: .75rem;
+  border-radius: 14px;
+  font-weight: 950;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.google-button {
+  border: 1px solid rgba(34, 211, 238, .28);
+  background: #ffffff;
+  color: #0f172a;
+  box-shadow: 0 14px 32px rgba(34, 211, 238, .18);
+}
+
+.google-button:hover,
+.signup-submit:hover {
+  transform: translateY(-2px);
+}
+
+.google-mark {
+  display: grid;
+  height: 30px;
+  width: 30px;
+  place-items: center;
+  border-radius: 999px;
+  background: conic-gradient(from -45deg, #4285f4, #34a853, #fbbc05, #ea4335, #4285f4);
+  color: #fff;
+  font-weight: 950;
+}
+
+.signup-label {
+  display: grid;
+  gap: .35rem;
+  color: #e2e8f0;
+  font-size: .8rem;
+  font-weight: 900;
+}
+
+.signup-input-wrap,
+.signup-select {
+  display: flex;
+  min-height: 46px;
+  align-items: center;
+  gap: .65rem;
+  border: 1px solid rgba(34, 211, 238, .28);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .06);
+  padding: 0 .85rem;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+.signup-input,
+.signup-select {
+  width: 100%;
+  color: #f8fafc;
+  outline: none;
+}
+
+.signup-input {
+  border: 0;
+  background: transparent;
+}
+
+.signup-input::placeholder {
+  color: #94a3b8;
+}
+
+.signup-select {
+  color: #f8fafc;
+}
+
+.signup-select option {
+  color: #0f172a;
+}
+
+.signup-input-wrap:focus-within,
+.signup-select:focus {
+  border-color: #22d3ee;
+  box-shadow: 0 0 0 4px rgba(34, 211, 238, .16);
+}
+
+.signup-submit {
+  border: 0;
+  background: linear-gradient(135deg, #06b6d4, #84cc16 52%, #f472b6);
+  color: #fff;
+  box-shadow: 0 18px 38px rgba(6, 182, 212, .24);
+}
+
+.signup-submit:disabled,
+.google-button:disabled {
+  cursor: wait;
+  opacity: .7;
+}
+
+.google-native-wrap {
+  display: grid;
+  min-height: 48px;
+  place-items: center;
+}
+
+.google-config-warning {
+  display: grid;
+  min-height: 48px;
+  width: 100%;
+  place-items: center;
+  border-radius: 14px;
+  border: 1px dashed rgba(34, 211, 238, .38);
+  background: rgba(34, 211, 238, .08);
+  color: #cffafe;
+  font-size: .86rem;
+  font-weight: 900;
+  text-align: center;
+}
+
+.connected-pill {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  gap: .5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(34, 211, 238, .28);
+  background: rgba(34, 211, 238, .12);
+  padding: 0 .85rem;
+  color: #cffafe;
+  font-size: .86rem;
+  font-weight: 900;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  background: rgba(2, 6, 23, .62);
+  padding: 1rem;
+  backdrop-filter: blur(10px);
+}
+
+.google-popup-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, .54);
+  padding: 1rem;
+  backdrop-filter: blur(3px);
+}
+
+.google-popup-stage {
+  position: relative;
+  display: grid;
+  width: min(604px, calc(100vw - 2rem));
+  min-height: min(560px, calc(100vh - 2rem));
+  place-items: center;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, .32);
+}
+
+.google-stage-close {
+  position: absolute;
+  right: 1.5rem;
+  top: 1.5rem;
+  z-index: 2;
+  color: #94a3b8;
+}
+
+.google-browser-window {
+  width: min(400px, calc(100vw - 4rem));
+  overflow: hidden;
+  border-radius: 7px;
+  background: #111;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, .4);
+}
+
+.google-window-bar {
+  display: flex;
+  height: 34px;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #2a2a2a;
+  background: #1f1f1f;
+  padding: 0 .75rem;
+  color: #f8fafc;
+  font-size: .8rem;
+}
+
+.google-url-bar {
+  display: flex;
+  height: 40px;
+  align-items: center;
+  gap: .6rem;
+  border-bottom: 1px solid #2a2a2a;
+  background: #151515;
+  padding: 0 .75rem;
+  color: #f8fafc;
+  font-size: .78rem;
+}
+
+.google-url-lock,
+.google-mini {
+  display: grid;
+  height: 20px;
+  width: 20px;
+  place-items: center;
+  border-radius: 999px;
+  background: conic-gradient(from -45deg, #4285f4, #34a853, #fbbc05, #ea4335, #4285f4);
+  color: #fff;
+  font-size: .75rem;
+  font-weight: 950;
+}
+
+.google-dark-panel {
+  min-height: 400px;
+  background: #0f0f0f;
+  padding: 1.2rem 1.5rem 1.35rem;
+  color: #f8fafc;
+}
+
+.google-dark-brand {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  border-bottom: 1px solid #2a2a2a;
+  margin: -1.2rem -1.5rem 2rem;
+  padding: 1rem 1.5rem;
+  font-size: .92rem;
+  font-weight: 700;
+}
+
+.google-dark-panel h2 {
+  margin: 0;
+  color: #f8fafc;
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.google-dark-panel p {
+  margin: .65rem 0 1.5rem;
+  color: #f8fafc;
+  font-size: 1rem;
+}
+
+.google-dark-panel p strong {
+  color: #93c5fd;
+}
+
+.google-dark-list {
+  display: grid;
+  gap: 0;
+}
+
+.google-dark-account {
+  display: flex;
+  min-height: 62px;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid #343434;
+  color: #f8fafc;
+  text-align: left;
+}
+
+.google-dark-account:hover {
+  background: rgba(255, 255, 255, .05);
+}
+
+.google-dark-account > span {
+  display: grid;
+  height: 30px;
+  width: 30px;
+  place-items: center;
+  border-radius: 999px;
+  background: #7c3aed;
+  color: #fff;
+  font-weight: 900;
+}
+
+.google-dark-account strong,
+.google-dark-account small {
+  display: block;
+}
+
+.google-dark-account small {
+  color: #d1d5db;
+  font-weight: 500;
+}
+
+.google-dark-custom {
+  display: grid;
+  gap: .65rem;
+  border-bottom: 1px solid #343434;
+  padding: .95rem 0;
+}
+
+.google-dark-label {
+  color: #f8fafc;
+  font-weight: 900;
+}
+
+.google-dark-panel .signup-label {
+  color: #d1d5db;
+}
+
+.google-dark-panel .signup-input-wrap {
+  min-height: 40px;
+  border-color: #3f3f46;
+  background: #171717;
+}
+
+.google-dark-panel .signup-input {
+  color: #f8fafc;
+}
+
+.google-dark-continue {
+  min-height: 40px;
+  justify-self: end;
+  border-radius: 999px;
+  background: #8ab4f8;
+  padding: 0 1rem;
+  color: #0f172a;
+  font-weight: 900;
+}
+
+.google-dark-continue:disabled {
+  cursor: not-allowed;
+  opacity: .45;
+}
+
+.google-modal,
+.forgot-modal {
+  width: min(460px, 100%);
+  border-radius: 18px;
+  background: #fff;
+  color: #0f172a;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, .36);
+  padding: 1.25rem;
+}
+
+.icon-close {
+  display: grid;
+  min-height: 36px;
+  width: 36px;
+  place-items: center;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.google-account {
+  display: flex;
+  min-height: 58px;
+  align-items: center;
+  gap: .85rem;
+  border-radius: 12px;
+  padding: .65rem;
+  text-align: left;
+  transition: background .18s ease;
+}
+
+.google-account:hover {
+  background: #f8fafc;
+}
+
+.google-account span {
+  display: grid;
+  height: 38px;
+  width: 38px;
+  place-items: center;
+  border-radius: 999px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-weight: 950;
+}
+
+.google-account strong,
+.google-account small {
+  display: block;
+}
+
+.google-account small {
+  color: #64748b;
+  font-weight: 700;
+}
+
+.google-modal .signup-label,
+.forgot-modal .signup-label {
+  color: #0f172a;
+}
+
+.google-modal .signup-input-wrap,
+.forgot-modal .signup-input-wrap {
+  border-color: rgba(14, 165, 233, .22);
+  background: #f8fafc;
+}
+
+.google-modal .signup-input,
+.forgot-modal .signup-input {
+  color: #0f172a;
+}
+
+.google-continue {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: #0f172a;
+  color: #fff;
+  font-weight: 950;
+}
+
+.google-continue:disabled {
+  cursor: not-allowed;
+  opacity: .45;
+}
+
+.reset-message {
+  border-radius: 12px;
+  background: #ecfeff;
+  padding: .75rem;
+  color: #155e75;
+  font-size: .88rem;
+  font-weight: 900;
+}
+
+@media (max-height: 760px) {
+  .signup-logo {
+    width: min(330px, 72vw);
+  }
+
+  .signup-logo-top {
+    width: min(250px, 68vw);
+    margin-bottom: .5rem;
+  }
+
+  .signup-card {
+    padding: .9rem;
+  }
+
+  .signup-input-wrap,
+  .signup-select,
+  .google-button,
+  .signup-submit {
+    min-height: 42px;
+  }
+}
+
+@media (max-height: 680px) {
+  .google-popup-stage {
+    min-height: calc(100vh - 1.5rem);
+  }
+
+  .google-dark-panel {
+    min-height: 340px;
+    padding-bottom: 1rem;
+  }
+
+  .google-dark-brand {
+    margin-bottom: 1rem;
+  }
+
+  .google-dark-panel h2 {
+    font-size: 1.65rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .signup-shell {
+    overflow-y: auto;
+  }
+
+  .signup-logo {
+    width: min(300px, 70vw);
+  }
+}
+
+.auth-tab {
+  min-height: 42px;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  color: rgba(255, 255, 255, .72);
+  font-weight: 950;
+  transition: border-color .18s ease, background .18s ease, color .18s ease, box-shadow .18s ease;
+}
+
+.auth-tab.active {
+  border-color: rgba(0, 229, 255, .7);
+  background: rgba(0, 229, 255, .14);
+  color: #fff;
+  box-shadow: 0 0 18px rgba(0, 229, 255, .22);
+}

@@ -1,0 +1,18 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="truck illustration">
+  <defs>
+    <radialGradient id="planet" cx="34%" cy="24%" r="78%">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.92"/>
+      <stop offset="0.22" stop-color="#f0abfc"/>
+      <stop offset="0.62" stop-color="#ec4899"/>
+      <stop offset="1" stop-color="#312e81"/>
+    </radialGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <circle cx="80" cy="80" r="68" fill="url(#planet)" filter="url(#glow)"/>
+  <ellipse cx="80" cy="84" rx="74" ry="18" fill="none" stroke="#ffffff" stroke-opacity="0.48" stroke-width="8" transform="rotate(-13 80 84)"/>
+  <circle cx="46" cy="38" r="8" fill="#ffffff" fill-opacity="0.55"/>
+  <text x="80" y="89" text-anchor="middle" font-size="58" font-family="Segoe UI Emoji, Apple Color Emoji, Noto Color Emoji, sans-serif">🚚</text>
+</svg>

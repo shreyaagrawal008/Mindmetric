@@ -1,0 +1,30 @@
+{
+  "weekKey": "2026-W18",
+  "missionTitle": "Rescue the Lost Knowledge Stars",
+  "academicLesson": "Practice core reading, math, and science skills by solving space missions.",
+  "mascotLine": "Heroes, our galaxy map is missing knowledge stars. Win each mission to grow your Memory Tree.",
+  "friends": ["Lexi the Word Pilot", "Digit the Math Bot", "Professor Plasma"],
+  "lessons": [
+    { "gameShell": "Astro Maze", "subject": "English", "tier": "TIER_1", "prompt": "Find the letter that starts moon.", "answer": "M", "reward": "Letter Leaf" },
+    { "gameShell": "Word Nebula", "subject": "English", "tier": "TIER_1", "prompt": "Pick the rhyming word for star: car or book?", "answer": "CAR", "reward": "Rhyme Leaf" },
+    { "gameShell": "Number Comet", "subject": "Math", "tier": "TIER_1", "prompt": "Count the rocket fins: 1, 2, 3. How many?", "answer": "3", "reward": "Counting Leaf" },
+    { "gameShell": "Science Scanner", "subject": "Science", "tier": "TIER_1", "prompt": "Which gives us daytime light?", "answer": "SUN", "reward": "Sun Leaf" },
+    { "gameShell": "Memory Orbit", "subject": "English", "tier": "TIER_1", "prompt": "Remember this sound: B. Which word starts with B?", "answer": "BALL", "reward": "Sound Leaf" },
+    { "gameShell": "Pattern Portal", "subject": "Math", "tier": "TIER_1", "prompt": "Complete the pattern: star, moon, star, moon, star, what comes next?", "answer": "MOON", "reward": "Pattern Leaf" },
+    { "gameShell": "Quiz Rocket", "subject": "Science", "tier": "TIER_1", "prompt": "What do we drink when we are thirsty?", "answer": "WATER", "reward": "Water Leaf" },
+    { "gameShell": "Astro Maze", "subject": "English", "tier": "TIER_2", "prompt": "Unscramble the mission word: T A S R", "answer": "STAR", "reward": "Vocabulary Leaf" },
+    { "gameShell": "Word Nebula", "subject": "English", "tier": "TIER_2", "prompt": "Choose the noun in this phrase: bright comet.", "answer": "COMET", "reward": "Grammar Leaf" },
+    { "gameShell": "Number Comet", "subject": "Math", "tier": "TIER_2", "prompt": "Solve 12 + 9 to power the rocket.", "answer": "21", "reward": "Addition Leaf" },
+    { "gameShell": "Science Scanner", "subject": "Science", "tier": "TIER_2", "prompt": "Plants need sunlight, water, air, and what from soil?", "answer": "NUTRIENTS", "reward": "Plant Leaf" },
+    { "gameShell": "Memory Orbit", "subject": "English", "tier": "TIER_2", "prompt": "Remember the word orbit. What letter does it start with?", "answer": "O", "reward": "Recall Leaf" },
+    { "gameShell": "Pattern Portal", "subject": "Math", "tier": "TIER_2", "prompt": "Complete the pattern: 4, 8, 12, 16, what comes next?", "answer": "20", "reward": "Sequence Leaf" },
+    { "gameShell": "Quiz Rocket", "subject": "Science", "tier": "TIER_2", "prompt": "What force pulls objects toward Earth?", "answer": "GRAVITY", "reward": "Gravity Leaf" },
+    { "gameShell": "Astro Maze", "subject": "Math", "tier": "TIER_3", "prompt": "A rover travels 12 km each day for 5 days. How many km?", "answer": "60", "reward": "Multiplication Leaf" },
+    { "gameShell": "Word Nebula", "subject": "English", "tier": "TIER_3", "prompt": "Choose a synonym for bright.", "answer": "LUMINOUS", "reward": "Synonym Leaf" },
+    { "gameShell": "Number Comet", "subject": "Math", "tier": "TIER_3", "prompt": "What is 3/4 of 20 mission crystals?", "answer": "15", "reward": "Fraction Leaf" },
+    { "gameShell": "Science Scanner", "subject": "Science", "tier": "TIER_3", "prompt": "Which planet is known for visible rings?", "answer": "SATURN", "reward": "Planet Leaf" },
+    { "gameShell": "Memory Orbit", "subject": "Science", "tier": "TIER_3", "prompt": "Name the process plants use to make food from sunlight.", "answer": "PHOTOSYNTHESIS", "reward": "Biology Leaf" },
+    { "gameShell": "Pattern Portal", "subject": "Math", "tier": "TIER_3", "prompt": "Complete the sequence: 2, 6, 18, 54, what comes next?", "answer": "162", "reward": "Pattern Master Leaf" },
+    { "gameShell": "Quiz Rocket", "subject": "English", "tier": "TIER_3", "prompt": "Identify the adjective: The silent moon glowed.", "answer": "SILENT", "reward": "Adjective Leaf" }
+  ]
+}

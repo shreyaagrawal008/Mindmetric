@@ -1,0 +1,75 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< com.mindmetric:mindmetric-api >--------------------
+[INFO] Building Mindmetric API 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.3.2:clean (default-clean) @ mindmetric-api ---
+[INFO] Deleting D:\Mindmetric\backend\target
+[INFO] 
+[INFO] >>> spring-boot:3.3.7:run (default-cli) > test-compile @ mindmetric-api >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ mindmetric-api ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ mindmetric-api ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 34 source files with javac [debug parameters release 18] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ mindmetric-api ---
+[INFO] skip non existing resourceDirectory D:\Mindmetric\backend\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ mindmetric-api ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] <<< spring-boot:3.3.7:run (default-cli) < test-compile @ mindmetric-api <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.3.7:run (default-cli) @ mindmetric-api ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.7)
+
+2026-05-25T17:33:52.886+05:30  INFO 7308 --- [           main] c.mindmetric.api.MindmetricApplication   : Starting MindmetricApplication using Java 18.0.2 with PID 7308 (D:\Mindmetric\backend\target\classes started by Admin in D:\Mindmetric\backend)
+2026-05-25T17:33:52.889+05:30  INFO 7308 --- [           main] c.mindmetric.api.MindmetricApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-05-25T17:33:53.561+05:30  INFO 7308 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-25T17:33:53.637+05:30  INFO 7308 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 68 ms. Found 6 JPA repository interfaces.
+2026-05-25T17:33:54.177+05:30  INFO 7308 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-05-25T17:33:54.191+05:30  INFO 7308 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-05-25T17:33:54.192+05:30  INFO 7308 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.34]
+2026-05-25T17:33:54.257+05:30  INFO 7308 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-05-25T17:33:54.257+05:30  INFO 7308 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1309 ms
+2026-05-25T17:33:54.407+05:30  INFO 7308 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-25T17:33:54.459+05:30  INFO 7308 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2026-05-25T17:33:54.490+05:30  INFO 7308 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-25T17:33:54.768+05:30  INFO 7308 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-25T17:33:54.796+05:30  INFO 7308 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-05-25T17:33:55.043+05:30  INFO 7308 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:file:./data/mindmetric user=SA
+2026-05-25T17:33:55.046+05:30  INFO 7308 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-05-25T17:33:55.072+05:30  WARN 7308 --- [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-25T17:33:56.055+05:30  INFO 7308 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-25T17:33:56.108+05:30  INFO 7308 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-25T17:33:56.477+05:30  INFO 7308 --- [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-25T17:33:56.974+05:30  INFO 7308 --- [           main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./data/mindmetric'
+2026-05-25T17:33:57.078+05:30  INFO 7308 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2026-05-25T17:33:57.091+05:30  INFO 7308 --- [           main] c.mindmetric.api.MindmetricApplication   : Started MindmetricApplication in 4.6 seconds (process running for 4.958)
+Starting Number Comet Curriculum Seeder (11 Levels x 8 Topics x 30 Questions)...
+Successfully seeded 2640 Number Comet questions into MySQL.
+2026-05-25T17:34:38.215+05:30  INFO 7308 --- [nio-8081-exec-1] o.apache.tomcat.util.http.parser.Cookie  : A cookie header was received [g_state={"i_l":0,"i_ll":1779463591300,"i_e":{"enable_itp_optimization":18},"i_et":1778611747114,"i_b":"0W8nvTjbBBFvMSA3ZAaYYUNsr12ZtnOXQju6EvT7ki0"}] that contained an invalid cookie. That cookie will be ignored.
+ Note: further occurrences of this error will be logged at DEBUG level.
+2026-05-25T17:34:38.221+05:30  INFO 7308 --- [nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-05-25T17:34:38.221+05:30  INFO 7308 --- [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-05-25T17:34:38.222+05:30  INFO 7308 --- [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-05-25T18:57:32.180+05:30  WARN 7308 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h7m6s860ms305µs900ns).
+2026-05-25T19:20:25.301+05:30  WARN 7308 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=6m22s916ms301µs600ns).
+2026-05-25T20:26:26.968+05:30  WARN 7308 --- [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=32m1s116ms623µs).
+Press any key to continue . . . 

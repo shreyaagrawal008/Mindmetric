@@ -1,0 +1,1033 @@
+package com.mindmetric.api.numbercomet;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
+@Component
+public class DataSeeder implements CommandLineRunner {
+
+    @Autowired
+    private QuestionRepository questionRepository;
+
+    private final Random random = new Random();
+
+    @Override
+    public void run(String... args) throws Exception {
+        seedQuestions();
+    }
+
+    private void seedQuestions() {
+        System.out.println("Starting Number Comet Curriculum Seeder (11 Levels x 8 Topics x 30 Questions)...");
+        questionRepository.deleteAll(); // Clean slate
+
+        List<Question> batchList = new ArrayList<>();
+        int batchSize = 100;
+
+        for (int level = 1; level <= 11; level++) {
+            for (int topic = 1; topic <= 8; topic++) {
+                for (int qNum = 1; qNum <= 30; qNum++) {
+                    Question q = new Question();
+                    q.setLevelId(level);
+                    q.setTopicId(topic);
+                    q.setQuestionNumber(qNum);
+
+                    String[] qData = generate(level, topic, qNum);
+                    String correct = qData[0];
+                    String d1 = qData[1];
+                    String d2 = qData[2];
+                    String instruction = qData[3];
+                    String type = qData.length > 4 ? qData[4] : "audioCheck";
+                    String asset = qData.length > 5 ? qData[5] : "🔊";
+
+                    q.setCorrectAnswer(correct);
+                    q.setInstructionText(instruction);
+                    q.setQuestionType(type);
+                    q.setAssetValue(asset);
+                    
+                    // Default audio mapping for numbers
+                    if (correct.matches("\\d+")) {
+                        q.setAssetAudioPath("/audio/answers/" + correct + ".mp3");
+                    } else {
+                        // For string concepts (e.g. "BIG", "RED"), we could map to specific MP3s.
+                        // Currently falling back to generic correct sound in UI, so this is safe.
+                        q.setAssetAudioPath("");
+                    }
+
+                    List<String> opts = Arrays.asList(correct, d1, d2);
+                    Collections.shuffle(opts, random);
+
+                    q.setOptionBlue(opts.get(0));
+                    q.setOptionPink(opts.get(1));
+                    q.setOptionGreen(opts.get(2));
+
+                    batchList.add(q);
+
+                    if (batchList.size() >= batchSize) {
+                        questionRepository.saveAll(batchList);
+                        batchList.clear();
+                    }
+                }
+            }
+        }
+        
+        if (!batchList.isEmpty()) {
+            questionRepository.saveAll(batchList);
+        }
+        
+        System.out.println("Successfully seeded " + (11 * 8 * 30) + " Number Comet questions into MySQL.");
+    }
+
+    private String[] generate(int level, int topic, int qNum) {
+        switch(level) {
+            case 1: return genLevel1(topic, qNum);
+            case 2: return genLevel2(topic);
+            case 3: return genLevel3(topic, qNum);
+            case 4: return genLevel4(topic, qNum);
+            case 5: return genLevel5(topic);
+            case 6: return genLevel6(topic);
+            case 7: return genLevel7(topic);
+            case 8: return genLevel8(topic);
+            case 9: return genLevel9(topic);
+            case 10: return genLevel10(topic);
+            case 11: return genLevel11(topic);
+            default: return buildN(1, 1, 5, "LISTEN CLOSELY AND FIND THE MATCHING NUMBER!");
+        }
+    }
+
+    // --- Helpers ---
+    private int r(int min, int max) { 
+        return random.nextInt(max - min + 1) + min; 
+    }
+    
+    private int uniqueR(int min, int max, int... excludes) {
+        int val;
+        boolean bad;
+        do {
+            val = r(min, max);
+            bad = false;
+            for(int ex : excludes) {
+                if(val == ex) bad = true;
+            }
+        } while(bad);
+        return val;
+    }
+    
+    private String[] buildN(int correct, int min, int max, String inst) {
+        int d1 = uniqueR(min, max, correct);
+        int d2 = uniqueR(min, max, correct, d1);
+        return new String[]{String.valueOf(correct), String.valueOf(d1), String.valueOf(d2), inst};
+    }
+    
+    private String[] buildS(String correct, String[] pool, String inst) {
+        String d1, d2;
+        do { d1 = pool[random.nextInt(pool.length)]; } while(d1.equals(correct));
+        do { d2 = pool[random.nextInt(pool.length)]; } while(d2.equals(correct) || d2.equals(d1));
+        return new String[]{correct, d1, d2, inst};
+    }
+
+    // --- Level Generators ---
+    private String[] genLevel1(int topic, int qNum) {
+        String[] objects = {
+            "star", "rocket", "planet", "asteroid", "apple", "car", "dog", "cat", "bird", "fish",
+            "tree", "flower", "sun", "moon", "cloud", "rain", "snow", "fire", "water", "earth",
+            "bear", "lion", "tiger", "elephant", "monkey", "penguin", "frog", "turtle", "snake", "bug"
+        };
+        String obj = objects[(qNum - 1) % objects.length];
+        
+        int d1 = (qNum % 15) + 2; 
+        int d2 = ((qNum + 5) % 15) + 2;
+        if (d1 == d2) d2++;
+
+        switch(topic) {
+            case 1: {
+                int correctNum = ((qNum - 1) % 5) + 1; // cycles 1 through 5
+                if(d1 == correctNum) d1 = correctNum + 6;
+                if(d2 == correctNum) d2 = correctNum + 7;
+                String qText = "Find the number <span style='color: #FFD700; font-size: 1.5em; text-shadow: 0 0 10px #FFD700; padding: 0 5px;'>" + correctNum + "</span>!";
+                return new String[]{String.valueOf(correctNum), String.valueOf(d1), String.valueOf(d2), qText, "audioCheck", "🔊"};
+            }
+            case 2: { // Tower Tally: Tall vs Short
+                String[] towerEmojis = {
+                    "🗼", "🏢", "🌲", "🦒", "🪜", "🏗️", "🏙️", "🏛️", "🏰", "🎢",
+                    "🧍‍♂️", "🚪", "🪔", "💈", "🚏", "🚦", "🌵", "🌴", "🎋", "🛖",
+                    "🚀", "🧱", "🪟", "🏔️", "⛺", "🗽", "🪵", "🧍‍♀️", "🧋", "🍾"
+                };
+                String tEmoji = towerEmojis[(qNum - 1) % towerEmojis.length];
+                boolean leftTall = (qNum % 2 == 0);
+                boolean askTall = ((qNum / 2) % 2 == 0);
+                String q = askTall ? "Which " + tEmoji + " is TALLER?" : "Which " + tEmoji + " is SHORTER?";
+                String ans = (leftTall == askTall) ? "A" : "B";
+                String json = String.format("{\"leftTall\":%b,\"askTall\":%b,\"emoji\":\"%s\"}", leftTall, askTall, tEmoji);
+                return buildT(ans, "A", "B", "NONE", q, "comparison_tallShort", json);
+            }
+            case 3: {
+                int n = (qNum % 2 == 0) ? 4 : 5;
+                if(d1 == n) d1 = n + 1; if(d2 == n) d2 = n + 2; if(d1 == d2) d2++;
+                return new String[]{String.valueOf(n), String.valueOf(d1), String.valueOf(d2), "Find the correct quantity", "countItems", repeat(obj, n)};
+            }
+            case 4: { 
+                int n = ((qNum - 1) % 4) + 1; 
+                String seq = "";
+                for(int i=1; i<=n; i++) seq += i + " ➔ ";
+                seq += "?";
+                int correct = n + 1;
+                if(d1 == correct) d1 = correct + 1; if(d2 == correct) d2 = correct + 2; if(d1 == d2) d2++;
+                return new String[]{String.valueOf(correct), String.valueOf(d1), String.valueOf(d2), "What comes next in the count?", "text", seq};
+            }
+            case 5: {
+                int n = ((qNum - 1) % 5) + 1;
+                if(d1 == n) d1 = n + 1; if(d2 == n) d2 = n + 2; if(d1 == d2) d2++;
+                return new String[]{String.valueOf(n), String.valueOf(d1), String.valueOf(d2), "Touch and count the objects!", "countItems", repeat(obj, n)};
+            }
+            case 6: {
+                int n = ((qNum - 1) % 5) + 1;
+                if(d1 == n) d1 = n + 1; if(d2 == n) d2 = n + 2; if(d1 == d2) d2++;
+                return new String[]{String.valueOf(n), String.valueOf(d1), String.valueOf(d2), "Count the scattered " + obj + "s!", "countItems", repeat(obj, n)};
+            }
+            case 7: {
+                int n = ((qNum - 1) % 5) + 1;
+                if(d1 == n) d1 = n + 1; if(d2 == n) d2 = n + 2; if(d1 == d2) d2++;
+                return new String[]{String.valueOf(n), String.valueOf(d1), String.valueOf(d2), "Listen and count the sounds!", "audioCheck", "🔊"};
+            }
+            case 8: { 
+                int n = ((qNum - 1) % 3) + 1; 
+                String seq = n + ", _ , " + (n+2);
+                int correct = n + 1;
+                if(d1 == correct) d1 = correct + 1; if(d2 == correct) d2 = correct + 2; if(d1 == d2) d2++;
+                return new String[]{String.valueOf(correct), String.valueOf(d1), String.valueOf(d2), "What is the missing number?", "text", seq}; 
+            }
+            default: return new String[]{"1", "2", "3", "Error", "text", ""};
+        }
+    }
+
+    private String repeat(String s, int count) {
+        String[] arr = new String[count];
+        Arrays.fill(arr, s);
+        return String.join(",", arr);
+    }
+    
+    private String[] buildT(int correct, int min, int max, String inst, String type, String asset) {
+        int d1 = uniqueR(min, max, correct);
+        int d2 = uniqueR(min, max, correct, d1);
+        return new String[]{String.valueOf(correct), String.valueOf(d1), String.valueOf(d2), inst, type, asset};
+    }
+
+    private String[] buildT(String correct, String opt1, String opt2, String opt3, String inst, String type, String asset) {
+        String[] all = {opt1, opt2, opt3};
+        String d1 = "", d2 = "";
+        for(String o : all) {
+            if(!o.equals(correct)) {
+                if(d1.isEmpty()) d1 = o;
+                else d2 = o;
+            }
+        }
+        return new String[]{correct, d1, d2, inst, type, asset};
+    }
+
+    private String[] genLevel2(int topic) {
+        String[] objects = {"star", "rocket", "planet", "asteroid"};
+        String obj = objects[random.nextInt(objects.length)];
+
+        switch(topic) {
+            case 1: {
+                int n = r(1,10);
+                return buildT(n, 1, 10, "How many fingers?", "countItems", repeat("☝️", n));
+            }
+            case 2: {
+                int d1 = r(1,3);
+                int d2 = r(4,6);
+                return new String[]{"0", String.valueOf(d1), String.valueOf(d2), "Find the empty basket!", "zeroConcept", "🔍"};
+            }
+            case 3: {
+                int n = r(6,7);
+                return buildT(n, 1, 10, "Count the objects!", "countItems", repeat(obj, n));
+            }
+            case 4: {
+                int n = r(8,9);
+                return buildT(n, 1, 10, "Count the objects!", "countItems", repeat(obj, n));
+            }
+            case 5: {
+                int n = r(1,9);
+                return buildT(10 - n, 1, 10, "How many more fuel blocks to launch?", "tenFrame", String.valueOf(n));
+            }
+            case 6: {
+                int n = r(0,10);
+                return buildT(n, 0, 10, "Which number traces this path?", "traceShape", String.valueOf(n));
+            }
+            case 7: { 
+                int start = random.nextBoolean() ? 5 : 10;
+                int n = r(0, start - 2); 
+                String seq = (n+2) + " ➔ " + (n+1) + " ➔ _";
+                return buildT(n, 0, 10, "What comes next in the countdown?", "text", seq); 
+            }
+            case 8: {
+                int total = 10;
+                int n = r(1,9);
+                return buildT(n, 1, 10, "Count only the glowing objects!", "highlightCount", total + "," + n);
+            }
+            default: return buildN(1, 1, 10, "Error");
+        }
+    }
+
+    private String[] genLevel3(int topic, int qNum) {
+        switch(topic) {
+            case 1: { // Big vs Small Real-World
+                String[][] pairs = {
+                    {"🐘", "🐁", "animals", "Elephant", "Mouse"},
+                    {"🐋", "🐟", "animals", "Whale", "Fish"},
+                    {"🌎", "🍎", "space", "Earth", "Apple"},
+                    {"🚢", "🛶", "vehicles", "Ship", "Canoe"},
+                    {"🏔️", "🪨", "nature", "Mountain", "Rock"},
+                    {"🦅", "🐝", "animals", "Eagle", "Bee"},
+                    {"🦁", "🐞", "animals", "Lion", "Ladybug"},
+                    {"🐻", "🐜", "animals", "Bear", "Ant"},
+                    {"☀️", "💡", "space", "Sun", "Lightbulb"},
+                    {"🦖", "🦎", "animals", "T-Rex", "Lizard"},
+                    {"🍉", "🍇", "food", "Watermelon", "Grape"},
+                    {"🍕", "🍟", "food", "Pizza", "Fry"},
+                    {"🚌", "🚲", "vehicles", "Bus", "Bike"},
+                    {"🏰", "⛺", "buildings", "Castle", "Tent"},
+                    {"🛩️", "🪁", "vehicles", "Airplane", "Kite"},
+                    {"🌳", "🍄", "nature", "Tree", "Mushroom"},
+                    {"🛋️", "🪑", "furniture", "Sofa", "Chair"},
+                    {"🐎", "🐱", "animals", "Horse", "Cat"},
+                    {"🌻", "🌼", "nature", "Sunflower", "Daisy"},
+                    {"🎹", "🎻", "instruments", "Piano", "Violin"},
+                    {"📺", "📱", "electronics", "TV", "Phone"},
+                    {"🎂", "🧁", "food", "Cake", "Cupcake"},
+                    {"🪗", "🪈", "instruments", "Accordion", "Flute"},
+                    {"💻", "⌚", "electronics", "Laptop", "Watch"},
+                    {"🚢", "⛵", "vehicles", "Ship", "Sailboat"},
+                    {"🐅", "🐭", "animals", "Tiger", "Mouse"},
+                    {"🏭", "🛖", "buildings", "Factory", "Hut"},
+                    {"🏟️", "🏠", "buildings", "Stadium", "House"},
+                    {"🐋", "🦐", "animals", "Whale", "Shrimp"},
+                    {"🦏", "🦔", "animals", "Rhino", "Hedgehog"}
+                };
+                int idx = (qNum - 1) % pairs.length;
+                String[] pair = pairs[idx];
+                boolean leftBig = r(0, 1) == 0;
+                boolean askBig = r(0, 1) == 0;
+                String item1 = leftBig ? pair[0] : pair[1];
+                String item2 = leftBig ? pair[1] : pair[0];
+                String name1 = leftBig ? pair[3] : pair[4];
+                String name2 = leftBig ? pair[4] : pair[3];
+                String ans = (leftBig == askBig) ? "A" : "B";
+                String q = askBig ? "Which one is BIGGER?" : "Which one is SMALLER?";
+                String json = String.format(java.util.Locale.US, "{\"item1\":\"%s\",\"item2\":\"%s\",\"name1\":\"%s\",\"name2\":\"%s\",\"leftBig\":%b,\"askBig\":%b}", item1, item2, name1, name2, leftBig, askBig);
+                return buildT(ans, "A", "B", "NONE", q, "comparison_realWorldSize", json);
+            }
+            case 2: { // Tall vs Short Real-World
+                String[][] pairs = {
+                    {"🦒", "🐰", "animals", "Giraffe", "Bunny"},
+                    {"🏢", "🏠", "buildings", "Building", "Doghouse"},
+                    {"🥛", "☕", "food", "Glass of Juice", "Teacup"},
+                    {"🗼", "🧍", "city", "Tower", "Person"},
+                    {"🌲", "🌱", "nature", "Pine Tree", "Sprout"},
+                    {"🪜", "🪑", "objects", "Ladder", "Stool"},
+                    {"⛰️", "🏕️", "nature", "Mountain", "Tent"},
+                    {"🦩", "🦆", "animals", "Flamingo", "Duck"},
+                    {"🗽", "🧸", "objects", "Statue of Liberty", "Teddy Bear"},
+                    {"🏗️", "🧱", "objects", "Crane", "Brick"},
+                    {"🦕", "🐢", "animals", "Brachiosaurus", "Turtle"},
+                    {"🏙️", "🛖", "buildings", "Skyscraper", "Hut"},
+                    {"🗼", "⛺", "buildings", "Tokyo Tower", "Tent"},
+                    {"🌲", "🍄", "nature", "Pine Tree", "Mushroom"},
+                    {"🧍‍♂️", "👶", "people", "Man", "Baby"},
+                    {"🚪", "🪟", "buildings", "Door", "Window"},
+                    {"🍾", "🥫", "food", "Bottle", "Can"},
+                    {"🪔", "🕯️", "objects", "Floor Lamp", "Candle"},
+                    {"🗼", "📭", "city", "Tower", "Mailbox"},
+                    {"🏛️", "🪵", "objects", "Pillar", "Log"},
+                    {"🧋", "🍶", "food", "Boba Tea", "Sake Cup"},
+                    {"💈", "🧯", "objects", "Barber Pole", "Fire Extinguisher"},
+                    {"🚏", "🛑", "city", "Bus Stop", "Stop Sign"},
+                    {"🗼", "🚥", "city", "Tower", "Traffic Light"},
+                    {"🐪", "🐑", "animals", "Camel", "Sheep"},
+                    {"🌵", "🪴", "nature", "Saguaro", "Potted Plant"},
+                    {"🦒", "🦦", "animals", "Giraffe", "Otter"},
+                    {"🎢", "🎠", "fun", "Rollercoaster", "Carousel"},
+                    {"🏰", "🛖", "buildings", "Castle", "Hut"},
+                    {"🛝", "🪀", "toys", "Slide", "Yo-yo"}
+                };
+                int idx = (qNum - 1) % pairs.length;
+                String[] p = pairs[idx];
+                boolean leftTall = r(0,1) == 0;
+                boolean askTall = r(0,1) == 0;
+                String q = askTall ? "Look at these two! Which one is TALLER?" : "Look at these two! Which one is SHORTER?";
+                String ans = (leftTall == askTall) ? "A" : "B";
+                String i1 = leftTall ? p[0] : p[1];
+                String i2 = leftTall ? p[1] : p[0];
+                String json = String.format("{\"item1\":\"%s\",\"item2\":\"%s\",\"leftTall\":%b,\"askTall\":%b,\"type\":\"%s\"}", i1, i2, leftTall, askTall, p[2]);
+                return buildT(ans, "A", "B", "NONE", q, "comparison_tallShortRealWorld", json);
+            }
+            case 3: { // Long vs Short Real-World (Bridge Builder)
+                String[][] pairs = {
+                    {"🪵", "🪨", "nature", "Log", "Rock"},
+                    {"🪜", "🪑", "furniture", "Ladder", "Chair"},
+                    {"🪢", "🧵", "tools", "Rope", "Thread"},
+                    {"📏", "✏️", "school", "Ruler", "Pencil"},
+                    {"🦯", "🪥", "tools", "Cane", "Toothbrush"},
+                    {"🧹", "🖌️", "tools", "Broom", "Paintbrush"},
+                    {"🛤️", "🛑", "objects", "Train Track", "Stop Sign"},
+                    {"🛶", "🛟", "objects", "Canoe", "Life Ring"},
+                    {"⛓️", "📎", "tools", "Chain", "Paperclip"},
+                    {"🧣", "🧤", "clothing", "Scarf", "Glove"},
+                    {"🎿", "⛸️", "sports", "Skis", "Ice Skate"},
+                    {"🏏", "🏓", "sports", "Cricket Bat", "Ping Pong Paddle"},
+                    {"🌂", "🕶️", "objects", "Umbrella", "Sunglasses"},
+                    {"🥢", "🥄", "food", "Chopsticks", "Spoon"},
+                    {"🪈", "🪇", "music", "Flute", "Maraca"},
+                    {"🥖", "🥐", "food", "Baguette", "Croissant"},
+                    {"🐍", "🐛", "animals", "Snake", "Caterpillar"},
+                    {"🪱", "🐌", "animals", "Earthworm", "Snail"},
+                    {"🐊", "🐸", "animals", "Crocodile", "Frog"},
+                    {"🐉", "🦎", "animals", "Dragon", "Lizard"},
+                    {"🛹", "🛼", "sports", "Skateboard", "Roller Skate"},
+                    {"🗡️", "🔪", "tools", "Sword", "Knife"},
+                    {"🪚", "🪛", "tools", "Saw", "Screwdriver"},
+                    {"🧻", "🧼", "bath", "Toilet Paper Roll", "Soap"},
+                    {"🔌", "🔋", "electronics", "Extension Cord", "Battery"},
+                    {"🚿", "🧽", "bath", "Shower Hose", "Sponge"},
+                    {"🧬", "🧶", "science", "DNA Strand", "Yarn Ball"},
+                    {"🎋", "🍃", "nature", "Bamboo", "Leaf"},
+                    {"🌴", "🥥", "nature", "Palm Tree", "Coconut"},
+                    {"🏗️", "🧱", "buildings", "Crane", "Brick"}
+                };
+                int idx = (qNum - 1) % pairs.length;
+                String[] p = pairs[idx];
+                boolean leftLong = r(0,1) == 0;
+                boolean askLong = r(0,1) == 0;
+                String q = askLong ? "Which object is LONGER to help build our bridge?" : "Which object is SHORTER to help build our bridge?";
+                String ans = (leftLong == askLong) ? "A" : "B";
+                String i1 = leftLong ? p[0] : p[1];
+                String i2 = leftLong ? p[1] : p[0];
+                String json = String.format("{\"item1\":\"%s\",\"item2\":\"%s\",\"leftLong\":%b,\"askLong\":%b,\"type\":\"%s\"}", i1, i2, leftLong, askLong, p[2]);
+                return buildT(ans, "A", "B", "NONE", q, "comparison_longShortRealWorld", json);
+            }
+            case 5: { // Heavy vs Light
+                String[][] pairs = {
+                    {"🍉", "🍓", "food", "Watermelon", "Strawberry"},
+                    {"⚓", "🪶", "objects", "Anchor", "Feather"},
+                    {"🎈", "🪨", "surprise", "Balloon", "Rock"},
+                    {"🐘", "🐭", "animals", "Elephant", "Mouse"},
+                    {"🚗", "🚲", "vehicles", "Car", "Bike"},
+                    {"🏋️‍♂️", "🧽", "objects", "Weights", "Sponge"},
+                    {"🎳", "🎾", "sports", "Bowling Ball", "Tennis Ball"},
+                    {"📺", "📱", "electronics", "TV", "Phone"},
+                    {"🧱", "🍃", "nature", "Brick", "Leaf"},
+                    {"🐄", "🦋", "animals", "Cow", "Butterfly"},
+                    {"🚢", "🛶", "vehicles", "Ship", "Canoe"},
+                    {"🦖", "🦎", "animals", "T-Rex", "Lizard"},
+                    {"🛋️", "🪑", "furniture", "Sofa", "Chair"},
+                    {"🌲", "🍄", "nature", "Tree", "Mushroom"},
+                    {"🏰", "⛺", "buildings", "Castle", "Tent"},
+                    {"🏔️", "🧊", "nature", "Mountain", "Ice Cube"},
+                    {"🦛", "🦆", "animals", "Hippo", "Duck"},
+                    {"🛢️", "🥫", "objects", "Oil Drum", "Tin Can"},
+                    {"🚂", "🛹", "vehicles", "Train", "Skateboard"},
+                    {"🐻", "🐝", "animals", "Bear", "Bee"},
+                    {"🐋", "🦐", "animals", "Whale", "Shrimp"},
+                    {"🍔", "🍟", "food", "Burger", "Fry"},
+                    {"🪨", "🪀", "objects", "Boulder", "Yo-yo"},
+                    {"🧲", "📎", "tools", "Magnet", "Paperclip"},
+                    {"🚁", "🪁", "vehicles", "Helicopter", "Kite"},
+                    {"🧳", "👛", "accessories", "Luggage", "Purse"},
+                    {"🚜", "🛴", "vehicles", "Tractor", "Scooter"},
+                    {"🐎", "🐿️", "animals", "Horse", "Squirrel"},
+                    {"🪵", "🥢", "wood", "Log", "Chopstick"},
+                    {"🦏", "🦔", "animals", "Rhino", "Hedgehog"}
+                };
+                int idx = (qNum - 1) % pairs.length;
+                String[] p = pairs[idx];
+                boolean leftHeavy = r(0,1) == 0;
+                boolean askHeavy = r(0,1) == 0;
+                String q = askHeavy ? "Luna's scale tipped over! Can you tap the item that is HEAVIER?" : "Luna's scale tipped over! Can you tap the item that is LIGHTER?";
+                String ans = (leftHeavy == askHeavy) ? "A" : "B";
+                String i1 = leftHeavy ? p[0] : p[1];
+                String i2 = leftHeavy ? p[1] : p[0];
+                String n1 = leftHeavy ? p[3] : p[4];
+                String n2 = leftHeavy ? p[4] : p[3];
+                String json = String.format("{\"item1\":\"%s\",\"item2\":\"%s\",\"name1\":\"%s\",\"name2\":\"%s\",\"leftHeavy\":%b,\"askHeavy\":%b,\"type\":\"%s\"}", i1, i2, n1, n2, leftHeavy, askHeavy, p[2]);
+                return buildT(ans, "A", "B", "NONE", q, "comparison_heavyLight", json);
+            }
+            case 4: { // Delivery Space-Port
+                String[][] rects = {
+                    {"brick", "Brick", "🧱"},
+                    {"lego", "LEGO Block", "🧱"},
+                    {"phone", "Smartphone", "📱"},
+                    {"tablet", "Tablet Screen", "📱"},
+                    {"storybook", "Storybook", "📘"},
+                    {"notebook", "Notebook", "📓"}
+                };
+                String[][] squares = {
+                    {"postit", "Square Post-it Note", "🟨"},
+                    {"window", "Square Window Pane", "🪟"},
+                    {"dice", "Dice", "🎲"},
+                    {"tile", "Checkered Tile", "🏁"}
+                };
+                
+                int rectIdx = random.nextInt(rects.length);
+                int sq1Idx = random.nextInt(squares.length);
+                int sq2Idx;
+                do { sq2Idx = random.nextInt(squares.length); } while(sq1Idx == sq2Idx);
+                
+                String[] rect = rects[rectIdx];
+                String[] sq1 = squares[sq1Idx];
+                String[] sq2 = squares[sq2Idx];
+                
+                // Shuffle options
+                List<String[]> options = new ArrayList<>();
+                options.add(rect); options.add(sq1); options.add(sq2);
+                Collections.shuffle(options, random);
+                
+                String ans = "NONE";
+                for(int i=0; i<3; i++){
+                    if(options.get(i)[0].equals(rect[0])) {
+                       if(i==0) ans = "A"; else if(i==1) ans = "B"; else ans = "C";
+                    }
+                }
+                
+                String json = String.format("{\"items\":[{\"id\":\"%s\",\"name\":\"%s\",\"emoji\":\"%s\",\"isRect\":%b},{\"id\":\"%s\",\"name\":\"%s\",\"emoji\":\"%s\",\"isRect\":%b},{\"id\":\"%s\",\"name\":\"%s\",\"emoji\":\"%s\",\"isRect\":%b}]}",
+                    options.get(0)[0], options.get(0)[1], options.get(0)[2], options.get(0)[0].equals(rect[0]),
+                    options.get(1)[0], options.get(1)[1], options.get(1)[2], options.get(1)[0].equals(rect[0]),
+                    options.get(2)[0], options.get(2)[1], options.get(2)[2], options.get(2)[0].equals(rect[0]));
+                    
+                String q = "Luna needs the LONG boxes where two sides are stretched out extra far! Can you tap the Long Rectangles?";
+                return buildT(ans, "A", "B", "C", q, "deliverySpacePort", json);
+            }
+            case 6: { // Thick vs Thin
+                  String[][] pairs = {
+                      {"🪵", "🌿", "Trunk", "Twig"},
+                      {"🖍️", "✏️", "Crayon", "Pencil"},
+                      {"📘", "📰", "Book", "Newspaper"},
+                      {"🍔", "🫓", "Burger", "Cracker"},
+                      {"🪢", "🧵", "Rope", "Thread"},
+                      {"🍞", "🥪", "Loaf", "Slice"},
+                      {"🥞", "🫔", "Pancakes", "Crepe"},
+                      {"🪵", "🦯", "Log", "Stick"},
+                      {"🖊️", "🖋️", "Marker", "Pen"},
+                      {"🧥", "👕", "Coat", "Shirt"},
+                      {"🔌", "🧶", "Cable", "String"},
+                      {"🛏️", "🛌", "Mattress", "Blanket"},
+                      {"📚", "✉️", "Encyclopedia", "Letter"},
+                      {"🏛️", "💈", "Column", "Pole"},
+                      {"🧱", "🀄", "Brick", "Tile"},
+                      {"🥒", "🫘", "Cucumber", "Bean"},
+                      {"👢", "🧦", "Boots", "Socks"},
+                      {"🎂", "🍪", "Cake", "Cookie"},
+                      {"📖", "🗞️", "Dictionary", "Magazine"},
+                      {"🛋️", "🪑", "Sofa", "Chair"},
+                      {"🧱", "🚪", "Wall", "Door"},
+                      {"🏕️", "🧣", "Sleeping Bag", "Towel"},
+                      {"🧶", "👕", "Sweater", "T-Shirt"},
+                      {"📕", "📄", "Book", "Paper"},
+                      {"🧊", "❄️", "Ice Block", "Snowflake"},
+                      {"🥩", "🥓", "Steak", "Bacon"},
+                      {"🪵", "🥢", "Log", "Chopstick"},
+                      {"🧀", "🥪", "Cheese Wheel", "Cheese Slice"},
+                      {"🌯", "🌮", "Burrito", "Taco"},
+                      {"🍠", "🍟", "Sweet Potato", "French Fry"}
+                  };
+                  int idx = (qNum - 1) % pairs.length;
+                  String[] p = pairs[idx];
+                  boolean leftThick = r(0,1) == 0;
+                  boolean askThick = r(0,1) == 0;
+                  String q = askThick ? "Luna needs a strong, THICK branch! Can you tap the THICK one?" : "Which one is THIN?";
+                  String ans = (leftThick == askThick) ? "A" : "B";
+                  
+                  String i1 = leftThick ? p[0] : p[1];
+                  String i2 = leftThick ? p[1] : p[0];
+                  String n1 = leftThick ? p[2] : p[3];
+                  String n2 = leftThick ? p[3] : p[2];
+
+                  String json = String.format("{\"item1\":\"%s\",\"item2\":\"%s\",\"name1\":\"%s\",\"name2\":\"%s\",\"leftThick\":%b,\"askThick\":%b}", i1, i2, n1, n2, leftThick, askThick);
+                  return buildT(ans, "A", "B", "NONE", q, "comparison_thickThin", json);
+              }
+                        case 7: { // Perfect Matches
+                  String[][] items = {
+                      {"⭐", "Star"}, {"🎈", "Balloon"}, {"💎", "Gem"}, {"🍎", "Apple"}, {"🌸", "Flower"},
+                      {"🦋", "Butterfly"}, {"🍄", "Mushroom"}, {"⚽", "Ball"}, {"🔔", "Bell"}, {"🎁", "Gift"},
+                      {"🚗", "Car"}, {"🧸", "Teddy"}, {"🍩", "Donut"}, {"🍀", "Clover"}, {"🌙", "Moon"},
+                      {"🍉", "Watermelon"}, {"🔑", "Key"}, {"🚀", "Rocket"}, {"🧩", "Puzzle"}, {"🎨", "Palette"},
+                      {"🎸", "Guitar"}, {"👑", "Crown"}, {"🍔", "Burger"}, {"🍕", "Pizza"}, {"🍦", "Ice Cream"},
+                      {"🍭", "Lollipop"}, {"🧁", "Cupcake"}, {"🍓", "Strawberry"}, {"🥑", "Avocado"}, {"🍍", "Pineapple"}
+                  };
+                  String[][] shapes = {
+                      {"💠", "Diamond"}, {"📦", "Box"}, {"🧿", "Amulet"}, {"🪩", "Disco Ball"}, {"🪨", "Rock"}
+                  };
+                  int idx = (qNum - 1) % items.length;
+                  String tEmoji = items[idx][0];
+                  String tName = items[idx][1];
+                  
+                  int targetHue = r(0, 5) * 60;
+                  
+                  // Option 1: Same color, wrong size (0.5 or 1.5)
+                  double o1Size = r(0,1) == 0 ? 0.5 : 1.5;
+                  int o1Hue = targetHue;
+                  String o1Emoji = tEmoji;
+                  
+                  // Option 2: Wrong shape, wrong size
+                  String o2Emoji = shapes[r(0, shapes.length-1)][0];
+                  double o2Size = r(0,1) == 0 ? 0.6 : 1.4;
+                  int o2Hue = r(0, 5) * 60;
+                  
+                  // Option 3: Same shape, different color, EXACT same size
+                  String o3Emoji = tEmoji;
+                  double o3Size = 1.0;
+                  int o3Hue = (targetHue + 120 + r(0,1)*60) % 360;
+                  
+                  int correctIdx = r(0, 2);
+                  String[] opsEmoji = new String[3];
+                  double[] opsSize = new double[3];
+                  int[] opsHue = new int[3];
+                  
+                  if (correctIdx == 0) {
+                      opsEmoji[0] = o3Emoji; opsSize[0] = o3Size; opsHue[0] = o3Hue;
+                      opsEmoji[1] = o1Emoji; opsSize[1] = o1Size; opsHue[1] = o1Hue;
+                      opsEmoji[2] = o2Emoji; opsSize[2] = o2Size; opsHue[2] = o2Hue;
+                  } else if (correctIdx == 1) {
+                      opsEmoji[1] = o3Emoji; opsSize[1] = o3Size; opsHue[1] = o3Hue;
+                      opsEmoji[0] = o1Emoji; opsSize[0] = o1Size; opsHue[0] = o1Hue;
+                      opsEmoji[2] = o2Emoji; opsSize[2] = o2Size; opsHue[2] = o2Hue;
+                  } else {
+                      opsEmoji[2] = o3Emoji; opsSize[2] = o3Size; opsHue[2] = o3Hue;
+                      opsEmoji[0] = o1Emoji; opsSize[0] = o1Size; opsHue[0] = o1Hue;
+                      opsEmoji[1] = o2Emoji; opsSize[1] = o1Size; opsHue[1] = o2Hue;
+                  }
+                  
+                  String q = "Luna needs a " + tName + " that is the exact same size to power up her ship! Can you find the Perfect Match?";
+                  String ans = correctIdx == 0 ? "A" : (correctIdx == 1 ? "B" : "C");
+                  
+                  String json = String.format("{\"target\":{\"emoji\":\"%s\",\"size\":1.0,\"hue\":%d},\"options\":[{\"emoji\":\"%s\",\"size\":%.1f,\"hue\":%d},{\"emoji\":\"%s\",\"size\":%.1f,\"hue\":%d},{\"emoji\":\"%s\",\"size\":%.1f,\"hue\":%d}],\"correctIndex\":%d}", 
+                      tEmoji, targetHue, 
+                      opsEmoji[0], opsSize[0], opsHue[0], 
+                      opsEmoji[1], opsSize[1], opsHue[1], 
+                      opsEmoji[2], opsSize[2], opsHue[2], 
+                      correctIdx);
+                      
+                  return buildT(ans, "A", "B", "C", q, "comparison_matches", json);
+              }
+                        case 8: { // Ordering Sizes
+                  String[][] sets = {
+                      {"🧸", "🧸", "🧸", "Baby Bear, Mommy Bear, and Daddy Bear"}, // 0
+                      {"🪨", "🪨", "🪨", "Pebble, Rock, and Boulder"}, // 1
+                      {"🚲", "🚗", "✈️", "Bicycle, Car, and Airplane"}, // 2
+                      {"🌱", "🌿", "🌳", "Sprout, Plant, and Tree"}, // 3
+                      {"🐥", "🐔", "🦅", "Chick, Chicken, and Eagle"}, // 4
+                      {"⛺", "🏠", "🏢", "Tent, House, and Building"}, // 5
+                      {"☄️", "🌕", "🪐", "Meteor, Moon, and Planet"}, // 6
+                      {"🍓", "🍎", "🍉", "Strawberry, Apple, and Watermelon"}, // 7
+                      {"🛹", "🛵", "🚌", "Skateboard, Scooter, and Bus"}, // 8
+                      {"🐭", "🐶", "🐎", "Mouse, Dog, and Horse"}, // 9
+                      {"🎈", "🎈", "🎈", "Small, Medium, and Large Balloons"}, // 10
+                      {"⭐", "⭐", "⭐", "Tiny, Medium, and Giant Stars"}, // 11
+                      {"🎁", "🎁", "🎁", "Small, Medium, and Huge Gifts"}, // 12
+                      {"🍔", "🍔", "🍔", "Slider, Burger, and Mega Burger"}, // 13
+                      {"🐟", "🐟", "🐟", "Minnow, Fish, and Giant Fish"}, // 14
+                      {"🍄", "🍄", "🍄", "Tiny, Medium, and Huge Mushrooms"}, // 15
+                      {"🐞", "🐢", "🐘", "Ladybug, Turtle, and Elephant"}, // 16
+                      {"📱", "💻", "📺", "Phone, Laptop, and TV"}, // 17
+                      {"🐜", "🦋", "🦅", "Ant, Butterfly, and Eagle"}, // 18
+                      {"🚪", "🚪", "🚪", "Small, Medium, and Large Doors"}, // 19
+                      {"❄️", "❄️", "❄️", "Tiny, Medium, and Giant Snowflakes"}, // 20
+                      {"🛸", "🛸", "🛸", "Small, Medium, and Mothership UFOs"}, // 21
+                      {"🥁", "🥁", "🥁", "Small, Medium, and Big Drums"}, // 22
+                      {"🌲", "🌲", "🌲", "Sapling, Pine, and Giant Redwood"}, // 23
+                      {"⚽", "⚽", "⚽", "Small, Medium, and Large Balls"}, // 24
+                      {"🍕", "🍕", "🍕", "Slice, Pizza, and Giant Pizza"}, // 25
+                      {"💎", "💎", "💎", "Pebble, Gem, and Huge Diamond"}, // 26
+                      {"🚤", "⛵", "🚢", "Speedboat, Sailboat, and Cruise Ship"}, // 27
+                      {"🧁", "🎂", "🎂", "Cupcake, Cake, and Wedding Cake"}, // 28
+                      {"🚁", "🚁", "🚁", "Toy Copter, Helicopter, and Heavy Lifter"} // 29
+                  };
+                  int idx = (qNum - 1) % sets.length;
+                  String[] set = sets[idx];
+                  
+                  double[] scales = {0.6, 1.0, 1.5};
+                  
+                  String q = "Luna needs to organize these items from Smallest to Largest! Can you slide them onto the correct podiums?";
+                  String json = String.format("{\"theme\":\"%s\", \"items\":[{\"id\":\"obj0\",\"emoji\":\"%s\",\"scale\":%.1f,\"podiumIndex\":0},{\"id\":\"obj1\",\"emoji\":\"%s\",\"scale\":%.1f,\"podiumIndex\":1},{\"id\":\"obj2\",\"emoji\":\"%s\",\"scale\":%.1f,\"podiumIndex\":2}]}", 
+                      set[3], set[0], scales[0], set[1], scales[1], set[2], scales[2]);
+                      
+                  return buildT("1,2,3", "A", "B", "C", q, "ordering_size", json);
+              }
+            default: return buildN(1, 1, 5, "Error");
+        }
+    }
+
+    private String[] genLevel4(int topic, int qNum) {
+        String[] shapes = {"CIRCLE", "SQUARE", "TRIANGLE", "RECTANGLE", "OVAL"};
+        String[] colors = {"RED", "BLUE", "GREEN", "YELLOW"};
+        String[] pos1 = {"ABOVE", "BELOW", "NEXT"};
+        String[] pos2 = {"FRONT", "BEHIND", "SIDE"};
+        String[] pos3 = {"INSIDE", "OUTSIDE", "ON"};
+        switch(topic) {
+                          case 1: {
+                  String[][] circles = {
+                      {"🕒", "🚲", "🍩"}, {"⚽", "🍪", "🪙"}, {"🎯", "🧭", "🌕"},
+                      {"💿", "🔘", "🎡"}, {"🏀", "⚾", "🎱"}, {"🌍", "🧿", "🥝"},
+                      {"🍊", "🥞", "🕒"}, {"🚲", "🍩", "⚽"}, {"🍪", "🪙", "🎯"},
+                      {"🧭", "🌕", "💿"}, {"🔘", "🎡", "🏀"}, {"⚾", "🎱", "🌍"},
+                      {"🧿", "🥝", "🍊"}, {"🥞", "🕒", "🚲"}, {"🍩", "⚽", "🍪"},
+                      {"🪙", "🎯", "🧭"}, {"🌕", "💿", "🔘"}, {"🎡", "🏀", "⚾"},
+                      {"🎱", "🌍", "🧿"}, {"🥝", "🍊", "🥞"}, {"🕒", "⚽", "🎯"},
+                      {"🚲", "🍪", "🧭"}, {"🍩", "🪙", "🌕"}, {"⚽", "🎯", "💿"},
+                      {"🍪", "🧭", "🔘"}, {"🪙", "🌕", "🎡"}, {"🎯", "💿", "🏀"},
+                      {"🧭", "🔘", "⚾"}, {"🌕", "🎡", "🎱"}, {"💿", "🏀", "🌍"}
+                  };
+                  String[][] distractors = {
+                      {"🖼️", "🍉"}, {"📐", "🍕"}, {"📱", "📺"}, {"🚪", "🪁"},
+                      {"🥪", "📘"}, {"🎁", "🧊"}, {"🧱", "✉️"}, {"🖼️", "📐"},
+                      {"🍉", "🍕"}, {"📱", "🚪"}, {"📺", "🪁"}, {"🥪", "🎁"},
+                      {"📘", "🧊"}, {"🧱", "🖼️"}, {"✉️", "🍉"}, {"📐", "📱"},
+                      {"🍕", "📺"}, {"🚪", "🥪"}, {"🪁", "📘"}, {"🎁", "🧱"},
+                      {"🧊", "✉️"}, {"🖼️", "📱"}, {"🍉", "📺"}, {"📐", "🚪"},
+                      {"🍕", "🪁"}, {"📱", "🥪"}, {"📺", "📘"}, {"🚪", "🎁"},
+                      {"🪁", "🧊"}, {"🥪", "🧱"}
+                  };
+                  int idx = (qNum - 1) % 30;
+                  String[] c = circles[idx];
+                  String[] d = distractors[idx];
+                  
+                  // determine corners for distractors.
+                  // 🍉, 📐, 🍕, 🪁, 🥪 are 3 or 4. Let's just assign 3 for slice-like things, 4 for others.
+                  int c0 = (d[0].equals("🍉") || d[0].equals("📐") || d[0].equals("🍕") || d[0].equals("🥪")) ? 3 : 4;
+                  int c1 = (d[1].equals("🍉") || d[1].equals("📐") || d[1].equals("🍕") || d[1].equals("🥪")) ? 3 : 4;
+                  
+                  String q = "Luna needs things that are perfectly round with no corners! Can you tap all the circles to fix her rover?";
+                  String json = String.format("{\"items\":[{\"id\":\"c0\",\"emoji\":\"%s\",\"isCircle\":true},{\"id\":\"c1\",\"emoji\":\"%s\",\"isCircle\":true},{\"id\":\"c2\",\"emoji\":\"%s\",\"isCircle\":true},{\"id\":\"d0\",\"emoji\":\"%s\",\"isCircle\":false,\"corners\":%d},{\"id\":\"d1\",\"emoji\":\"%s\",\"isCircle\":false,\"corners\":%d}]}",
+                      c[0], c[1], c[2], d[0], c0, d[1], c1);
+                      
+                  return buildT("1,2,3", "A", "B", "C", q, "shape_scanner_circle", json);
+              }
+                          case 2: {
+                  String[][] squares = {
+                      {"🏁", "🍞", "🖼️"}, {"🎁", "🧊", "🔲"}, {"🟩", "🟪", "🟨"},
+                      {"🟧", "⬜", "🟥"}, {"🟦", "🟫", "🏁"}, {"🍞", "🖼️", "🎁"},
+                      {"🧊", "🔲", "🟩"}, {"🟪", "🟨", "🟧"}, {"⬜", "🟥", "🟦"},
+                      {"🟫", "🏁", "🍞"}, {"🖼️", "🎁", "🧊"}, {"🔲", "🟩", "🟪"},
+                      {"🟨", "🟧", "⬜"}, {"🟥", "🟦", "🟫"}, {"🏁", "🖼️", "🧊"},
+                      {"🍞", "🎁", "🔲"}, {"🟩", "🟨", "⬜"}, {"🟪", "🟧", "🟥"},
+                      {"🟦", "🏁", "🖼️"}, {"🟫", "🍞", "🎁"}, {"🧊", "🟩", "🟨"},
+                      {"🔲", "🟪", "🟧"}, {"⬜", "🟦", "🏁"}, {"🟥", "🟫", "🍞"},
+                      {"🖼️", "🧊", "🟩"}, {"🎁", "🔲", "🟪"}, {"🟨", "⬜", "🟦"},
+                      {"🟧", "🟥", "🟫"}, {"🏁", "🧊", "🟨"}, {"🍞", "🔲", "🟧"}
+                  };
+                  String[][] distractors = {
+                      {"🚪", "rectangle", "🪁", "kite"}, {"📱", "rectangle", "💠", "kite"},
+                      {"📺", "rectangle", "🔷", "kite"}, {"💳", "rectangle", "🔶", "kite"},
+                      {"💵", "rectangle", "🪁", "kite"}, {"🧱", "rectangle", "💠", "kite"},
+                      {"🎟️", "rectangle", "🔷", "kite"}, {"🪪", "rectangle", "🔶", "kite"},
+                      {"🍫", "rectangle", "🪁", "kite"}, {"🧽", "rectangle", "💠", "kite"},
+                      {"🚪", "rectangle", "🔷", "kite"}, {"📱", "rectangle", "🔶", "kite"},
+                      {"📺", "rectangle", "🪁", "kite"}, {"💳", "rectangle", "💠", "kite"},
+                      {"💵", "rectangle", "🔷", "kite"}, {"🧱", "rectangle", "🔶", "kite"},
+                      {"🎟️", "rectangle", "🪁", "kite"}, {"🪪", "rectangle", "💠", "kite"},
+                      {"🍫", "rectangle", "🔷", "kite"}, {"🧽", "rectangle", "🔶", "kite"},
+                      {"🚪", "rectangle", "📱", "rectangle"}, {"📺", "rectangle", "💳", "rectangle"},
+                      {"💵", "rectangle", "🧱", "rectangle"}, {"🎟️", "rectangle", "🪪", "rectangle"},
+                      {"🍫", "rectangle", "🧽", "rectangle"}, {"🪁", "kite", "💠", "kite"},
+                      {"🔷", "kite", "🔶", "kite"}, {"🚪", "rectangle", "🔶", "kite"},
+                      {"📱", "rectangle", "🔷", "kite"}, {"📺", "rectangle", "💠", "kite"}
+                  };
+                  int idx = (qNum - 1) % 30;
+                  String[] sq = squares[idx];
+                  String[] di = distractors[idx];
+                  
+                  String q = "Luna needs cargo boxes that are perfectly equal on all sides! Can you find the Strict Squares?";
+                  String json = String.format("{\"items\":[{\"id\":\"s0\",\"emoji\":\"%s\",\"shape\":\"square\"},{\"id\":\"s1\",\"emoji\":\"%s\",\"shape\":\"square\"},{\"id\":\"s2\",\"emoji\":\"%s\",\"shape\":\"square\"},{\"id\":\"d0\",\"emoji\":\"%s\",\"shape\":\"%s\"},{\"id\":\"d1\",\"emoji\":\"%s\",\"shape\":\"%s\"}]}",
+                      sq[0], sq[1], sq[2], di[0], di[1], di[2], di[3]);
+                      
+                  return buildT("1,2,3", "A", "B", "C", q, "shape_strict_square", json);
+              }
+                          case 3: {
+                  String[][] triangles = {
+                      {"⛺", "🍕", "⚠️"}, {"🍉", "🏔️", "🧀"}, {"📐", "🏕️", "🌲"},
+                      {"⛺", "🍉", "📐"}, {"🍕", "🏔️", "🏕️"}, {"⚠️", "🧀", "🌲"},
+                      {"🏔️", "📐", "⚠️"}, {"🏕️", "⛺", "🧀"}, {"🌲", "🍕", "🍉"},
+                      {"🧀", "🏕️", "🍕"}, {"⚠️", "🌲", "⛺"}, {"📐", "🍉", "🏔️"},
+                      {"⛺", "🏔️", "🌲"}, {"🍕", "🧀", "📐"}, {"⚠️", "🍉", "🏕️"},
+                      {"🍉", "⛺", "🧀"}, {"🏔️", "🍕", "⚠️"}, {"🏕️", "🌲", "📐"},
+                      {"🌲", "🧀", "🍉"}, {"📐", "⛺", "🏔️"}, {"⚠️", "🏕️", "🍕"},
+                      {"🧀", "⚠️", "🌲"}, {"🍕", "🍉", "⛺"}, {"🏕️", "🏔️", "📐"},
+                      {"⛺", "🏕️", "⚠️"}, {"🍉", "🌲", "🍕"}, {"🏔️", "🧀", "📐"},
+                      {"🌲", "🏔️", "🏕️"}, {"🧀", "⛺", "🍉"}, {"📐", "🍕", "⚠️"}
+                  };
+                  String[][] distractors = {
+                      {"🗺️", "4", "🧭", "0"}, {"🧳", "4", "🪵", "0"},
+                      {"📖", "4", "🪙", "0"}, {"🖼️", "4", "🍩", "0"},
+                      {"🎫", "4", "🧭", "0"}, {"🗺️", "4", "🪵", "0"},
+                      {"🧳", "4", "🪙", "0"}, {"📖", "4", "🍩", "0"},
+                      {"🖼️", "4", "🧭", "0"}, {"🎫", "4", "🪵", "0"},
+                      {"🗺️", "4", "🪙", "0"}, {"🧳", "4", "🍩", "0"},
+                      {"📖", "4", "🧭", "0"}, {"🖼️", "4", "🪵", "0"},
+                      {"🎫", "4", "🪙", "0"}, {"🗺️", "4", "🍩", "0"},
+                      {"🧳", "4", "🧭", "0"}, {"📖", "4", "🪵", "0"},
+                      {"🖼️", "4", "🪙", "0"}, {"🎫", "4", "🍩", "0"},
+                      {"🗺️", "4", "🧳", "4"}, {"📖", "4", "🖼️", "4"},
+                      {"🎫", "4", "🗺️", "4"}, {"🧭", "0", "🪵", "0"},
+                      {"🪙", "0", "🍩", "0"}, {"🧭", "0", "🪙", "0"},
+                      {"🪵", "0", "🍩", "0"}, {"🗺️", "4", "🍩", "0"},
+                      {"🧳", "4", "🪙", "0"}, {"📖", "4", "🪵", "0"}
+                  };
+                  int idx = (qNum - 1) % 30;
+                  String[] tri = triangles[idx];
+                  String[] di = distractors[idx];
+                  
+                  String q = "Luna needs objects with exactly 3 sharp corners to build a strong shelter! Can you tap the Sharp Triangles?";
+                  String json = String.format("{\"items\":[{\"id\":\"t0\",\"emoji\":\"%s\",\"shape\":\"triangle\",\"corners\":3},{\"id\":\"t1\",\"emoji\":\"%s\",\"shape\":\"triangle\",\"corners\":3},{\"id\":\"t2\",\"emoji\":\"%s\",\"shape\":\"triangle\",\"corners\":3},{\"id\":\"d0\",\"emoji\":\"%s\",\"shape\":\"distractor\",\"corners\":%s},{\"id\":\"d1\",\"emoji\":\"%s\",\"shape\":\"distractor\",\"corners\":%s}]}",
+                      tri[0], tri[1], tri[2], di[0], di[1], di[2], di[3]);
+                      
+                  return buildT("1,2,3", "A", "B", "C", q, "shape_sharp_triangle", json);
+              }
+            case 4: { // Delivery Space-Port
+                String[][] rects = {
+                    {"phone", "Smartphone", "📱"},
+                    {"book", "Storybook", "📘"},
+                    {"card", "Credit Card", "💳"},
+                    {"money", "Banknote", "💵"},
+                    {"ticket", "Ticket", "🎟️"},
+                    {"choc", "Chocolate", "🍫"},
+                    {"door", "Door", "🚪"},
+                    {"video", "Videotape", "📼"},
+                    {"env", "Envelope", "✉️"},
+                    {"radio", "Radio", "📻"}
+                };
+                String[][] squares = {
+                    {"postit", "Post-it Note", "🟨"},
+                    {"gift", "Gift Box", "🎁"},
+                    {"dice", "Dice", "🎲"},
+                    {"waffle", "Waffle", "🧇"},
+                    {"ice", "Ice Cube", "🧊"},
+                    {"box", "Package", "📦"},
+                    {"red", "Red Tile", "🟥"},
+                    {"blue", "Blue Tile", "🟦"},
+                    {"green", "Green Tile", "🟩"},
+                    {"orange", "Orange Tile", "🟧"}
+                };
+                
+                int rectIdx = (qNum - 1) % 10;
+                int sq1Idx = (qNum - 1) % 10;
+                int sq2Idx = (qNum - 1 + (qNum % 9) + 1) % 10;
+                
+                String[] rect = rects[rectIdx];
+                String[] sq1 = squares[sq1Idx];
+                String[] sq2 = squares[sq2Idx];
+                
+                // Shuffle options
+                List<String[]> options = new ArrayList<>();
+                options.add(rect); options.add(sq1); options.add(sq2);
+                Collections.shuffle(options, random);
+                
+                String ans = "NONE";
+                for(int i=0; i<3; i++){
+                    if(options.get(i)[0].equals(rect[0])) {
+                       if(i==0) ans = "A"; else if(i==1) ans = "B"; else ans = "C";
+                    }
+                }
+                
+                String json = String.format("{\"items\":[{\"id\":\"%s\",\"name\":\"%s\",\"emoji\":\"%s\",\"isRect\":%b},{\"id\":\"%s\",\"name\":\"%s\",\"emoji\":\"%s\",\"isRect\":%b},{\"id\":\"%s\",\"name\":\"%s\",\"emoji\":\"%s\",\"isRect\":%b}]}",
+                    options.get(0)[0], options.get(0)[1], options.get(0)[2], options.get(0)[0].equals(rect[0]),
+                    options.get(1)[0], options.get(1)[1], options.get(1)[2], options.get(1)[0].equals(rect[0]),
+                    options.get(2)[0], options.get(2)[1], options.get(2)[2], options.get(2)[0].equals(rect[0]));
+                    
+                String q = "Luna needs the LONG boxes where two sides are stretched out extra far! Can you tap the Long Rectangles?";
+                return buildT(ans, "A", "B", "C", q, "deliverySpacePort", json);
+            }
+            case 5: { // Cosmic Playroom Color Sorting
+                String[][] redItems = {
+                    {"apple", "Apple", "🍎"}, {"firetruck", "Fire Truck", "🚒"}, {"redstar", "Star", "🔻"}, 
+                    {"strawberry", "Strawberry", "🍓"}, {"redcar", "Car", "🚗"}, {"rose", "Rose", "🌹"}, {"backpack", "Backpack", "🎒"}
+                };
+                String[][] blueItems = {
+                    {"droplet", "Droplet", "💧"}, {"blueblock", "Block", "🟦"}, {"whale", "Whale", "🐳"}, 
+                    {"jeans", "Jeans", "👖"}, {"bluebook", "Book", "📘"}, {"blueberries", "Berries", "🫐"}, {"bluesuv", "SUV", "🚙"}
+                };
+                String[][] yellowItems = {
+                    {"banana", "Banana", "🍌"}, {"sun", "Sun", "☀️"}, {"duck", "Duck", "🦆"}, 
+                    {"sunflower", "Sunflower", "🌻"}, {"cheese", "Cheese", "🧀"}, {"taxi", "Taxi", "🚕"}, {"lemon", "Lemon", "🍋"}
+                };
+                
+                int[][] combos = {
+                    {0,1}, {0,2}, {0,3}, {0,4}, {0,5}, {0,6}, {1,2}, {1,3}, {1,4}, {1,5}, {1,6}, 
+                    {2,3}, {2,4}, {2,5}, {2,6}, {3,4}, {3,5}, {3,6}, {4,5}, {4,6}, {5,6}
+                };
+                
+                int[] rPair = combos[(qNum - 1) % 21];
+                int[] bPair = combos[(qNum - 1 + 4) % 21];
+                int[] yPair = combos[(qNum - 1 + 9) % 21];
+                
+                List<String[]> selectedItems = new ArrayList<>();
+                // Red items
+                selectedItems.add(new String[]{redItems[rPair[0]][0], redItems[rPair[0]][1], redItems[rPair[0]][2], "RED"});
+                selectedItems.add(new String[]{redItems[rPair[1]][0], redItems[rPair[1]][1], redItems[rPair[1]][2], "RED"});
+                // Blue items
+                selectedItems.add(new String[]{blueItems[bPair[0]][0], blueItems[bPair[0]][1], blueItems[bPair[0]][2], "BLUE"});
+                selectedItems.add(new String[]{blueItems[bPair[1]][0], blueItems[bPair[1]][1], blueItems[bPair[1]][2], "BLUE"});
+                // Yellow items
+                selectedItems.add(new String[]{yellowItems[yPair[0]][0], yellowItems[yPair[0]][1], yellowItems[yPair[0]][2], "YELLOW"});
+                selectedItems.add(new String[]{yellowItems[yPair[1]][0], yellowItems[yPair[1]][1], yellowItems[yPair[1]][2], "YELLOW"});
+                
+                Collections.shuffle(selectedItems, random);
+                
+                StringBuilder itemsJson = new StringBuilder("[");
+                for(int i=0; i<selectedItems.size(); i++) {
+                    String[] it = selectedItems.get(i);
+                    itemsJson.append(String.format("{\"id\":\"%s\",\"name\":\"%s\",\"emoji\":\"%s\",\"color\":\"%s\"}", it[0], it[1], it[2], it[3]));
+                    if(i < selectedItems.size() - 1) itemsJson.append(",");
+                }
+                itemsJson.append("]");
+                
+                String json = String.format("{\"bins\":[{\"color\":\"RED\",\"hex\":\"#FF4444\",\"name\":\"Red Bin\"},{\"color\":\"BLUE\",\"hex\":\"#4444FF\",\"name\":\"Blue Bin\"},{\"color\":\"YELLOW\",\"hex\":\"#FFCC00\",\"name\":\"Yellow Bin\"}],\"items\":%s}", itemsJson.toString());
+                String q = "Luna's playroom is a mess! Can you put all the items into the bins that match their color?";
+                
+                return buildT("NONE", "A", "B", "C", q, "cosmic_playroom", json);
+            }
+            case 6: { // Above or Below Game
+                String[][] landmarks = {
+                    {"cloud", "purple cloud", "☁️"}, {"island", "floating island", "🏝️"},
+                    {"tree", "space tree", "🌳"}, {"saturn", "Saturn ring", "🪐"},
+                    {"ufo", "UFO mothership", "🛸"}, {"station", "space station", "🏠"},
+                    {"moon", "crescent moon", "🌙"}
+                };
+                String[][] targets = {
+                    {"star", "golden star", "⭐"}, {"rocket", "toy rocket", "🚀"},
+                    {"crystal", "blue crystal", "💎"}, {"apple", "red apple", "🍎"},
+                    {"soccer", "soccer ball", "⚽"}, {"teddy", "teddy bear", "🧸"},
+                    {"balloon", "red balloon", "🎈"}
+                };
+                
+                int lIdx = (qNum - 1) % 7;
+                int tIdx = ((qNum - 1) * 3 + 1) % 7;
+                String instruction = (qNum % 2 == 0) ? "ABOVE" : "BELOW";
+                
+                String[] l = landmarks[lIdx];
+                String[] t = targets[tIdx];
+                
+                String json = String.format(
+                    "{\"landmark\":{\"id\":\"%s\",\"name\":\"%s\",\"emoji\":\"%s\"},\"target\":{\"id\":\"%s\",\"name\":\"%s\",\"emoji\":\"%s\"},\"instruction\":\"%s\"}",
+                    l[0], l[1], l[2], t[0], t[1], t[2], instruction
+                );
+                
+                String q = String.format("Help Luna clear the landing pad! Can you place the %s %s the %s?", t[1], instruction.toLowerCase(), l[1]);
+                
+                return buildT("NONE", "A", "B", "C", q, "above_below_game", json);
+            }
+            case 7: return buildS(pos2[r(0,1)], pos2, "Front or Behind?");
+            case 8: return buildS(pos3[r(0,1)], pos3, "Inside or Outside?");
+            default: return buildN(1, 1, 5, "Error");
+        }
+    }
+
+    private String[] genLevel5(int topic) {
+        switch(topic) {
+            case 1: return buildN(r(6,10), 1, 10, "Which is more?");
+            case 2: return buildN(r(1,4), 1, 10, "Which is fewer?");
+            case 3: return buildS("EQUAL", new String[]{"EQUAL", "UNEQUAL", "DIFF"}, "Are they the same?");
+            case 4: return buildS("EXTRA", new String[]{"EXTRA", "MATCH", "NONE"}, "Which group has leftovers?");
+            case 5: { int n = r(5,9); return buildN(n, 1, 10, "Is " + n + " more than " + (n-2) + "?"); }
+            case 6: return buildS("ADD", new String[]{"ADD", "REMOVE", "KEEP"}, "How to make them equal?");
+            case 7: return buildN(r(1,10), 1, 10, "Match the Ten-Frame");
+            case 8: return buildN(r(7,10), 1, 10, "Guess which has more");
+            default: return buildN(1, 1, 5, "Error");
+        }
+    }
+
+    private String[] genLevel6(int topic) {
+        switch(topic) {
+            case 1: return buildN(10, 5, 15, "Base-10 Anchor");
+            case 2: return buildN(r(11,12), 10, 15, "11 and 12 Twins");
+            case 3: return buildN(r(13,14), 11, 16, "Numbers 13 and 14");
+            case 4: return buildN(r(15,16), 13, 18, "Numbers 15 and 16");
+            case 5: return buildN(r(17,19), 15, 20, "Numbers 17, 18, 19");
+            case 6: { int n = r(1,9); return buildN(n, 1, 9, "10 and what makes " + (10+n) + "?"); }
+            case 7: return buildN(r(1,6), 1, 6, "Dice Flash!");
+            case 8: return buildN(r(1,12), 1, 12, "Dominos Flash!");
+            default: return buildN(1, 1, 10, "Error");
+        }
+    }
+
+    private String[] genLevel7(int topic) {
+        switch(topic) {
+            case 1: return buildN(20, 15, 25, "The Big 20!");
+            case 2: { int n = r(1,4)*10; return buildN(n+10, 10, 50, "What comes next: " + n + ", _?"); }
+            case 3: { int n = r(5,9)*10; return buildN(n+10, 10, 100, "Century march: " + n + ", _?"); }
+            case 4: return buildN(r(1,100), 1, 100, "Grid Runner");
+            case 5: { int n = r(1,29); return buildN(n+1, 1, 30, "What comes after " + n + "?"); }
+            case 6: { int n = r(2,30); return buildN(n-1, 1, 30, "What comes before " + n + "?"); }
+            case 7: { int n = r(20,28); return buildN(n+1, 20, 30, "Missing gap: " + n + ", _, " + (n+2)); }
+            case 8: { int n = r(1,4)*5; return buildN(n, 5, 20, "Count the tally marks!"); }
+            default: return buildN(1, 1, 10, "Error");
+        }
+    }
+
+    private String[] genLevel8(int topic) {
+        String[] shapes3d = {"SPHERE", "CUBE", "CYLINDER", "CONE", "PYRAMID"};
+        String[] types = {"FLAT", "SOLID", "LINE"};
+        String[] faces = {"SQUARE", "CIRCLE", "TRIANGLE"};
+        switch(topic) {
+            case 1: return buildS("SPHERE", shapes3d, "Rolling Spheres");
+            case 2: return buildS("CUBE", shapes3d, "Stacking Cubes");
+            case 3: return buildS("CYLINDER", shapes3d, "Smooth Cylinder");
+            case 4: return buildS("CONE", shapes3d, "Party Cone");
+            case 5: return buildS(types[r(0,1)], types, "Flat vs Solid?");
+            case 6: return buildN(r(0,8), 0, 10, "Corner Counting");
+            case 7: return buildS(faces[r(0,2)], faces, "Face Matching");
+            case 8: return buildS("SHAPE", new String[]{"SHAPE", "BROKEN", "FLAT"}, "Shape Building");
+            default: return buildN(1, 1, 5, "Error");
+        }
+    }
+
+    private String[] genLevel9(int topic) {
+        switch(topic) {
+            case 1: { int a = r(1,3), b = r(1,2); return buildN(a+b, 1, 6, "Join " + a + " and " + b); }
+            case 2: return buildS("PLUS", new String[]{"PLUS", "MINUS", "EQUAL"}, "What sign is this?");
+            case 3: return buildS("EQUAL", new String[]{"EQUAL", "PLUS", "MINUS"}, "What sign is this?");
+            case 4: { int a = r(1,8); return buildN(a+1, 1, 10, a + " + 1 = ?"); }
+            case 5: { int a = r(1,7); return buildN(a+2, 1, 10, a + " + 2 = ?"); }
+            case 6: { int a = r(1,2), b = r(1,2); return buildN(a+b, 1, 5, "Picture Math: " + a + " + " + b); }
+            case 7: { int a = r(1,2), b = r(1,2); return buildN(a+b, 1, 5, "Story: " + a + " birds, " + b + " more arrive."); }
+            case 8: { int a = r(1,3), b = r(1,2); return buildN(a+b, 1, 5, "Mental Math: " + a + " + " + b); }
+            default: return buildN(1, 1, 5, "Error");
+        }
+    }
+
+    private String[] genLevel10(int topic) {
+        switch(topic) {
+            case 1: { int a = r(3,5), b = r(1,2); return buildN(a-b, 1, 5, "Take away " + b + " from " + a); }
+            case 2: return buildS("MINUS", new String[]{"MINUS", "PLUS", "EQUAL"}, "What sign is this?");
+            case 3: { int a = r(3,5), b = r(1,2); return buildN(a-b, 1, 5, "Pop " + b + " bubbles out of " + a); }
+            case 4: { int a = r(2,10); return buildN(a-1, 1, 10, a + " - 1 = ?"); }
+            case 5: { int a = r(3,10); return buildN(a-2, 1, 10, a + " - 2 = ?"); }
+            case 6: { int a = r(1,5); return buildN(a, 1, 6, a + " - 0 = ?"); }
+            case 7: { int a = r(3,5), b = r(1,2); return buildN(a-b, 1, 5, "Action Story: " + a + " apples, eat " + b); }
+            case 8: { int a = r(2,5), b = r(1,a-1); return buildN(a-b, 1, 5, "Mental Math: " + a + " - " + b); }
+            default: return buildN(1, 1, 5, "Error");
+        }
+    }
+
+    private String[] genLevel11(int topic) {
+        switch(topic) {
+            case 1: { int a = r(1,9); return buildN(10-a, 1, 9, "10-Bond: 10 - " + a + " = ?"); }
+            case 2: { int a = r(1,4), b = r(1,4); return buildN(a+b, 2, 8, a + "+" + b + " is the same as " + b + "+?"); }
+            case 3: { int a = r(1,5); return buildN(a+a, 2, 10, "Double Trouble: " + a + " + " + a); }
+            case 4: { 
+                if(r(0,1)==0) { int a = r(1,5), b = r(1,5); return buildN(a+b, 2, 10, a + " + " + b); }
+                else { int a = r(6,10), b = r(1,5); return buildN(a-b, 1, 9, a + " - " + b); }
+            }
+            case 5: return buildS("RED", new String[]{"RED", "BLUE", "GREEN"}, "AB Pattern: RED, BLUE, RED, ?");
+            case 6: return buildS("SQUARE", new String[]{"SQUARE", "CIRCLE", "STAR"}, "AABB: SQ, SQ, CIRC, CIRC, SQ, ?");
+            case 7: return buildN(r(1,5), 1, 5, "Missing Pattern Piece");
+            case 8: return buildN(r(1,10), 1, 10, "Master Challenge!");
+            default: return buildN(1, 1, 5, "Error");
+        }
+    }
+}
