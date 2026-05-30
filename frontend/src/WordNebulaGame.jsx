@@ -421,7 +421,7 @@ function WordNebulaGame({ userId, onExit, onAnswer }) {
 
   return (
     <div
-      className="relative h-screen max-h-screen w-screen max-w-full overflow-hidden bg-[#050713] text-starWhite"
+      className="relative h-[100dvh] max-h-[100dvh] w-screen max-w-full overflow-hidden bg-[#050713] text-starWhite"
       onClickCapture={unlockMusic}
       onPointerDownCapture={unlockMusic}
     >

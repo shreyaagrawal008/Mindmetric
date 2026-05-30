@@ -182,12 +182,12 @@ export default function SignupPage({ onComplete, onBack, initialMode = "login" }
     }
 
     return (
-        <main className="signup-shell h-screen overflow-hidden px-4 py-3 text-white">
+        <main className="signup-shell min-h-[100dvh] overflow-y-auto overflow-x-hidden px-4 py-3 text-white">
             <div className="animal-sky" aria-hidden="true">
                 {animals.map((animal, index) => <Animal key={`${animal.icon}-${index}`} {...animal} />)}
             </div>
 
-            <section className="relative z-10 mx-auto flex h-[calc(100vh-1.5rem)] max-w-4xl flex-col items-center justify-center gap-3">
+            <section className="relative z-10 mx-auto flex min-h-[calc(100dvh-1.5rem)] h-auto max-w-4xl flex-col items-center justify-center gap-3 py-4">
                 {/* Back Button */}
                 <button
                     onClick={onBack}

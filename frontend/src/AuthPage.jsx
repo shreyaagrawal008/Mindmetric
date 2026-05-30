@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 
 export default function AuthPage({ mode, onComplete, onBack }) {
@@ -20,7 +20,7 @@ export default function AuthPage({ mode, onComplete, onBack }) {
     };
 
     return (
-        <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center p-6 text-white">
+        <div className="min-h-[100dvh] bg-slate-900 flex flex-col items-center justify-center p-6 text-white">
             <button onClick={onBack} className="absolute top-10 left-10 text-cyan-400 font-bold">← BACK</button>
 
             <div className="w-full max-w-md bg-slate-800 border border-slate-700 p-8 rounded-3xl shadow-2xl">

@@ -121,7 +121,7 @@ function Dashboard({ user, setUser, onOpenAuth, onLogout }) {
     }
 
     return (
-        <div className="h-screen max-h-screen w-screen max-w-full overflow-hidden bg-space text-starWhite">
+        <div className="min-h-[100dvh] lg:h-[100dvh] lg:max-h-[100dvh] w-screen max-w-full overflow-x-hidden lg:overflow-hidden bg-space text-starWhite flex flex-col">
             <HappyBackground />
 
             {/* Updated Nav with Login/Signup buttons */}
@@ -148,8 +148,8 @@ function Dashboard({ user, setUser, onOpenAuth, onLogout }) {
                 </div>
             </header>
 
-            <main className="relative mx-auto h-[calc(100vh-5rem)] max-h-[calc(100vh-5rem)] w-full max-w-7xl overflow-hidden px-3 py-3 md:px-6">
-                <section className="grid h-full min-h-0 gap-3 overflow-hidden lg:grid-cols-[1.08fr_0.92fr]">
+            <main className="relative mx-auto flex-1 w-full max-w-7xl lg:h-[calc(100dvh-5rem)] lg:max-h-[calc(100dvh-5rem)] lg:overflow-hidden px-3 py-3 md:px-6">
+                <section className="grid h-full lg:min-h-0 gap-4 lg:grid-cols-[1.08fr_0.92fr]">
                     <BrainBase content={content} user={user || { gradeLevel: "1" }} />
                     <MissionPanel
                         activeGame={activeGame}
@@ -168,7 +168,7 @@ function Dashboard({ user, setUser, onOpenAuth, onLogout }) {
 
 function BrainBase({ content, user }) {
     return (
-        <section className="min-h-0 overflow-hidden rounded-xl border border-pinkGlow/30 bg-black/30 p-4 shadow-pink flex flex-col relative">
+        <section className="min-h-0 lg:overflow-hidden rounded-xl border border-pinkGlow/30 bg-black/30 p-4 shadow-pink flex flex-col relative">
             <div className="mb-4 flex items-center gap-3 relative z-10">
                 <Brain className="text-pinkGlow h-8 w-8" />
                 <h2 className="text-2xl font-black">Mission Control</h2>
@@ -201,7 +201,7 @@ function BrainBase({ content, user }) {
 
 function MissionPanel({ activeGame, setActiveGame, launchGame, tier, isLoggedIn }) {
     return (
-        <section className="min-h-0 overflow-hidden rounded-xl border border-cyanGlow/30 bg-black/30 p-4 shadow-cyan flex flex-col">
+        <section className="min-h-0 lg:overflow-hidden rounded-xl border border-cyanGlow/30 bg-black/30 p-4 shadow-cyan flex flex-col">
             <h2 className="mb-3 text-xl font-black shrink-0">7 Missions</h2>
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 flex-1 overflow-y-auto pr-1 pb-1">
                 {gameShells.map((name, index) => {

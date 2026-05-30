@@ -3426,7 +3426,7 @@ export default function NumberCometGame({ userId, onExit }) {
 
   return (
     <div className="number-comet-wrapper">
-      <div className="floating-background" style={{ position: 'absolute', top: 0, left: 0, width: '100vw', height: '100vh', pointerEvents: 'none', zIndex: 1, overflow: 'hidden' }}>
+      <div className="floating-background" style={{ position: 'absolute', top: 0, left: 0, width: '100vw', height: '100dvh', pointerEvents: 'none', zIndex: 1, overflow: 'hidden' }}>
         {floatingItems.map((item) => (
           <div 
             key={item.id} 

@@ -18,15 +18,15 @@
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   z-index: 50;
 }
 
 .number-comet-wrapper .engine-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  max-height: 100vh;
+  height: 100dvh;
+  max-height: 100dvh;
   width: 100vw;
   overflow: hidden;
   position: relative;

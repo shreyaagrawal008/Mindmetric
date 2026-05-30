@@ -595,7 +595,7 @@ export default function AstromazeGame({ gradeLevel = "Pre-K", userId, onExit }) 
   }
 
   return (
-    <main className="relative h-screen w-screen overflow-hidden bg-space text-white">
+    <main className="relative h-[100dvh] w-screen overflow-hidden bg-space text-white">
       <canvas ref={canvasRef} className="absolute inset-0" aria-label="Astromaze colorful maze game world" />
       <div className="absolute left-5 top-5 z-10 flex items-center gap-3">
         {onExit && (
