@@ -157,6 +157,7 @@ function Dashboard({ user, setUser, onOpenAuth, onLogout }) {
                         launchGame={(game) => isLoggedIn ? setLaunchedGame(game) : onOpenAuth('login')}
                         tier={tier}
                         isLoggedIn={isLoggedIn}
+                        user={user}
                     />
                 </section>
             </main>
@@ -199,13 +200,13 @@ function BrainBase({ content, user }) {
     );
 }
 
-function MissionPanel({ activeGame, setActiveGame, launchGame, tier, isLoggedIn }) {
+function MissionPanel({ activeGame, setActiveGame, launchGame, tier, isLoggedIn, user }) {
     return (
         <section className="min-h-0 lg:overflow-hidden rounded-xl border border-cyanGlow/30 bg-black/30 p-4 shadow-cyan flex flex-col">
             <h2 className="mb-3 text-xl font-black shrink-0">7 Missions</h2>
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 flex-1 overflow-y-auto pr-1 pb-1">
                 {gameShells.map((name, index) => {
-                    const isComingSoon = ["Science Scanner", "Memory Orbit", "Pattern Portal", "Quiz Rocket"].includes(name) || (name === "Number Comet" && tier !== "TIER_1");
+                    const isComingSoon = ["Science Scanner", "Memory Orbit", "Pattern Portal", "Quiz Rocket"].includes(name) || (name === "Number Comet" && (tier !== "TIER_1" || user?.gradeLevel === "Pre-K"));
                     
                     return (
                         <button
