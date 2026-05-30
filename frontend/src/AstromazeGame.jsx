@@ -225,6 +225,23 @@ function useTypewriter(text, enabled, speed = 24) {
 export default function AstromazeGame({ gradeLevel = "Pre-K", userId, onExit }) {
   const canvasRef = useRef(null);
   const keysRef = useRef({});
+  const simulateKey = (key, isDown) => {
+    if (keysRef.current) {
+      keysRef.current[key] = isDown;
+    }
+  };
+  const DPadButton = ({ keyName, icon }) => (
+    <button 
+      className="neon-btn cyan h-16 w-16 p-0 flex items-center justify-center rounded-2xl touch-none select-none text-2xl font-black bg-black/50 backdrop-blur"
+      onPointerDown={(e) => { e.preventDefault(); simulateKey(keyName, true); }}
+      onPointerUp={(e) => { e.preventDefault(); simulateKey(keyName, false); }}
+      onPointerCancel={(e) => { e.preventDefault(); simulateKey(keyName, false); }}
+      onContextMenu={(e) => e.preventDefault()}
+      aria-label={`Move ${keyName}`}
+    >
+      {icon}
+    </button>
+  );
   const openedGatesRef = useRef(new Set());
   const completedRef = useRef(false);
   const autoVoiceStartedRef = useRef(false);
@@ -597,7 +614,7 @@ export default function AstromazeGame({ gradeLevel = "Pre-K", userId, onExit }) 
   return (
     <main className="relative h-[100dvh] w-screen overflow-hidden bg-space text-white">
       <canvas ref={canvasRef} className="absolute inset-0" aria-label="Astromaze colorful maze game world" />
-      <div className="absolute left-5 top-5 z-10 flex items-center gap-3">
+      <div className="absolute left-5 top-5 z-10 flex items-center gap-2 scale-75 origin-top-left md:scale-100 md:gap-3">
         {onExit && (
           <button className="neon-btn cyan min-h-12 px-4 py-2" onClick={leaveGame} aria-label="Back to Brain-Base Dashboard">
             <ArrowLeft /> Back
@@ -605,7 +622,7 @@ export default function AstromazeGame({ gradeLevel = "Pre-K", userId, onExit }) 
         )}
         <img src={ICON} alt="Mindmetric mascot icon" className="block h-16 w-16 rounded-2xl object-cover drop-shadow-[0_0_18px_rgba(0,229,255,.45)]" />
       </div>
-      <div className="absolute right-5 top-5 z-10 grid gap-2 rounded-2xl border border-limeGlow/40 bg-black/55 px-4 py-3 shadow-lime backdrop-blur">
+      <div className="absolute right-5 top-5 z-10 grid gap-1 rounded-2xl border border-limeGlow/40 bg-black/55 px-3 py-2 shadow-lime backdrop-blur scale-75 origin-top-right md:scale-100 md:px-4 md:py-3 md:gap-2">
         <p className="text-xs font-black uppercase text-limeGlow">Crystals</p>
         <p className="text-2xl font-black">{collectedCrystals.length}/{maze.crystals.length}</p>
         <p className="text-xs font-black uppercase text-cyanGlow">Gates {openedGates.length}/{gates.length}</p>
@@ -684,11 +701,23 @@ export default function AstromazeGame({ gradeLevel = "Pre-K", userId, onExit }) 
       )}
 
       {phase === "game" && (
-        <div className="absolute left-5 top-28 z-10 w-[min(310px,calc(100vw-2rem))] rounded-2xl border border-cyanGlow/30 bg-black/60 p-4 text-left shadow-cyan backdrop-blur">
+        <div className="hidden lg:block absolute left-5 top-28 z-10 w-[min(310px,calc(100vw-2rem))] rounded-2xl border border-cyanGlow/30 bg-black/60 p-4 text-left shadow-cyan backdrop-blur">
           <p className="text-xs font-black uppercase text-limeGlow">How to Play</p>
           <p className="mt-2 font-black text-cyanGlow">Use arrow keys or W A S D.</p>
           <p className="mt-2 text-sm text-slate-100">Rescue the scattered crystals, crack the two letter locks, and lead Mindmetric to the banana picnic.</p>
           <p className="mt-1 text-sm text-slate-200">{message}</p>
+        </div>
+      )}
+
+      {/* Mobile D-Pad */}
+      {phase === "game" && (
+        <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 lg:hidden z-20">
+          <DPadButton keyName="ArrowUp" icon="▲" />
+          <div className="flex gap-2">
+            <DPadButton keyName="ArrowLeft" icon="◀" />
+            <DPadButton keyName="ArrowDown" icon="▼" />
+            <DPadButton keyName="ArrowRight" icon="▶" />
+          </div>
         </div>
       )}
     </main>
