@@ -113,21 +113,36 @@ const TraceGame = ({ targetDigit, onVictory }) => {
   const pathRef = React.useRef(null);
   const [progress, setProgress] = React.useState(0);
   const [totalLength, setTotalLength] = React.useState(0);
+  const [pathPoints, setPathPoints] = React.useState([]);
   const [isDragging, setIsDragging] = React.useState(false);
   const [shake, setShake] = React.useState(false);
 
   React.useEffect(() => {
     if (pathRef.current) {
-      setTotalLength(pathRef.current.getTotalLength());
+      const len = pathRef.current.getTotalLength();
+      setTotalLength(len);
       setProgress(0);
+      
+      // Pre-calculate points to prevent lag during dragging
+      const pts = [];
+      for (let i = 0; i <= len; i += 5) {
+        pts.push(pathRef.current.getPointAtLength(i));
+      }
+      setPathPoints(pts);
     }
   }, [targetDigit]);
 
-  const handlePointerDown = () => setIsDragging(true);
-  const handlePointerUp = () => setIsDragging(false);
+  const handlePointerDown = (e) => {
+    e.target.setPointerCapture?.(e.pointerId);
+    setIsDragging(true);
+  };
+  const handlePointerUp = (e) => {
+    e.target.releasePointerCapture?.(e.pointerId);
+    setIsDragging(false);
+  };
 
   const handlePointerMove = (e) => {
-    if (!isDragging || !pathRef.current || totalLength === 0) return;
+    if (!isDragging || totalLength === 0 || pathPoints.length === 0) return;
     
     const svg = e.currentTarget;
     const pt = svg.createSVGPoint();
@@ -135,10 +150,10 @@ const TraceGame = ({ targetDigit, onVictory }) => {
     pt.y = e.clientY || (e.touches && e.touches[0].clientY);
     const svgP = pt.matrixTransform(svg.getScreenCTM().inverse());
 
-    // Snap to win if we are near the end!
-    if (totalLength - progress < 30) {
-       const endP = pathRef.current.getPointAtLength(totalLength);
-       if (Math.hypot(endP.x - svgP.x, endP.y - svgP.y) < 60) {
+    // Snap to win if we are near the end
+    if (totalLength - progress < 40) {
+       const endP = pathPoints[pathPoints.length - 1];
+       if (Math.hypot(endP.x - svgP.x, endP.y - svgP.y) < 80) {
           setProgress(totalLength);
           setIsDragging(false);
           onVictory();
@@ -148,30 +163,34 @@ const TraceGame = ({ targetDigit, onVictory }) => {
 
     let nextProg = progress;
     let minD = Infinity;
-    for (let step = 0; step <= 30; step += 2) {
-       const checkProg = Math.min(progress + step, totalLength);
-       const p = pathRef.current.getPointAtLength(checkProg);
+    
+    // Search precalculated points ahead of current progress to allow fast swipes
+    const startIndex = Math.floor(progress / 5);
+    const endIndex = Math.min(pathPoints.length - 1, startIndex + 30); // Search up to 150 units ahead
+
+    for (let i = startIndex; i <= endIndex; i++) {
+       const p = pathPoints[i];
        const d = Math.hypot(p.x - svgP.x, p.y - svgP.y);
        if (d < minD) {
           minD = d;
-          nextProg = checkProg;
+          nextProg = i * 5;
        }
     }
 
-    if (minD < 50) {
+    if (minD < 80) {
        setProgress(nextProg);
-       if (nextProg >= totalLength - 2) {
+       if (nextProg >= totalLength - 10) {
           setIsDragging(false);
           onVictory();
        }
-    } else if (minD > 80) {
+    } else if (minD > 120) {
        setShake(true);
        setTimeout(() => setShake(false), 500);
     }
   };
 
-  const rocketPos = pathRef.current && totalLength > 0 ? pathRef.current.getPointAtLength(progress) : { x: 50, y: 10 };
-  const isFinished = totalLength > 0 && progress >= totalLength - 2;
+  const rocketPos = pathPoints.length > 0 ? pathPoints[Math.min(pathPoints.length - 1, Math.floor(progress / 5))] : { x: 50, y: 10 };
+  const isFinished = totalLength > 0 && progress >= totalLength - 10;
 
   return (
     <svg 
@@ -180,9 +199,6 @@ const TraceGame = ({ targetDigit, onVictory }) => {
        onPointerMove={!isFinished ? handlePointerMove : null}
        onPointerUp={!isFinished ? handlePointerUp : null}
        onPointerLeave={!isFinished ? handlePointerUp : null}
-       onTouchStart={!isFinished ? handlePointerDown : null}
-       onTouchMove={!isFinished ? handlePointerMove : null}
-       onTouchEnd={!isFinished ? handlePointerUp : null}
        style={{ touchAction: 'none', overflow: 'visible', zIndex: 10, cursor: isFinished ? 'default' : 'pointer', height: '25vh', maxHeight: '180px' }}
        className={shake ? "shake" : ""}
     >
