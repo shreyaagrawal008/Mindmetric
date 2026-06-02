@@ -417,6 +417,8 @@ function WordNebulaGame({ userId, onExit, onAnswer }) {
       }, CORRECT_ADVANCE_DELAY);
     },
     [activeQuestion, advance, answerState, engine, onAnswer, unlockMusic]
+  );
+
   const playQuestionAudio = useCallback(() => {
     if (!("speechSynthesis" in window) || !activeQuestion) return;
     
