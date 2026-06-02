@@ -230,12 +230,32 @@ export default function AstromazeGame({ gradeLevel = "Pre-K", userId, onExit }) 
       keysRef.current[key] = isDown;
     }
   };
+  const handleDPadTouch = (e) => {
+    // Prevent default to stop scrolling/zooming and mouse event emulation
+    if (e.cancelable) e.preventDefault();
+    const activeKeys = new Set();
+    for (let i = 0; i < e.touches.length; i++) {
+      const touch = e.touches[i];
+      const element = document.elementFromPoint(touch.clientX, touch.clientY);
+      if (element) {
+        const button = element.closest('button[data-key]');
+        if (button) {
+          activeKeys.add(button.getAttribute('data-key'));
+        }
+      }
+    }
+    ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].forEach(key => {
+      simulateKey(key, activeKeys.has(key));
+    });
+  };
+
   const DPadButton = ({ keyName, icon }) => (
     <button 
+      data-key={keyName}
       className="neon-btn cyan h-16 w-16 p-0 flex items-center justify-center rounded-2xl touch-none select-none text-2xl font-black bg-black/50 backdrop-blur"
-      onPointerDown={(e) => { e.preventDefault(); simulateKey(keyName, true); }}
-      onPointerUp={(e) => { e.preventDefault(); simulateKey(keyName, false); }}
-      onPointerCancel={(e) => { e.preventDefault(); simulateKey(keyName, false); }}
+      onPointerDown={(e) => { if (e.pointerType !== 'touch') simulateKey(keyName, true); }}
+      onPointerUp={(e) => { if (e.pointerType !== 'touch') simulateKey(keyName, false); }}
+      onPointerLeave={(e) => { if (e.pointerType !== 'touch') simulateKey(keyName, false); }}
       onContextMenu={(e) => e.preventDefault()}
       aria-label={`Move ${keyName}`}
     >
@@ -711,7 +731,13 @@ export default function AstromazeGame({ gradeLevel = "Pre-K", userId, onExit }) 
 
       {/* Mobile D-Pad */}
       {phase === "game" && (
-        <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 lg:hidden z-20">
+        <div 
+          className="absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 lg:hidden z-20 touch-none pointer-events-auto"
+          onTouchStart={handleDPadTouch}
+          onTouchMove={handleDPadTouch}
+          onTouchEnd={handleDPadTouch}
+          onTouchCancel={handleDPadTouch}
+        >
           <DPadButton keyName="ArrowUp" icon="▲" />
           <div className="flex gap-2">
             <DPadButton keyName="ArrowLeft" icon="◀" />
