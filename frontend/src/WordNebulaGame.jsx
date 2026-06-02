@@ -417,7 +417,33 @@ function WordNebulaGame({ userId, onExit, onAnswer }) {
       }, CORRECT_ADVANCE_DELAY);
     },
     [activeQuestion, advance, answerState, engine, onAnswer, unlockMusic]
-  );
+  const playQuestionAudio = useCallback(() => {
+    if (!("speechSynthesis" in window) || !activeQuestion) return;
+    
+    // Pause background music
+    if (audioRef.current) audioRef.current.pause();
+    pauseSynthMusic();
+
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(questionPrompt(activeQuestion));
+    utterance.rate = 0.9;
+    utterance.pitch = 1.25;
+    utterance.volume = volume;
+    
+    utterance.onend = () => {
+      // Resume music
+      if (musicPlaying) {
+        if (audioRef.current && !audioFailedRef.current) {
+          audioRef.current.play().catch(() => {});
+        } else {
+          startSynthMusic();
+        }
+      }
+    };
+    utterance.onerror = utterance.onend;
+    
+    window.speechSynthesis.speak(utterance);
+  }, [activeQuestion, musicPlaying, pauseSynthMusic, startSynthMusic, volume]);
 
   return (
     <div
@@ -477,6 +503,7 @@ function WordNebulaGame({ userId, onExit, onAnswer }) {
             hintPulse={hintPulse}
             onAnswer={handleAnswer}
             onReset={reset}
+            onPlayAudio={playQuestionAudio}
           />
         )}
       </main>
@@ -526,11 +553,7 @@ function AudioMixer({
       <button
         type="button"
         onClick={onTogglePlayback}
-        className={`grid h-10 w-10 place-items-center rounded-xl border transition backdrop-blur-md hover:scale-105 active:scale-95 ${
-          musicPlaying
-            ? "border-limeGlow/70 bg-limeGlow/15 text-limeGlow shadow-[0_0_14px_rgba(167,255,60,0.38)]"
-            : "border-cyan-500/30 bg-slate-900/80 text-cyan-400 shadow-lg hover:bg-slate-800"
-        }`}
+        className="neon-btn cyan min-h-11 w-11 justify-center p-0"
         aria-label={musicPlaying ? "Pause music" : "Play music"}
       >
         <PlayIcon className="h-5 w-5" />
@@ -540,14 +563,15 @@ function AudioMixer({
         <button
           type="button"
           onClick={onToggleVolumeDrawer}
-          className="grid h-10 w-10 place-items-center rounded-xl border border-cyan-500/30 bg-slate-900/80 text-cyan-400 shadow-lg backdrop-blur-md transition hover:scale-105 active:scale-95 hover:bg-slate-800"
-          aria-label="Toggle Volume Control"
+          className="neon-btn lime min-h-11 w-11 justify-center p-0"
+          aria-label="Open volume control"
         >
           <VolumeIcon className="h-5 w-5" />
         </button>
 
         {showVolumeSlider && (
-          <div className="absolute top-full right-0 mt-2 z-50 bg-slate-900/90 p-3 rounded-xl border border-cyan-500/30 shadow-lg">
+          <label className="absolute right-0 top-14 grid w-56 gap-2 rounded-2xl border border-limeGlow/40 bg-black/80 p-3 text-xs font-black text-limeGlow shadow-lime backdrop-blur z-50">
+            <span>{Math.round((muted ? 0 : volume) * 100)}%</span>
             <input
               type="range"
               min="0"
@@ -557,20 +581,20 @@ function AudioMixer({
               onChange={onVolumeChange}
               onInput={onVolumeChange}
               aria-label="Music volume"
-              className="w-32 accent-cyan-400 bg-slate-700 h-1.5 rounded-lg appearance-none cursor-pointer"
+              className="h-2 w-full accent-limeGlow"
             />
-          </div>
+          </label>
         )}
       </div>
     </div>
   );
 }
 
-function QuestionBanner({ question, status }) {
+function QuestionBanner({ question, status, onPlayAudio }) {
   const text = question ? questionPrompt(question) : status === "loading" ? "Loading stars..." : "Find the match!";
 
   return (
-    <div className="relative z-20 mx-auto flex h-14 w-full shrink-0 items-center justify-center px-12 sm:h-16">
+    <div className="relative z-20 mx-auto flex h-14 w-full shrink-0 items-center justify-center px-12 sm:h-16 gap-2">
       <div className="relative flex h-11 w-full max-w-4xl items-center justify-center overflow-hidden rounded-xl border border-cyanGlow/40 bg-black/55 px-4 text-center shadow-[0_0_24px_rgba(34,211,238,0.28)] backdrop-blur-md sm:h-12">
         <span className="absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-cyanGlow to-transparent" />
         <Sparkles className="mr-2 h-4 w-4 shrink-0 text-limeGlow drop-shadow-[0_0_10px_rgba(167,255,60,0.82)]" />
@@ -578,11 +602,20 @@ function QuestionBanner({ question, status }) {
           {text}
         </p>
       </div>
+      {onPlayAudio && (
+        <button 
+          className="neon-btn yellow min-h-11 w-11 justify-center p-0 rounded-full shrink-0"
+          onClick={onPlayAudio}
+          title="Read Question"
+        >
+          <Volume2 size={24} />
+        </button>
+      )}
     </div>
   );
 }
 
-function VisualMatchScene({ question, currentIndex, selectedAnswer, answerState, hintPulse, onAnswer, onReset }) {
+function VisualMatchScene({ question, currentIndex, selectedAnswer, answerState, hintPulse, onAnswer, onReset, onPlayAudio }) {
   const options = question.options || [];
 
   return (
@@ -605,7 +638,7 @@ function VisualMatchScene({ question, currentIndex, selectedAnswer, answerState,
       </div>
 
       <div className="relative z-10 flex min-h-0 flex-col overflow-hidden">
-        <QuestionBanner question={question} status="ready" />
+        <QuestionBanner question={question} status="ready" onPlayAudio={onPlayAudio} />
         <div className="grid min-h-0 flex-1 place-items-center overflow-hidden px-2 pb-2">
           <QuestionPlanet question={question} answerState={answerState} hintPulse={hintPulse} />
         </div>
