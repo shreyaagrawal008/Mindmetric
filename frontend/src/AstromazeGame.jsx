@@ -474,16 +474,15 @@ export default function AstromazeGame({ gradeLevel = "Pre-K", userId, onExit }) 
     if (!("speechSynthesis" in window)) return;
     window.speechSynthesis.cancel();
     
-    // Add exclamation marks to force a more enthusiastic inflection from the TTS engine
-    const enthusiasticBriefing = briefing.replace(/\./g, '!') + (!briefing.endsWith('!') ? '!' : '');
-    const utterance = new SpeechSynthesisUtterance(enthusiasticBriefing);
+    // Just a single exclamation mark for a tiny bit of natural inflection
+    const utterance = new SpeechSynthesisUtterance(briefing.replace('.', '!'));
     
     const voices = window.speechSynthesis.getVoices();
     
     // Filter for American English voices
     const usVoices = voices.filter(v => v.lang.startsWith("en-US"));
     
-    // Prioritize high-quality, fun, or female American voices
+    // Prioritize high-quality, friendly American voices
     const preferred = usVoices.find(v => v.name.includes("Google US English")) ||
                       usVoices.find(v => v.name.includes("Samantha")) ||
                       usVoices.find(v => v.name.includes("Salli")) ||
@@ -495,9 +494,9 @@ export default function AstromazeGame({ gradeLevel = "Pre-K", userId, onExit }) 
                       
     if (preferred) utterance.voice = preferred;
     
-    // Higher pitch and slightly faster rate for excitement
-    utterance.rate = 1.15;
-    utterance.pitch = 1.6;
+    // Slower, clearer rate for kids, with just a slight pitch bump for friendliness
+    utterance.rate = 0.85;
+    utterance.pitch = 1.1;
     utterance.volume = volume;
     utterance.onend = () => setVoiceState("idle");
     utterance.onerror = () => setVoiceState("idle");
