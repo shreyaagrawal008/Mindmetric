@@ -488,7 +488,7 @@ export default function AstromazeGame({ gradeLevel = "Pre-K", userId, onExit }) 
         },
         body: JSON.stringify({
           text: briefing,
-          model_id: "eleven_monolingual_v1",
+          model_id: "eleven_multilingual_v2",
           voice_settings: {
             stability: 0.35,
             similarity_boost: 0.85
