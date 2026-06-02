@@ -483,7 +483,7 @@ export default function AstromazeGame({ gradeLevel = "Pre-K", userId, onExit }) 
       const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/MF3mGyEYCl7XYWbV9V6O`, {
         method: 'POST',
         headers: {
-          'xi-api-key': 'sk_e7e7897c5dd5c2bd6ea81855ff3dfb4f7570493717bba563',
+          'xi-api-key': 'sk_81d44401e49447f6d3babf4963a1d56d59067cf07580c016',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
