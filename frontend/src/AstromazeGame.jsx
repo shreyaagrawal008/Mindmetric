@@ -666,7 +666,7 @@ export default function AstromazeGame({ gradeLevel = "Pre-K", userId, onExit }) 
               {volumeOpen && (
                 <label className="absolute right-0 top-14 grid w-56 gap-2 rounded-2xl border border-limeGlow/40 bg-black/80 p-3 text-xs font-black text-limeGlow shadow-lime backdrop-blur">
                   <span>{Math.round(volume * 100)}%</span>
-                  <input type="range" min="0" max="1" step="0.05" value={volume} onChange={changeVolume} className="h-2 w-full accent-limeGlow" aria-label="Voice and music volume" />
+                  <input type="range" min="0" max="1" step="0.05" value={volume} onChange={changeVolume} aria-label="Voice and music volume" className="h-2 w-full appearance-none rounded-lg outline-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#A7FF3C] [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-[#A7FF3C] [&::-moz-range-thumb]:border-none" style={{ background: `linear-gradient(to right, #A7FF3C ${volume * 100}%, rgba(255,255,255,0.2) ${volume * 100}%)` }} />
                 </label>
               )}
             </div>

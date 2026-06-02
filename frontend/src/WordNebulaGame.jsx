@@ -581,7 +581,10 @@ function AudioMixer({
               onChange={onVolumeChange}
               onInput={onVolumeChange}
               aria-label="Music volume"
-              className="h-2 w-full accent-limeGlow"
+              className="h-2 w-full appearance-none rounded-lg outline-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#A7FF3C] [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-[#A7FF3C] [&::-moz-range-thumb]:border-none"
+              style={{
+                background: `linear-gradient(to right, #A7FF3C ${(muted ? 0 : volume) * 100}%, rgba(255,255,255,0.2) ${(muted ? 0 : volume) * 100}%)`
+              }}
             />
           </label>
         )}
