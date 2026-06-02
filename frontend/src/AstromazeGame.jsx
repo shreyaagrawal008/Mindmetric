@@ -833,8 +833,6 @@ function drawMaze(ctx, maze, tile, offsetX, offsetY, time) {
       if (cell === "1") {
         const color = colors[(x + y + Math.floor(time / 900)) % colors.length];
         ctx.save();
-        ctx.shadowBlur = 16;
-        ctx.shadowColor = color;
         ctx.fillStyle = `${color}30`;
         ctx.strokeStyle = color;
         ctx.lineWidth = 2;

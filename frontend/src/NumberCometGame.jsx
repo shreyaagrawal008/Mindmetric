@@ -2788,6 +2788,8 @@ export default function NumberCometGame({ userId, onExit }) {
         if (response.ok) {
           const data = await response.json();
           setQuestions(data);
+          setCurrentQuestionIndex(0); // Reset index only after fetching succeeds
+          setTraceCompleted(false);
         } else {
           // Mocking empty state if backend fails or isn't built yet
           setQuestions([]); 
@@ -2801,12 +2803,10 @@ export default function NumberCometGame({ userId, onExit }) {
     };
     
     loadQuestions();
-    setCurrentQuestionIndex(0); // Reset index on new fetch
-    setTraceCompleted(false);
   }, [activeLevel, activeTopic]);
 
   const currentQuestion = questions[currentQuestionIndex] || {};
-  const isPlaceholder = questions.length === 0 || isLoading;
+  const isPlaceholder = questions.length === 0;
 
   const handleOptionClick = async (optionIndex, optionValue) => {
     if (isPlaceholder) return; 
