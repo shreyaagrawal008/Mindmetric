@@ -473,23 +473,31 @@ export default function AstromazeGame({ gradeLevel = "Pre-K", userId, onExit }) 
   function playBriefingVoice() {
     if (!("speechSynthesis" in window)) return;
     window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(briefing);
+    
+    // Add exclamation marks to force a more enthusiastic inflection from the TTS engine
+    const enthusiasticBriefing = briefing.replace(/\./g, '!') + (!briefing.endsWith('!') ? '!' : '');
+    const utterance = new SpeechSynthesisUtterance(enthusiasticBriefing);
     
     const voices = window.speechSynthesis.getVoices();
-    const funVoices = voices.filter(v => 
-      v.name.includes("Google") || 
-      v.name.includes("Samantha") || 
-      v.name.includes("Victoria") || 
-      v.name.includes("Karen") || 
-      v.name.includes("Tessa")
-    );
-    const preferred = funVoices.find(v => v.name.includes("UK English Female")) || 
-                      funVoices.find(v => v.name.includes("Samantha")) || 
-                      funVoices[0];
+    
+    // Filter for American English voices
+    const usVoices = voices.filter(v => v.lang.startsWith("en-US"));
+    
+    // Prioritize high-quality, fun, or female American voices
+    const preferred = usVoices.find(v => v.name.includes("Google US English")) ||
+                      usVoices.find(v => v.name.includes("Samantha")) ||
+                      usVoices.find(v => v.name.includes("Salli")) ||
+                      usVoices.find(v => v.name.includes("Zira")) ||
+                      usVoices.find(v => v.name.includes("Aria")) ||
+                      usVoices.find(v => v.name.includes("Jenny")) ||
+                      usVoices[0] || 
+                      voices[0];
+                      
     if (preferred) utterance.voice = preferred;
     
-    utterance.rate = 1.05;
-    utterance.pitch = 1.35;
+    // Higher pitch and slightly faster rate for excitement
+    utterance.rate = 1.15;
+    utterance.pitch = 1.6;
     utterance.volume = volume;
     utterance.onend = () => setVoiceState("idle");
     utterance.onerror = () => setVoiceState("idle");
