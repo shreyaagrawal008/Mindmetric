@@ -474,8 +474,22 @@ export default function AstromazeGame({ gradeLevel = "Pre-K", userId, onExit }) 
     if (!("speechSynthesis" in window)) return;
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(briefing);
-    utterance.rate = 0.9;
-    utterance.pitch = 1.25;
+    
+    const voices = window.speechSynthesis.getVoices();
+    const funVoices = voices.filter(v => 
+      v.name.includes("Google") || 
+      v.name.includes("Samantha") || 
+      v.name.includes("Victoria") || 
+      v.name.includes("Karen") || 
+      v.name.includes("Tessa")
+    );
+    const preferred = funVoices.find(v => v.name.includes("UK English Female")) || 
+                      funVoices.find(v => v.name.includes("Samantha")) || 
+                      funVoices[0];
+    if (preferred) utterance.voice = preferred;
+    
+    utterance.rate = 1.05;
+    utterance.pitch = 1.35;
     utterance.volume = volume;
     utterance.onend = () => setVoiceState("idle");
     utterance.onerror = () => setVoiceState("idle");
@@ -628,7 +642,8 @@ export default function AstromazeGame({ gradeLevel = "Pre-K", userId, onExit }) 
 
   function restart() {
     setMazeIndex(savedMazeIndex(userId, gradeLevel));
-    resetMaze(true);
+    resetMaze(false);
+    startMission();
   }
 
   return (
