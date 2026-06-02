@@ -266,6 +266,7 @@ export default function AstromazeGame({ gradeLevel = "Pre-K", userId, onExit }) 
   const completedRef = useRef(false);
   const autoVoiceStartedRef = useRef(false);
   const audioRef = useRef({ context: null, gain: null, musicTimer: null, step: 0 });
+  const elevenLabsAudioRef = useRef(null);
   const popupsRef = useRef([]);
   const [mazeIndex, setMazeIndex] = useState(() => savedMazeIndex(userId, gradeLevel));
   const [phase, setPhase] = useState("briefing");
@@ -470,49 +471,59 @@ export default function AstromazeGame({ gradeLevel = "Pre-K", userId, onExit }) 
     return audio;
   }
 
-  function playBriefingVoice() {
-    if (!("speechSynthesis" in window)) return;
-    window.speechSynthesis.cancel();
-    
-    // Just a single exclamation mark for a tiny bit of natural inflection
-    const utterance = new SpeechSynthesisUtterance(briefing.replace('.', '!'));
-    
-    const voices = window.speechSynthesis.getVoices();
-    
-    // Filter for American English voices
-    const usVoices = voices.filter(v => v.lang.startsWith("en-US"));
-    
-    // Prioritize high-quality, friendly American voices
-    const preferred = usVoices.find(v => v.name.includes("Google US English")) ||
-                      usVoices.find(v => v.name.includes("Samantha")) ||
-                      usVoices.find(v => v.name.includes("Salli")) ||
-                      usVoices.find(v => v.name.includes("Zira")) ||
-                      usVoices.find(v => v.name.includes("Aria")) ||
-                      usVoices.find(v => v.name.includes("Jenny")) ||
-                      usVoices[0] || 
-                      voices[0];
-                      
-    if (preferred) utterance.voice = preferred;
-    
-    // Slower, clearer rate for kids, with just a slight pitch bump for friendliness
-    utterance.rate = 0.85;
-    utterance.pitch = 1.1;
-    utterance.volume = volume;
-    utterance.onend = () => setVoiceState("idle");
-    utterance.onerror = () => setVoiceState("idle");
-    window.speechSynthesis.speak(utterance);
+  async function playBriefingVoice() {
+    window.speechSynthesis?.cancel();
+    if (elevenLabsAudioRef.current) {
+      elevenLabsAudioRef.current.pause();
+    }
     setVoiceState("playing");
+
+    try {
+      // Use ElevenLabs Elli voice (young, enthusiastic American female)
+      const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/MF3mGyEYCl7XYWbV9V6O`, {
+        method: 'POST',
+        headers: {
+          'xi-api-key': 'sk_e7e7897c5dd5c2bd6ea81855ff3dfb4f7570493717bba563',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          text: briefing,
+          model_id: "eleven_monolingual_v1",
+          voice_settings: {
+            stability: 0.35,
+            similarity_boost: 0.85
+          }
+        })
+      });
+      
+      if (!response.ok) throw new Error("ElevenLabs API failed");
+      
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      audio.volume = volume;
+      elevenLabsAudioRef.current = audio;
+      
+      audio.onend = () => setVoiceState("idle");
+      audio.onerror = () => setVoiceState("idle");
+      
+      await audio.play();
+    } catch (err) {
+      console.error(err);
+      setVoiceState("idle");
+    }
   }
 
   function toggleVoice() {
-    if (!("speechSynthesis" in window)) return;
     if (voiceState === "playing") {
-      window.speechSynthesis.pause();
+      if (elevenLabsAudioRef.current) elevenLabsAudioRef.current.pause();
+      window.speechSynthesis?.pause();
       setVoiceState("paused");
       return;
     }
     if (voiceState === "paused") {
-      window.speechSynthesis.resume();
+      if (elevenLabsAudioRef.current) elevenLabsAudioRef.current.play();
+      window.speechSynthesis?.resume();
       setVoiceState("playing");
       return;
     }
@@ -620,6 +631,7 @@ export default function AstromazeGame({ gradeLevel = "Pre-K", userId, onExit }) 
   }
 
   function startMission() {
+    if (elevenLabsAudioRef.current) elevenLabsAudioRef.current.pause();
     window.speechSynthesis?.cancel();
     setVoiceState("idle");
     startMusic();
@@ -627,6 +639,7 @@ export default function AstromazeGame({ gradeLevel = "Pre-K", userId, onExit }) 
   }
 
   function leaveGame() {
+    if (elevenLabsAudioRef.current) elevenLabsAudioRef.current.pause();
     window.speechSynthesis?.cancel();
     setVoiceState("idle");
     stopMusic();
@@ -642,6 +655,7 @@ export default function AstromazeGame({ gradeLevel = "Pre-K", userId, onExit }) 
     setActiveGate(null);
     setScore(0);
     setMessage("Mindmetric's crystals are scattered. Gather them before the banana picnic drifts away.");
+    if (elevenLabsAudioRef.current) elevenLabsAudioRef.current.pause();
     window.speechSynthesis?.cancel();
     setVoiceState("idle");
     if (showBriefing) setPhase("briefing");
