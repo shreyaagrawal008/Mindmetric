@@ -479,8 +479,8 @@ export default function AstromazeGame({ gradeLevel = "Pre-K", userId, onExit }) 
     setVoiceState("playing");
 
     try {
-      // Use ElevenLabs Elli voice (young, enthusiastic American female)
-      const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/MF3mGyEYCl7XYWbV9V6O`, {
+      // Use ElevenLabs Jessica voice (Playful, Bright, Warm) which is available on free tier
+      const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/cgSgspJ2msm6clMCkdW9`, {
         method: 'POST',
         headers: {
           'xi-api-key': 'sk_81d44401e49447f6d3babf4963a1d56d59067cf07580c016',
