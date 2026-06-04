@@ -978,8 +978,8 @@ public class DataSeeder implements CommandLineRunner {
             }
             case 8: { // Inside vs Outside Visual Game
                 String[][] themes = {
-                    {"pond", "🌊", "Pond", "🐸", "Frog"},
-                    {"fence", "🪟", "Fence", "🐑", "Sheep"},
+                    {"pond", "🪷", "Pond", "🐸", "Frog"},
+                    {"fence", "🪵", "Fence", "🐑", "Sheep"},
                     {"box", "📦", "Box", "🧸", "Teddy"},
                     {"cage", "🧺", "Basket", "🍎", "Apple"},
                     {"nest", "🪹", "Nest", "🥚", "Egg"},
