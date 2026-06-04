@@ -3562,6 +3562,16 @@ export default function NumberCometGame({ userId, onExit }) {
                     const utterance = new SpeechSynthesisUtterance(displayQuestionText().replace(/<[^>]+>/g, ''));
                     utterance.rate = 0.9;
                     utterance.pitch = 1.2;
+                    
+                    utterance.onstart = () => {
+                      if (bgmRef.current) bgmRef.current.pause();
+                    };
+                    const resumeAudio = () => {
+                      if (bgmRef.current && isPlaying) bgmRef.current.play().catch(()=>{});
+                    };
+                    utterance.onend = resumeAudio;
+                    utterance.onerror = resumeAudio;
+
                     window.speechSynthesis.speak(utterance);
                   }
                 }}
@@ -3598,6 +3608,16 @@ export default function NumberCometGame({ userId, onExit }) {
                         const utterance = new SpeechSynthesisUtterance(displayQuestionText().replace(/<[^>]+>/g, ''));
                         utterance.rate = 0.9;
                         utterance.pitch = 1.2;
+                        
+                        utterance.onstart = () => {
+                          if (bgmRef.current) bgmRef.current.pause();
+                        };
+                        const resumeAudio = () => {
+                          if (bgmRef.current && isPlaying) bgmRef.current.play().catch(()=>{});
+                        };
+                        utterance.onend = resumeAudio;
+                        utterance.onerror = resumeAudio;
+
                         window.speechSynthesis.speak(utterance);
                       }
                     }}
