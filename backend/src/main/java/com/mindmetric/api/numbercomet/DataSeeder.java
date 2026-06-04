@@ -90,7 +90,7 @@ public class DataSeeder implements CommandLineRunner {
             case 2: return genLevel2(topic);
             case 3: return genLevel3(topic, qNum);
             case 4: return genLevel4(topic, qNum);
-            case 5: return genLevel5(topic);
+            case 5: return genLevel5(topic, qNum);
             case 6: return genLevel6(topic);
             case 7: return genLevel7(topic);
             case 8: return genLevel8(topic);
@@ -1036,9 +1036,51 @@ public class DataSeeder implements CommandLineRunner {
         }
     }
 
-    private String[] genLevel5(int topic) {
+    private String[] genLevel5(int topic, int qNum) {
         switch(topic) {
-            case 1: return buildN(r(6,10), 1, 10, "Which is more?");
+            case 1: {
+                String[][] themes = {
+                    {"fish", "🐟", "Fish"},
+                    {"cupcake", "🧁", "Cupcakes"},
+                    {"bug", "🐛", "Bugs"},
+                    {"apple", "🍎", "Apples"},
+                    {"cookie", "🍪", "Cookies"},
+                    {"carrot", "🥕", "Carrots"},
+                    {"bone", "🦴", "Bones"},
+                    {"cheese", "🧀", "Cheese Wedges"},
+                    {"donut", "🍩", "Donuts"},
+                    {"strawberry", "🍓", "Strawberries"},
+                    {"pizza", "🍕", "Pizza Slices"},
+                    {"burger", "🍔", "Burgers"},
+                    {"candy", "🍬", "Candies"},
+                    {"icecream", "🍦", "Ice Creams"},
+                    {"cherry", "🍒", "Cherries"},
+                    {"peanut", "🥜", "Peanuts"},
+                    {"watermelon", "🍉", "Watermelon Slices"},
+                    {"hotdog", "🌭", "Hotdogs"},
+                    {"taco", "🌮", "Tacos"},
+                    {"frenchfry", "🍟", "French Fries"},
+                    {"popcorn", "🍿", "Popcorns"},
+                    {"chocolate", "🍫", "Chocolates"},
+                    {"croissant", "🥐", "Croissants"},
+                    {"pancake", "🥞", "Pancakes"},
+                    {"pretzel", "🥨", "Pretzels"},
+                    {"pie", "🥧", "Pies"},
+                    {"lollipop", "🍭", "Lollipops"},
+                    {"grape", "🍇", "Grapes"},
+                    {"banana", "🍌", "Bananas"},
+                    {"pineapple", "🍍", "Pineapples"}
+                };
+                int idx = (qNum - 1) % 30;
+                String[] t = themes[idx];
+                int leftCount = r(1, 9);
+                int rightCount;
+                do { rightCount = r(1, 9); } while (leftCount == rightCount);
+                String q = "The Gator is super hungry! Which group of " + t[2] + " will he want to eat?";
+                String ans = leftCount > rightCount ? "A" : "B";
+                String json = String.format("{\"leftCount\":%d,\"rightCount\":%d,\"itemEmoji\":\"%s\",\"itemName\":\"%s\"}", leftCount, rightCount, t[1], t[2]);
+                return buildT(ans, "A", "B", "NONE", q, "greedy_gator_game", json);
+            }
             case 2: return buildN(r(1,4), 1, 10, "Which is fewer?");
             case 3: return buildS("EQUAL", new String[]{"EQUAL", "UNEQUAL", "DIFF"}, "Are they the same?");
             case 4: return buildS("EXTRA", new String[]{"EXTRA", "MATCH", "NONE"}, "Which group has leftovers?");

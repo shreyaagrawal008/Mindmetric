@@ -7,6 +7,7 @@ import CosmicPlayroomGame from './CosmicPlayroomGame';
 import AboveBelowGame from './AboveBelowGame';
 import FrontBehindGame from './FrontBehindGame';
 import InsideOutsideGame from './InsideOutsideGame';
+import GreedyGatorGame from './GreedyGatorGame';
 
 const LEVEL_NAMES = ["Luna", "Bolt", "Orbito", "Glow", "Vega", "Zuno", "Plutox", "Spark", "Twix", "Rocketo", "Vortex"];
 
@@ -3282,6 +3283,21 @@ export default function NumberCometGame({ userId, onExit }) {
               dataStr={currentQuestion.asset} 
               volume={volume / 100} 
               onVictory={() => {
+                 playFeedbackTone('correct', volume);
+                 setTraceCompleted(true);
+                 setTimeout(progressToNext, 1500);
+              }} 
+           />
+        </div>
+      );
+    }
+    if (currentQuestion.type === 'greedy_gator_game') {
+      return (
+        <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1, minHeight: '300px' }}>
+           <GreedyGatorGame 
+              key={currentQuestionIndex}
+              dataStr={currentQuestion.asset} 
+              onCorrect={() => {
                  playFeedbackTone('correct', volume);
                  setTraceCompleted(true);
                  setTimeout(progressToNext, 1500);
