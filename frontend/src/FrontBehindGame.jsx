@@ -125,8 +125,8 @@ export default function FrontBehindGame({ dataStr, onVictory, volume = 0.5 }) {
               ${correctItemId === 'tb' ? 'item-correct-flash' : ''} 
               ${errorItemId === 'tb' ? 'item-shake' : ''}`}
             style={{ 
-              top: '-15%', 
-              right: '-10%',
+              top: '5%', 
+              right: '0%',
               zIndex: 0, /* BEHIND LANDMARK */
               filter: correctItemId === 'tb' ? 'drop-shadow(0 0 30px #00FF00)' : errorItemId === 'tb' ? 'drop-shadow(0 0 30px #FF0000)' : 'none',
             }}>
@@ -146,8 +146,8 @@ export default function FrontBehindGame({ dataStr, onVictory, volume = 0.5 }) {
               ${correctItemId === 'tf' ? 'item-correct-flash' : ''} 
               ${errorItemId === 'tf' ? 'item-shake' : ''}`}
             style={{ 
-              bottom: '-15%', 
-              left: '-10%',
+              bottom: '0%', 
+              left: '10%',
               zIndex: 20, /* IN FRONT OF LANDMARK */
               filter: correctItemId === 'tf' ? 'drop-shadow(0 0 30px #00FF00)' : errorItemId === 'tf' ? 'drop-shadow(0 0 30px #FF0000)' : 'none',
             }}>
