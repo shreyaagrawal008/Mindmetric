@@ -966,7 +966,7 @@ public class DataSeeder implements CommandLineRunner {
                 String targetName = askBehind ? t1Name : t2Name;
                 String targetPosition = askBehind ? "behind" : "in front of";
                 
-                String q = String.format("Can you tap the %s that is %s the %s?", targetName, targetPosition, lName);
+                String q = String.format("Can you tap the one that is %s the %s?", targetPosition, lName);
                 
                 String json = String.format(
                     "{\"scene\":\"%s\",\"landmark\":{\"emoji\":\"%s\",\"name\":\"%s\"},\"targetBehind\":{\"id\":\"tb\",\"emoji\":\"%s\",\"name\":\"%s\"},\"targetFront\":{\"id\":\"tf\",\"emoji\":\"%s\",\"name\":\"%s\"},\"distractor\":{\"id\":\"d\",\"emoji\":\"%s\",\"name\":\"%s\"},\"askBehind\":%b}",
