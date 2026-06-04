@@ -6,6 +6,7 @@ import DeliverySpacePortGame from './DeliverySpacePortGame';
 import CosmicPlayroomGame from './CosmicPlayroomGame';
 import AboveBelowGame from './AboveBelowGame';
 import FrontBehindGame from './FrontBehindGame';
+import InsideOutsideGame from './InsideOutsideGame';
 
 const LEVEL_NAMES = ["Luna", "Bolt", "Orbito", "Glow", "Vega", "Zuno", "Plutox", "Spark", "Twix", "Rocketo", "Vortex"];
 
@@ -3257,6 +3258,22 @@ export default function NumberCometGame({ userId, onExit }) {
         </div>
       );
     }
+    if (currentQuestion.type === 'inside_outside_game') {
+      return (
+        <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1, minHeight: '300px' }}>
+           <InsideOutsideGame 
+              key={currentQuestionIndex}
+              dataStr={currentQuestion.asset} 
+              volume={volume} 
+              onVictory={() => {
+                 playFeedbackTone('correct', volume);
+                 setTraceCompleted(true);
+                 setTimeout(progressToNext, 1500);
+              }} 
+           />
+        </div>
+      );
+    }
     if (currentQuestion.type === 'front_behind_game') {
       return (
         <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1, minHeight: '300px' }}>
@@ -3540,7 +3557,7 @@ export default function NumberCometGame({ userId, onExit }) {
           </div>
         </header>
 
-        {currentQuestion.type === 'above_below_game' || currentQuestion.type === 'front_behind_game' || currentQuestion.type === 'cosmic_playroom' || currentQuestion.type === 'deliverySpacePort' || currentQuestion.type === 'dragAndDrop_bigSmall' || currentQuestion.type === 'comparison_realWorldSize' || currentQuestion.type === 'comparison_tallShort' || currentQuestion.type === 'comparison_tallShortRealWorld' || currentQuestion.type === 'comparison_longShortRealWorld' ? (
+        {currentQuestion.type === 'inside_outside_game' || currentQuestion.type === 'above_below_game' || currentQuestion.type === 'front_behind_game' || currentQuestion.type === 'cosmic_playroom' || currentQuestion.type === 'deliverySpacePort' || currentQuestion.type === 'dragAndDrop_bigSmall' || currentQuestion.type === 'comparison_realWorldSize' || currentQuestion.type === 'comparison_tallShort' || currentQuestion.type === 'comparison_tallShortRealWorld' || currentQuestion.type === 'comparison_longShortRealWorld' ? (
           <main style={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%', height: '100%', background: currentQuestion.type === 'dragAndDrop_bigSmall' ? 'linear-gradient(to bottom, transparent 60%, #1a4a1a 60%, #0a2a0a 100%)' : 'transparent', position: 'relative' }}>
             {/* Split screen subtle effect */}
             {currentQuestion.type === 'dragAndDrop_bigSmall' && <div style={{ position: 'absolute', top: 0, left: '50%', width: '2px', height: '100%', background: 'rgba(255,255,255,0.1)', zIndex: 0 }}></div>}

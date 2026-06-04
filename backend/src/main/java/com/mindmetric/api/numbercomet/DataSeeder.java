@@ -976,7 +976,62 @@ public class DataSeeder implements CommandLineRunner {
                 String correctAns = askBehind ? "tb" : "tf";
                 return buildT(correctAns, "tb", "tf", "d", q, "front_behind_game", json);
             }
-            case 8: return buildS(pos3[r(0,1)], pos3, "Inside or Outside?");
+            case 8: { // Inside vs Outside Visual Game
+                String[][] themes = {
+                    {"pond", "🌊", "Pond", "🐸", "Frog"},
+                    {"fence", "🪟", "Fence", "🐑", "Sheep"},
+                    {"box", "📦", "Box", "🧸", "Teddy"},
+                    {"cage", "🧺", "Basket", "🍎", "Apple"},
+                    {"nest", "🪹", "Nest", "🥚", "Egg"},
+                    {"pen", "🏡", "Pen", "🐖", "Pig"},
+                    {"bowl", "🥣", "Bowl", "🍒", "Cherry"},
+                    {"jar", "🫙", "Jar", "🍪", "Cookie"},
+                    {"aquarium", "🧊", "Tank", "🐠", "Fish"},
+                    {"cloud", "☁️", "Cloud", "✈️", "Plane"},
+                    {"pot", "🍯", "Pot", "🐝", "Bee"},
+                    {"cave", "🪨", "Cave", "🦇", "Bat"},
+                    {"tent", "⛺", "Tent", "🎒", "Backpack"},
+                    {"barn", "🛖", "Barn", "🐄", "Cow"},
+                    {"spaceship", "🛸", "Spaceship", "👽", "Alien"},
+                    {"pool", "🟦", "Pool", "🏖️", "Ball"},
+                    {"chest", "🧰", "Chest", "💎", "Gem"},
+                    {"house", "🏠", "House", "🐶", "Puppy"},
+                    {"castle", "🏰", "Castle", "👑", "Crown"},
+                    {"ring", "🪐", "Ring", "☄️", "Comet"},
+                    {"wallet", "👛", "Wallet", "🪙", "Coin"},
+                    {"fridge", "🚪", "Fridge", "🥛", "Milk"},
+                    {"web", "🕸️", "Web", "🕷️", "Spider"},
+                    {"igloo", "🧊", "Igloo", "🐧", "Penguin"},
+                    {"volcano", "🌋", "Volcano", "🔥", "Fire"},
+                    {"shell", "🐚", "Shell", "🦀", "Crab"},
+                    {"flower", "🌻", "Flower", "🐞", "Bug"},
+                    {"bed", "🛏️", "Bed", "🧦", "Sock"},
+                    {"hat", "🎩", "Hat", "🐇", "Rabbit"},
+                    {"boat", "⛵", "Boat", "⚓", "Anchor"}
+                };
+                
+                int sIdx = (qNum - 1) % 30;
+                String[] t = themes[sIdx];
+                String bType = t[0], bEmoji = t[1], bName = t[2];
+                String iEmoji = t[3], iName = t[4];
+                
+                boolean askInside = r(0,1) == 0;
+                String targetPos = askInside ? "inside" : "outside";
+                
+                String q = String.format("Tap all the %ss that are %s the %s!", iName, targetPos, bName);
+                
+                int numTarget = 3;
+                int numDistractor = 2;
+                int numInside = askInside ? numTarget : numDistractor;
+                int numOutside = 5 - numInside;
+                
+                String json = String.format(
+                    "{\"boundaryType\":\"%s\",\"boundaryEmoji\":\"%s\",\"boundaryName\":\"%s\",\"itemEmoji\":\"%s\",\"itemName\":\"%s\",\"askInside\":%b,\"numInside\":%d,\"numOutside\":%d}",
+                    bType, bEmoji, bName, iEmoji, iName, askInside, numInside, numOutside
+                );
+                
+                return buildT("NONE", "A", "B", "C", q, "inside_outside_game", json);
+            }
             default: return buildN(1, 1, 5, "Error");
         }
     }
