@@ -147,7 +147,7 @@ export default function FrontBehindGame({ dataStr, onVictory, volume = 0.5 }) {
               ${errorItemId === 'tf' ? 'item-shake' : ''}`}
             style={{ 
               bottom: '0%', 
-              left: '10%',
+              left: '-6%',
               zIndex: 20, /* IN FRONT OF LANDMARK */
               filter: correctItemId === 'tf' ? 'drop-shadow(0 0 30px #00FF00)' : errorItemId === 'tf' ? 'drop-shadow(0 0 30px #FF0000)' : 'none',
             }}>
