@@ -177,8 +177,8 @@ export default function InsideOutsideGame({ dataStr, onVictory, volume = 0.5 }) 
               ${isError ? 'item-shake' : ''}
             `}
             style={{
-              left: \`\${item.left}%\`,
-              top: \`\${item.top}%\`,
+              left: `${item.left}%`,
+              top: `${item.top}%`,
               zIndex: item.isInside ? 15 : 5,
               filter: isError ? 'drop-shadow(0 0 20px #FF0000)' : 'drop-shadow(0 5px 10px rgba(0,0,0,0.4))'
             }}
