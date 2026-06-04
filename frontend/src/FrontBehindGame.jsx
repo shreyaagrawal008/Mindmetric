@@ -125,8 +125,8 @@ export default function FrontBehindGame({ dataStr, onVictory, volume = 0.5 }) {
               ${correctItemId === 'tb' ? 'item-correct-flash' : ''} 
               ${errorItemId === 'tb' ? 'item-shake' : ''}`}
             style={{ 
-              top: '20%', 
-              right: '5%',
+              top: '15%', 
+              right: '-8%',
               zIndex: 0, /* BEHIND LANDMARK */
               filter: correctItemId === 'tb' ? 'drop-shadow(0 0 30px #00FF00)' : errorItemId === 'tb' ? 'drop-shadow(0 0 30px #FF0000)' : 'none',
             }}>
