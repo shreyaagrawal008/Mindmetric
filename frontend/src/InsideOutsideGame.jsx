@@ -81,13 +81,13 @@ export default function InsideOutsideGame({ dataStr, onVictory, volume = 0.5 }) 
       const sector = Math.floor(Math.random() * 4);
       let left = 0, top = 0;
       if (sector === 0) { // Top edge
-        left = 10 + Math.random() * 80; top = 5 + Math.random() * 10;
+        left = 15 + Math.random() * 60; top = 10 + Math.random() * 10;
       } else if (sector === 1) { // Bottom edge
-        left = 10 + Math.random() * 80; top = 85 + Math.random() * 10;
+        left = 15 + Math.random() * 60; top = 75 + Math.random() * 10;
       } else if (sector === 2) { // Left edge
-        left = 5 + Math.random() * 10; top = 10 + Math.random() * 80;
+        left = 10 + Math.random() * 10; top = 25 + Math.random() * 40;
       } else { // Right edge
-        left = 85 + Math.random() * 10; top = 10 + Math.random() * 80;
+        left = 75 + Math.random() * 10; top = 25 + Math.random() * 40;
       }
       
       generatedItems.push({
