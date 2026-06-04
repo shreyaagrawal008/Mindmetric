@@ -69,9 +69,9 @@ export default function InsideOutsideGame({ dataStr, onVictory, volume = 0.5 }) 
       generatedItems.push({
         id: `in_${i}`,
         isInside: true,
-        // Center area: 30% to 70% horizontally, 30% to 70% vertically
-        left: 35 + Math.random() * 30,
-        top: 35 + Math.random() * 30
+        // Tightly grouped inside the container (42% to 58%)
+        left: 42 + Math.random() * 16,
+        top: 42 + Math.random() * 16
       });
     }
 
@@ -81,13 +81,13 @@ export default function InsideOutsideGame({ dataStr, onVictory, volume = 0.5 }) 
       const sector = Math.floor(Math.random() * 4);
       let left = 0, top = 0;
       if (sector === 0) { // Top edge
-        left = 10 + Math.random() * 80; top = 5 + Math.random() * 15;
+        left = 10 + Math.random() * 80; top = 5 + Math.random() * 10;
       } else if (sector === 1) { // Bottom edge
-        left = 10 + Math.random() * 80; top = 80 + Math.random() * 15;
+        left = 10 + Math.random() * 80; top = 85 + Math.random() * 10;
       } else if (sector === 2) { // Left edge
-        left = 5 + Math.random() * 15; top = 10 + Math.random() * 80;
+        left = 5 + Math.random() * 10; top = 10 + Math.random() * 80;
       } else { // Right edge
-        left = 80 + Math.random() * 15; top = 10 + Math.random() * 80;
+        left = 85 + Math.random() * 10; top = 10 + Math.random() * 80;
       }
       
       generatedItems.push({
