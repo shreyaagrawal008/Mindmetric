@@ -3545,17 +3545,37 @@ export default function NumberCometGame({ userId, onExit }) {
             {/* Split screen subtle effect */}
             {currentQuestion.type === 'dragAndDrop_bigSmall' && <div style={{ position: 'absolute', top: 0, left: '50%', width: '2px', height: '100%', background: 'rgba(255,255,255,0.1)', zIndex: 0 }}></div>}
             
-            <h2 className="question-text" style={{ 
-              fontSize: '1.8rem', 
-              margin: '20px auto 0',
-              padding: '10px 20px',
-              textAlign: 'center',
-              background: 'rgba(0,0,0,0.6)',
-              borderRadius: '20px',
-              border: '2px solid var(--neon-blue)',
-              maxWidth: '80%',
-              zIndex: 20
-            }} dangerouslySetInnerHTML={{ __html: displayQuestionText() }} />
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '15px', margin: '20px auto 0', maxWidth: '90%', zIndex: 20 }}>
+              <h2 className="question-text" style={{ 
+                fontSize: '1.8rem', 
+                margin: '0',
+                padding: '10px 20px',
+                textAlign: 'center',
+                background: 'rgba(0,0,0,0.6)',
+                borderRadius: '20px',
+                border: '2px solid var(--neon-blue)',
+              }} dangerouslySetInnerHTML={{ __html: displayQuestionText() }} />
+              <button 
+                onClick={() => {
+                  if (window.speechSynthesis) {
+                    window.speechSynthesis.cancel();
+                    const utterance = new SpeechSynthesisUtterance(displayQuestionText().replace(/<[^>]+>/g, ''));
+                    utterance.rate = 0.9;
+                    utterance.pitch = 1.2;
+                    window.speechSynthesis.speak(utterance);
+                  }
+                }}
+                style={{ 
+                  background: 'none', border: 'none', cursor: 'pointer', 
+                  backgroundColor: 'rgba(255, 255, 255, 0.2)', padding: '10px', 
+                  borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  boxShadow: '0 0 15px rgba(255, 215, 0, 0.8)', flexShrink: 0
+                }}
+                title="Read Question Aloud"
+              >
+                <Volume2 fill="white" size={24} />
+              </button>
+            </div>
             <div style={{ flex: 1, position: 'relative', width: '100%' }}>
               {renderAsset()}
             </div>
