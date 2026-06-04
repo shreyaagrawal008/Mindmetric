@@ -128,37 +128,20 @@ export default function InsideOutsideGame({ dataStr, onVictory, volume = 0.5 }) 
     }
   };
 
-  // Determine boundary visual style
-  const boundaryStyles = {
-    pond: { bg: '#0ea5e9', border: '8px dashed #38bdf8', borderRadius: '50%' },
-    fence: { bg: 'transparent', border: '10px solid #8b5a2b', borderRadius: '15px' },
-    box: { bg: '#cd853f', border: '12px solid #8b4513', borderRadius: '5px' },
-    cage: { bg: 'transparent', border: '8px double #696969', borderRadius: '20px' },
-    pool: { bg: '#38bdf8', border: '12px solid #e2e8f0', borderRadius: '10px' },
-    nest: { bg: '#d2b48c', border: '15px dashed #8b4513', borderRadius: '50%' },
-    cave: { bg: '#2f4f4f', border: '12px solid #1a1a1a', borderRadius: '40% 60% 70% 30% / 40% 50% 60% 50%' },
-  };
-
-  const bStyle = boundaryStyles[boundaryType] || { bg: 'rgba(255,255,255,0.2)', border: '8px solid white', borderRadius: '20px' };
-
   return (
     <div className="w-full h-full relative flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-b from-green-300 to-green-600">
       {isWon && <ReactConfetti width={windowDimension.width} height={windowDimension.height} style={{pointerEvents: 'none', zIndex: 100}} />}
       
       {/* Boundary Element */}
       <div 
-        className="absolute flex items-center justify-center opacity-80"
+        className="absolute flex items-center justify-center"
         style={{
           width: '50%',
           height: '50%',
-          backgroundColor: bStyle.bg,
-          border: bStyle.border,
-          borderRadius: bStyle.borderRadius,
-          boxShadow: 'inset 0 0 20px rgba(0,0,0,0.3), 0 10px 20px rgba(0,0,0,0.4)',
           zIndex: 10
         }}
       >
-        <div className="text-[10rem] opacity-30 select-none pointer-events-none">
+        <div className="text-[15rem] md:text-[20rem] select-none pointer-events-none filter drop-shadow-[0_15px_15px_rgba(0,0,0,0.5)]">
           {boundaryEmoji}
         </div>
       </div>
