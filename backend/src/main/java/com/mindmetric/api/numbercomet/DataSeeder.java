@@ -921,7 +921,61 @@ public class DataSeeder implements CommandLineRunner {
                 
                 return buildT("NONE", "A", "B", "C", q, "above_below_game", json);
             }
-            case 7: return buildS(pos2[r(0,1)], pos2, "Front or Behind?");
+            case 7: { // Front vs Behind Visual Game
+                String[][] scenarios = {
+                    {"jungle", "🌳", "Tree", "🐒", "Monkey", "🐍", "Snake", "🦜", "Parrot"},
+                    {"bedroom", "🏠", "Doghouse", "🐶", "Puppy", "🐱", "Kitten", "🦴", "Bone"},
+                    {"ocean", "🪨", "Coral Rock", "🐙", "Octopus", "🦀", "Crab", "🐠", "Fish"},
+                    {"space", "🚀", "Rocket", "👽", "Alien", "👨‍🚀", "Astronaut", "🛰️", "Satellite"},
+                    {"farm", "🛖", "Barn", "🐄", "Cow", "🐖", "Pig", "🐓", "Rooster"},
+                    {"arctic", "🧊", "Iceberg", "🐧", "Penguin", "🐻‍❄️", "Polar Bear", "🦭", "Seal"},
+                    {"desert", "🌵", "Cactus", "🐪", "Camel", "🦎", "Lizard", "🦂", "Scorpion"},
+                    {"garden", "🌻", "Sunflower", "🐝", "Bee", "🐞", "Ladybug", "🐛", "Caterpillar"},
+                    {"forest", "🍄", "Mushroom", "🦊", "Fox", "🦔", "Hedgehog", "🦉", "Owl"},
+                    {"city", "🏢", "Building", "🚖", "Taxi", "🚌", "Bus", "🛵", "Scooter"},
+                    {"park", "🛝", "Slide", "🧸", "Teddy", "⚽", "Ball", "🪁", "Kite"},
+                    {"castle", "🏰", "Castle", "🐉", "Dragon", "🛡️", "Knight", "👑", "Crown"},
+                    {"pond", "🪷", "Lilypad", "🐸", "Frog", "🦆", "Duck", "🦢", "Swan"},
+                    {"beach", "🏖️", "Umbrella", "🐚", "Shell", "🦞", "Lobster", "🦀", "Crab"},
+                    {"mountain", "⛰️", "Mountain", "🐐", "Goat", "🦅", "Eagle", "🐻", "Bear"},
+                    {"sky", "☁️", "Cloud", "✈️", "Airplane", "🚁", "Helicopter", "🎈", "Balloon"},
+                    {"cave", "🦇", "Bat", "🕷️", "Spider", "💎", "Gem", "🔦", "Flashlight"},
+                    {"kitchen", "🥫", "Can", "🍎", "Apple", "🧀", "Cheese", "🥛", "Milk"},
+                    {"school", "🏫", "School", "🎒", "Backpack", "📚", "Books", "🚌", "Schoolbus"},
+                    {"circus", "🎪", "Tent", "🤡", "Clown", "🐘", "Elephant", "🦁", "Lion"},
+                    {"restaurant", "🍽️", "Table", "🍔", "Burger", "🍕", "Pizza", "🌭", "Hotdog"},
+                    {"hospital", "🏥", "Hospital", "🚑", "Ambulance", "💊", "Pill", "🩺", "Stethoscope"},
+                    {"pirate", "🏴‍☠️", "Ship", "🦜", "Parrot", "⚓", "Anchor", "💰", "Treasure"},
+                    {"construction", "🚧", "Barricade", "🚜", "Tractor", "🏗️", "Crane", "🧱", "Bricks"},
+                    {"snow", "⛄", "Snowman", "🛷", "Sled", "❄️", "Snowflake", "🧣", "Scarf"},
+                    {"halloween", "🎃", "Pumpkin", "👻", "Ghost", "🦇", "Bat", "🕸️", "Web"},
+                    {"dino", "🌋", "Volcano", "🦖", "T-Rex", "🦕", "Brontosaurus", "🦴", "Bone"},
+                    {"magic", "🔮", "Crystal Ball", "🧙", "Wizard", "🪄", "Wand", "📜", "Scroll"},
+                    {"music", "🎹", "Piano", "🎸", "Guitar", "🥁", "Drum", "🎺", "Trumpet"},
+                    {"sports", "🥅", "Goal", "⚽", "Soccer Ball", "🏆", "Trophy", "👟", "Cleat"}
+                };
+                
+                int sIdx = (qNum - 1) % 30;
+                String[] s = scenarios[sIdx];
+                String scene = s[0], lEmoji = s[1], lName = s[2];
+                String t1Emoji = s[3], t1Name = s[4];
+                String t2Emoji = s[5], t2Name = s[6];
+                String dEmoji = s[7], dName = s[8];
+                
+                boolean askBehind = r(0,1) == 0;
+                String targetName = askBehind ? t1Name : t2Name;
+                String targetPosition = askBehind ? "behind" : "in front of";
+                
+                String q = String.format("Can you tap the %s that is %s the %s?", targetName, targetPosition, lName);
+                
+                String json = String.format(
+                    "{\"scene\":\"%s\",\"landmark\":{\"emoji\":\"%s\",\"name\":\"%s\"},\"targetBehind\":{\"id\":\"tb\",\"emoji\":\"%s\",\"name\":\"%s\"},\"targetFront\":{\"id\":\"tf\",\"emoji\":\"%s\",\"name\":\"%s\"},\"distractor\":{\"id\":\"d\",\"emoji\":\"%s\",\"name\":\"%s\"},\"askBehind\":%b}",
+                    scene, lEmoji, lName, t1Emoji, t1Name, t2Emoji, t2Name, dEmoji, dName, askBehind
+                );
+                
+                String correctAns = askBehind ? "tb" : "tf";
+                return buildT(correctAns, "tb", "tf", "d", q, "front_behind_game", json);
+            }
             case 8: return buildS(pos3[r(0,1)], pos3, "Inside or Outside?");
             default: return buildN(1, 1, 5, "Error");
         }
