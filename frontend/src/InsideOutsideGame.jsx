@@ -77,17 +77,16 @@ export default function InsideOutsideGame({ dataStr, onVictory, volume = 0.5 }) 
 
     // Outside items
     for(let i = 0; i < numOutside; i++) {
-      // Pick a random edge sector
-      const sector = Math.floor(Math.random() * 4);
+      // Pick a random edge sector (1=Bottom, 2=Left, 3=Right)
+      // We skip Top (0) because the question title box overlaps the top edge of the play area
+      const sector = Math.floor(Math.random() * 3) + 1;
       let left = 0, top = 0;
-      if (sector === 0) { // Top edge
-        left = 15 + Math.random() * 60; top = 10 + Math.random() * 10;
-      } else if (sector === 1) { // Bottom edge
-        left = 15 + Math.random() * 60; top = 75 + Math.random() * 10;
+      if (sector === 1) { // Bottom edge
+        left = 15 + Math.random() * 60; top = 75 + Math.random() * 15;
       } else if (sector === 2) { // Left edge
-        left = 10 + Math.random() * 10; top = 25 + Math.random() * 40;
+        left = 5 + Math.random() * 15; top = 25 + Math.random() * 50;
       } else { // Right edge
-        left = 75 + Math.random() * 10; top = 25 + Math.random() * 40;
+        left = 80 + Math.random() * 15; top = 25 + Math.random() * 50;
       }
       
       generatedItems.push({
