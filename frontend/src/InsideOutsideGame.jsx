@@ -69,9 +69,9 @@ export default function InsideOutsideGame({ dataStr, onVictory, volume = 0.5 }) 
       generatedItems.push({
         id: `in_${i}`,
         isInside: true,
-        // Tightly grouped inside the container (42% to 58%)
-        left: 42 + Math.random() * 16,
-        top: 42 + Math.random() * 16
+        // Tightly grouped strictly in the center (46% to 54%)
+        left: 46 + Math.random() * 8,
+        top: 46 + Math.random() * 8
       });
     }
 
@@ -134,14 +134,10 @@ export default function InsideOutsideGame({ dataStr, onVictory, volume = 0.5 }) 
       
       {/* Boundary Element */}
       <div 
-        className="absolute flex items-center justify-center"
-        style={{
-          width: '50%',
-          height: '50%',
-          zIndex: 10
-        }}
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none"
+        style={{ zIndex: 10 }}
       >
-        <div className="text-[15rem] md:text-[20rem] select-none pointer-events-none filter drop-shadow-[0_15px_15px_rgba(0,0,0,0.5)]">
+        <div className="text-[15rem] md:text-[20rem] filter drop-shadow-[0_15px_15px_rgba(0,0,0,0.5)]">
           {boundaryEmoji}
         </div>
       </div>
@@ -155,7 +151,7 @@ export default function InsideOutsideGame({ dataStr, onVictory, volume = 0.5 }) 
           <div
             key={item.id}
             onClick={() => handleItemClick(item)}
-            className={`absolute cursor-pointer transform transition-all duration-300
+            className={`absolute cursor-pointer transition-all duration-300 -translate-x-1/2 -translate-y-1/2
               ${isClicked ? 'scale-0 opacity-0 pointer-events-none' : 'hover:scale-110'}
               ${isError ? 'item-shake' : ''}
             `}
