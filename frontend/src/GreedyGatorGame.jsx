@@ -1,15 +1,67 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import useSound from 'use-sound';
 import Confetti from 'react-confetti';
-import { useWindowSize } from 'react-use';
 
 export default function GreedyGatorGame({ dataStr, onCorrect }) {
   const asset = JSON.parse(dataStr);
-  const [playCrunch] = useSound('/audio/crunch.mp3', { volume: 0.7 });
-  const [playBuzzer] = useSound('/audio/error-buzz.mp3', { volume: 0.5 });
-  const { width, height } = useWindowSize();
-  
+  const crunchSoundRef = useRef(null);
+  const buzzSoundRef = useRef(null);
+
+  useEffect(() => {
+    try {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      
+      const playBuzz = () => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.4);
+      };
+      buzzSoundRef.current = playBuzz;
+
+      const playCrunch = () => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(100, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.1);
+        osc.frequency.exponentialRampToValueAtTime(50, audioCtx.currentTime + 0.2);
+        
+        const osc2 = audioCtx.createOscillator();
+        osc2.type = 'square';
+        osc2.frequency.setValueAtTime(150, audioCtx.currentTime);
+        osc2.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 0.1);
+        osc2.frequency.exponentialRampToValueAtTime(80, audioCtx.currentTime + 0.2);
+        
+        osc2.connect(gain);
+        gain.gain.setValueAtTime(0, audioCtx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.7, audioCtx.currentTime + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.2);
+        osc2.start(); osc2.stop(audioCtx.currentTime + 0.2);
+      };
+      crunchSoundRef.current = playCrunch;
+
+    } catch(e) {
+      console.log("AudioContext not supported");
+    }
+  }, []);
+
+  const [windowDimension, setWindowDimension] = useState({width: window.innerWidth, height: window.innerHeight});
+  useEffect(() => {
+    const handleResize = () => setWindowDimension({width: window.innerWidth, height: window.innerHeight});
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const [gatorState, setGatorState] = useState('waiting'); // 'waiting', 'eating_left', 'eating_right'
   const [shakeLeft, setShakeLeft] = useState(false);
   const [shakeRight, setShakeRight] = useState(false);
@@ -23,11 +75,11 @@ export default function GreedyGatorGame({ dataStr, onCorrect }) {
     if (gatorState !== 'waiting') return;
     if (leftCount > rightCount) {
       setGatorState('eating_left');
-      playCrunch();
+      if (crunchSoundRef.current) crunchSoundRef.current();
       setShowConfetti(true);
       setTimeout(() => onCorrect(), 2500);
     } else {
-      playBuzzer();
+      if (buzzSoundRef.current) buzzSoundRef.current();
       setShakeLeft(true);
       setTimeout(() => setShakeLeft(false), 500);
     }
@@ -37,11 +89,11 @@ export default function GreedyGatorGame({ dataStr, onCorrect }) {
     if (gatorState !== 'waiting') return;
     if (rightCount > leftCount) {
       setGatorState('eating_right');
-      playCrunch();
+      if (crunchSoundRef.current) crunchSoundRef.current();
       setShowConfetti(true);
       setTimeout(() => onCorrect(), 2500);
     } else {
-      playBuzzer();
+      if (buzzSoundRef.current) buzzSoundRef.current();
       setShakeRight(true);
       setTimeout(() => setShakeRight(false), 500);
     }
@@ -81,7 +133,7 @@ export default function GreedyGatorGame({ dataStr, onCorrect }) {
 
   return (
     <div className="relative w-full h-full flex flex-row items-center justify-between p-4 md:p-12 overflow-hidden bg-gradient-to-b from-green-300 to-green-500 rounded-xl">
-      {showConfetti && <Confetti width={width} height={height} recycle={false} numberOfPieces={300} />}
+      {showConfetti && <Confetti width={windowDimension.width} height={windowDimension.height} recycle={false} numberOfPieces={300} />}
       
       {/* Left Pile */}
       <motion.div 
