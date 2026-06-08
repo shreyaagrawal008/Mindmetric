@@ -69,9 +69,9 @@ export default function InsideOutsideGame({ dataStr, onVictory, volume = 0.5 }) 
       generatedItems.push({
         id: `in_${i}`,
         isInside: true,
-        // Tightly grouped strictly in the center (46% to 54%)
-        left: 46 + Math.random() * 8,
-        top: 46 + Math.random() * 8
+        // Shifted UP to align with the visual 'opening' in the top-down perspective of most emojis
+        left: 44 + Math.random() * 12,
+        top: 32 + Math.random() * 12
       });
     }
 
@@ -151,7 +151,7 @@ export default function InsideOutsideGame({ dataStr, onVictory, volume = 0.5 }) 
           <div
             key={item.id}
             onClick={() => handleItemClick(item)}
-            className={`absolute cursor-pointer transition-all duration-300 -translate-x-1/2 -translate-y-1/2
+            className={`absolute cursor-pointer transform transition-all duration-300 -translate-x-1/2 -translate-y-1/2
               ${isClicked ? 'scale-0 opacity-0 pointer-events-none' : 'hover:scale-110'}
               ${isError ? 'item-shake' : ''}
             `}
@@ -162,7 +162,7 @@ export default function InsideOutsideGame({ dataStr, onVictory, volume = 0.5 }) 
               filter: isError ? 'drop-shadow(0 0 20px #FF0000)' : 'drop-shadow(0 5px 10px rgba(0,0,0,0.4))'
             }}
           >
-            <div className="text-[4rem] md:text-[5rem]">
+            <div className="text-[3rem] md:text-[4rem]">
               {itemEmoji}
             </div>
           </div>
