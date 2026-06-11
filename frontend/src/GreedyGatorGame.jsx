@@ -100,23 +100,24 @@ export default function GreedyGatorGame({ dataStr, onCorrect }) {
     }
   };
 
-  // Helper to render treats in a random scattered pile
+  // Helper to render treats in an organized, evenly spaced grid
   const renderTreats = (count) => {
-    return Array.from({ length: count }).map((_, i) => {
-      // Constrain positions to keep them inside the circle
-      const top = 25 + Math.random() * 50;
-      const left = 25 + Math.random() * 50;
-      const rotation = Math.random() * 45 - 22.5;
-      return (
-        <div 
-          key={i}
-          className="absolute text-4xl md:text-6xl select-none pointer-events-none drop-shadow-md -translate-x-1/2 -translate-y-1/2"
-          style={{ top: `${top}%`, left: `${left}%`, transform: `translate(-50%, -50%) rotate(${rotation}deg)` }}
-        >
-          {itemEmoji}
-        </div>
-      );
-    });
+    return (
+      <div className="w-full h-full flex flex-wrap justify-center content-center gap-1 md:gap-2 p-2 md:p-4">
+        {Array.from({ length: count }).map((_, i) => {
+          const rotation = Math.random() * 20 - 10; // Slight random tilt for character
+          return (
+            <div 
+              key={i}
+              className="text-3xl md:text-5xl select-none pointer-events-none drop-shadow-md"
+              style={{ transform: `rotate(${rotation}deg)` }}
+            >
+              {itemEmoji}
+            </div>
+          );
+        })}
+      </div>
+    );
   };
 
   // Determine Gator styling based on state
