@@ -1202,7 +1202,33 @@ public class DataSeeder implements CommandLineRunner {
                 String json = String.format("{\"leftCount\":%d,\"rightCount\":%d,\"itemEmoji\":\"%s\",\"itemName\":\"%s\",\"receiverEmoji\":\"%s\",\"receiverName\":\"%s\"}", leftCount, rightCount, t[3], t[4], t[1], t[2]);
                 return buildT("BALANCED", "BALANCED", "UNBALANCED", "NONE", q, "fairness_adjuster_game", json);
             }
-            case 7: return buildN(r(1,10), 1, 10, "Match the Ten-Frame");
+            case 7: {
+                String[][] themes = {
+                    {"candy_jars", "🍬", "Candies"}, 
+                    {"jellybean_jars", "🫘", "Jellybeans"}, 
+                    {"gumball_jars", "🔵", "Gumballs"}
+                };
+                int idx = (qNum - 1) % 3;
+                String[] t = themes[idx];
+                
+                int smallCount = r(8, 20);
+                int largeCount = r(smallCount * 3, smallCount * 4);
+                
+                int leftCount, rightCount;
+                if (r(0,1) == 0) {
+                    leftCount = largeCount;
+                    rightCount = smallCount;
+                } else {
+                    leftCount = smallCount;
+                    rightCount = largeCount;
+                }
+                
+                String q = "Look fast! The candy shop is closing! Which jar has MORE " + t[2] + "? Don't count, just guess!";
+                String ans = leftCount > rightCount ? "LEFT" : "RIGHT";
+                String json = String.format("{\"leftCount\":%d,\"rightCount\":%d,\"itemEmoji\":\"%s\"}", leftCount, rightCount, t[1]);
+                
+                return buildT(ans, "LEFT", "RIGHT", "NONE", q, "estimation_blitz_game", json);
+            }
             case 8: return buildN(r(7,10), 1, 10, "Guess which has more");
             default: return buildN(1, 1, 5, "Error");
         }
