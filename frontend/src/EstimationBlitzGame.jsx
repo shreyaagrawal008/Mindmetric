@@ -81,7 +81,7 @@ const EstimationBlitzGame = ({ dataStr, answerStr, onCorrectSound, onErrorSound,
   };
 
   const getJarClass = (side) => {
-    let base = "relative w-full max-w-[280px] h-72 md:h-96 rounded-[40px] border-8 shadow-2xl flex flex-row flex-wrap items-end justify-center content-end p-4 pb-6 cursor-pointer overflow-hidden transition-all duration-500 ";
+    let base = "relative w-full max-w-[280px] h-[180px] md:h-[250px] rounded-[30px] border-8 shadow-2xl flex flex-row flex-wrap items-end justify-center content-end p-2 pb-4 cursor-pointer overflow-hidden transition-all duration-500 ";
     
     // Time out state (opaque jars)
     if (gameState === 'timeout') {
@@ -110,24 +110,24 @@ const EstimationBlitzGame = ({ dataStr, answerStr, onCorrectSound, onErrorSound,
   };
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-start pt-24 pb-8 p-4 overflow-hidden touch-none">
+    <div className="relative w-full h-full flex flex-col items-center justify-start pt-24 pb-4 p-2 overflow-hidden touch-none">
       {gameState === 'correct' && <Confetti width={windowDimension.width} height={windowDimension.height} recycle={false} numberOfPieces={300} gravity={0.3} />}
       
       {/* Top Timer UI */}
-      <div className="mb-8 flex flex-col items-center justify-center">
+      <div className="mb-2 md:mb-4 flex flex-col items-center justify-center">
         <motion.div 
           animate={{ scale: timeLeft <= 3 && gameState === 'playing' ? [1, 1.2, 1] : 1 }}
           transition={{ repeat: timeLeft <= 3 ? Infinity : 0, duration: 0.5 }}
-          className={`text-6xl md:text-8xl font-black drop-shadow-xl ${timeLeft <= 2 ? 'text-red-500' : 'text-yellow-400'}`}
+          className={`text-5xl md:text-6xl font-black drop-shadow-xl ${timeLeft <= 2 ? 'text-red-500' : 'text-yellow-400'}`}
         >
           {timeLeft > 0 ? `00:0${timeLeft}` : 'TIME UP!'}
         </motion.div>
-        <p className="text-white text-xl mt-2 drop-shadow-md font-bold">
+        <p className="text-white text-base md:text-lg mt-1 drop-shadow-md font-bold text-center">
           {gameState === 'timeout' ? "Oh no! The jars are opaque now. Trust your memory!" : "Quick! Tap the jar with MORE candies!"}
         </p>
       </div>
 
-      <div className="w-full max-w-4xl flex flex-row items-end justify-center gap-6 md:gap-16 relative">
+      <div className="w-full max-w-4xl flex flex-row items-end justify-center gap-4 md:gap-12 relative">
         
         {/* Left Jar Container */}
         <div className="flex flex-col items-center relative w-1/2 justify-end">
@@ -148,7 +148,7 @@ const EstimationBlitzGame = ({ dataStr, answerStr, onCorrectSound, onErrorSound,
             variants={lidVariants}
             initial="closed"
             animate={(gameState === 'correct' && selectedJar === 'LEFT') ? "open" : "closed"}
-            className="w-3/4 h-8 md:h-12 bg-orange-400 rounded-t-xl border-4 border-orange-600 mb-[-10px] z-10 shadow-lg"
+            className="w-3/4 h-6 md:h-8 bg-orange-400 rounded-t-xl border-4 border-orange-600 mb-[-10px] z-10 shadow-lg"
           />
           
           <div 
@@ -184,7 +184,7 @@ const EstimationBlitzGame = ({ dataStr, answerStr, onCorrectSound, onErrorSound,
             variants={lidVariants}
             initial="closed"
             animate={(gameState === 'correct' && selectedJar === 'RIGHT') ? "open" : "closed"}
-            className="w-3/4 h-8 md:h-12 bg-orange-400 rounded-t-xl border-4 border-orange-600 mb-[-10px] z-10 shadow-lg"
+            className="w-3/4 h-6 md:h-8 bg-orange-400 rounded-t-xl border-4 border-orange-600 mb-[-10px] z-10 shadow-lg"
           />
 
           <div 
