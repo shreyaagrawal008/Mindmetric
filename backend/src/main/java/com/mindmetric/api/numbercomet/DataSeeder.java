@@ -1086,7 +1086,28 @@ public class DataSeeder implements CommandLineRunner {
                 String json = String.format("{\"leftCount\":%d,\"rightCount\":%d,\"itemEmoji\":\"%s\",\"itemName\":\"%s\",\"askSymbol\":%b}", leftCount, rightCount, t[1], t[2], askSymbol);
                 return buildT(ans, "A", "B", "NONE", q, "greedy_gator_game", json);
             }
-            case 2: return buildN(r(1,4), 1, 10, "Which is fewer?");
+            case 2: {
+                String[][] themes = {
+                    {"sugar_cubes", "🧊", "Sugar Cubes", "🐜", "Tiny Ant Team", "Ants"},
+                    {"gears", "⚙️", "Gears", "🤖", "Mini Robot Team", "Robots"},
+                    {"pollen", "🌼", "Pollen Drops", "🐝", "Baby Bee Team", "Bees"},
+                    {"cheese_crumbs", "🧀", "Cheese Crumbs", "🐭", "Little Mouse Team", "Mice"}
+                };
+                int idx = (qNum - 1) % 4;
+                String[] t = themes[idx];
+                int leftCount = r(1, 9);
+                int rightCount;
+                do { rightCount = r(1, 9); } while (leftCount == rightCount);
+                
+                boolean askSymbol = qNum > 15;
+                String q = askSymbol 
+                    ? "Which symbol makes the " + t[5] + " carry the lighter load?"
+                    : "The " + t[4] + " wants a light load! Which group of " + t[2] + " should they carry?";
+                
+                String ans = leftCount < rightCount ? "A" : "B";
+                String json = String.format("{\"leftCount\":%d,\"rightCount\":%d,\"itemEmoji\":\"%s\",\"itemName\":\"%s\",\"teamEmoji\":\"%s\",\"teamName\":\"%s\",\"askSymbol\":%b}", leftCount, rightCount, t[1], t[2], t[3], t[4], askSymbol);
+                return buildT(ans, "A", "B", "NONE", q, "tiny_team_game", json);
+            }
             case 3: return buildS("EQUAL", new String[]{"EQUAL", "UNEQUAL", "DIFF"}, "Are they the same?");
             case 4: return buildS("EXTRA", new String[]{"EXTRA", "MATCH", "NONE"}, "Which group has leftovers?");
             case 5: { int n = r(5,9); return buildN(n, 1, 10, "Is " + n + " more than " + (n-2) + "?"); }
