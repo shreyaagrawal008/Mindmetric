@@ -121,19 +121,19 @@ export default function GreedyGatorGame({ dataStr, onCorrect }) {
 
   // Determine Gator styling based on state
   let gatorScale = 1;
-  let gatorRotate = 0;
+  let gatorRotate = -90; // Windows alligator points UP, so -90 makes it face LEFT
   if (gatorState === 'eating_left') {
     gatorScale = 1.8;
-    gatorRotate = -30;
+    gatorRotate = -90; // Face left and lunges (scale handles the lunge)
   } else if (gatorState === 'eating_right') {
     gatorScale = 1.8;
-    gatorRotate = 30; // 🐊 by default faces left-ish, so maybe flip horizontally for right?
+    gatorRotate = 90; // Face right
   }
   
   const gatorFlip = gatorState === 'eating_right' ? -1 : 1;
 
   return (
-    <div className="relative w-full h-full flex flex-row items-center justify-between p-4 md:p-12 overflow-hidden bg-gradient-to-b from-green-300 to-green-500 rounded-xl">
+    <div className="relative w-full h-full flex flex-row items-center justify-center gap-4 md:gap-12 p-4 md:p-12 overflow-hidden bg-gradient-to-b from-green-300 to-green-500 rounded-xl">
       {showConfetti && <Confetti width={windowDimension.width} height={windowDimension.height} recycle={false} numberOfPieces={300} />}
       
       {/* Left Pile */}
@@ -141,7 +141,7 @@ export default function GreedyGatorGame({ dataStr, onCorrect }) {
         onClick={!askSymbol ? handleLeftClick : undefined}
         animate={shakeLeft ? { x: [-10, 10, -10, 10, 0] } : {}}
         transition={{ duration: 0.4 }}
-        className={`relative w-40 h-40 md:w-64 md:h-64 bg-white/30 backdrop-blur-sm rounded-full border-4 border-white/50 transition-all shadow-xl ${!askSymbol ? 'cursor-pointer hover:bg-white/40 active:scale-95' : ''}`}
+        className={`relative w-32 h-32 md:w-48 md:h-48 bg-white/30 backdrop-blur-sm rounded-full border-4 border-white/50 transition-all shadow-xl ${!askSymbol ? 'cursor-pointer hover:bg-white/40 active:scale-95' : ''}`}
       >
         <AnimatePresence>
           {gatorState !== 'eating_left' && renderTreats(leftCount)}
@@ -196,7 +196,7 @@ export default function GreedyGatorGame({ dataStr, onCorrect }) {
         onClick={!askSymbol ? handleRightClick : undefined}
         animate={shakeRight ? { x: [-10, 10, -10, 10, 0] } : {}}
         transition={{ duration: 0.4 }}
-        className={`relative w-40 h-40 md:w-64 md:h-64 bg-white/30 backdrop-blur-sm rounded-full border-4 border-white/50 transition-all shadow-xl ${!askSymbol ? 'cursor-pointer hover:bg-white/40 active:scale-95' : ''}`}
+        className={`relative w-32 h-32 md:w-48 md:h-48 bg-white/30 backdrop-blur-sm rounded-full border-4 border-white/50 transition-all shadow-xl ${!askSymbol ? 'cursor-pointer hover:bg-white/40 active:scale-95' : ''}`}
       >
         <AnimatePresence>
           {gatorState !== 'eating_right' && renderTreats(rightCount)}
