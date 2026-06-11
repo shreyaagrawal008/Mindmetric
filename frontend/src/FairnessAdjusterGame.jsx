@@ -117,7 +117,7 @@ const FairnessAdjusterGame = ({ dataStr, onCorrectSound, onVictory }) => {
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0, opacity: 0, rotate: 180 }}
           transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-          className="text-4xl md:text-5xl drop-shadow-md m-1 md:m-2"
+          className="text-3xl md:text-4xl drop-shadow-md m-0.5 md:m-1"
         >
           {emoji}
         </motion.div>
@@ -133,19 +133,19 @@ const FairnessAdjusterGame = ({ dataStr, onCorrectSound, onVictory }) => {
       <div className="w-full max-w-4xl flex flex-row items-stretch justify-between relative px-2">
         
         {/* Left Side */}
-        <div className="w-5/12 flex flex-col items-center border-4 border-dashed border-blue-400 bg-blue-900/40 rounded-3xl p-3 md:p-4 shadow-xl relative min-h-[260px] md:min-h-[320px]">
-          <div className="text-xl md:text-2xl font-bold text-white mb-2 uppercase drop-shadow-md flex items-center gap-2">
-            <span className="text-3xl md:text-4xl">{data.receiverEmoji}</span>
+        <div className="w-5/12 flex flex-col items-center border-4 border-dashed border-blue-400 bg-blue-900/40 rounded-3xl p-2 md:p-3 shadow-xl relative h-[250px] md:h-[300px]">
+          <div className="text-lg md:text-xl font-bold text-white mb-1 uppercase drop-shadow-md flex items-center gap-2">
+            <span className="text-2xl md:text-3xl">{data.receiverEmoji}</span>
             <span className="hidden md:inline">{data.receiverName}</span>
           </div>
           
-          <div className="flex-1 flex flex-row flex-wrap items-end justify-center content-end pb-4 w-full relative z-10">
+          <div className="flex-1 flex flex-row flex-wrap items-center justify-center content-center w-full relative z-10 overflow-hidden">
             <AnimatePresence>
               {renderItems(leftCount, data.itemEmoji)}
             </AnimatePresence>
           </div>
 
-          <div className="flex flex-row gap-4 mt-auto">
+          <div className="absolute -bottom-6 md:-bottom-8 flex flex-row gap-4">
             {!isBalanced && leftCount > rightCount && (
               <button 
                 onClick={() => handleRemove('left')}
@@ -172,30 +172,30 @@ const FairnessAdjusterGame = ({ dataStr, onCorrectSound, onVictory }) => {
               rotate: isBalanced ? 0 : (leftCount > rightCount ? -15 : 15),
               scale: isBalanced ? 1.2 : 1
             }}
-            className="text-4xl md:text-6xl drop-shadow-xl z-20"
+            className="text-3xl md:text-5xl drop-shadow-xl z-20"
           >
             ⚖️
           </motion.div>
-          <div className="text-white font-bold text-base md:text-xl mt-2 text-center h-8">
+          <div className="text-white font-bold text-sm md:text-lg mt-1 text-center h-6">
             {isBalanced ? <span className="text-green-400">EQUAL!</span> : 
              <span className="text-yellow-300">{leftCount} vs {rightCount}</span>}
           </div>
         </div>
 
         {/* Right Side */}
-        <div className="w-5/12 flex flex-col items-center border-4 border-dashed border-pink-400 bg-pink-900/40 rounded-3xl p-3 md:p-4 shadow-xl relative min-h-[260px] md:min-h-[320px]">
-          <div className="text-xl md:text-2xl font-bold text-white mb-2 uppercase drop-shadow-md flex items-center gap-2">
-            <span className="text-3xl md:text-4xl">{data.receiverEmoji}</span>
+        <div className="w-5/12 flex flex-col items-center border-4 border-dashed border-pink-400 bg-pink-900/40 rounded-3xl p-2 md:p-3 shadow-xl relative h-[250px] md:h-[300px]">
+          <div className="text-lg md:text-xl font-bold text-white mb-1 uppercase drop-shadow-md flex items-center gap-2">
+            <span className="text-2xl md:text-3xl">{data.receiverEmoji}</span>
             <span className="hidden md:inline">{data.receiverName}</span>
           </div>
           
-          <div className="flex-1 flex flex-row flex-wrap items-end justify-center content-end pb-4 w-full relative z-10">
+          <div className="flex-1 flex flex-row flex-wrap items-center justify-center content-center w-full relative z-10 overflow-hidden">
             <AnimatePresence>
               {renderItems(rightCount, data.itemEmoji)}
             </AnimatePresence>
           </div>
 
-          <div className="flex flex-row gap-4 mt-auto">
+          <div className="absolute -bottom-6 md:-bottom-8 flex flex-row gap-4">
             {!isBalanced && rightCount < leftCount && (
               <button 
                 onClick={() => handleAdd('right')}
