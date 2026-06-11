@@ -53,7 +53,7 @@ export default function NumberComparisonGame({ dataStr, answerStr, onVictory, on
 
   // Card classes
   const getCardClass = (side) => {
-    const base = "w-40 h-56 md:w-56 md:h-72 rounded-3xl flex items-center justify-center text-7xl md:text-9xl font-black drop-shadow-xl border-8 transition-all duration-300";
+    const base = "w-36 h-48 md:w-48 md:h-64 rounded-3xl flex items-center justify-center text-7xl md:text-8xl font-black drop-shadow-xl border-8 transition-all duration-300";
     if (isSelectionMode) {
       if (gameState === 'correct' && selectedChoice === side) {
         return `${base} bg-green-500 border-white text-white scale-110`;
@@ -70,7 +70,7 @@ export default function NumberComparisonGame({ dataStr, answerStr, onVictory, on
 
   // Button classes for True/False mode
   const getBtnClass = (btnType) => {
-    const base = "w-40 md:w-56 py-6 md:py-8 rounded-full flex items-center justify-center text-4xl md:text-5xl font-bold drop-shadow-xl border-4 transition-all duration-300 cursor-pointer text-white";
+    const base = "w-40 md:w-56 py-4 md:py-5 rounded-full flex items-center justify-center text-3xl md:text-4xl font-bold drop-shadow-xl border-4 transition-all duration-300 cursor-pointer text-white";
     if (gameState === 'correct' && selectedChoice === btnType) {
       return `${base} bg-green-500 border-white scale-110`;
     }
@@ -86,11 +86,11 @@ export default function NumberComparisonGame({ dataStr, answerStr, onVictory, on
   };
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-center p-4 gap-12 touch-none">
+    <div className="relative w-full h-full flex flex-col items-center justify-center p-4 gap-8 pt-24 touch-none">
       {showConfetti && <Confetti width={windowDimension.width} height={windowDimension.height} recycle={false} numberOfPieces={300} gravity={0.2} />}
       
       {/* Central Number Cards */}
-      <div className="flex flex-row items-center justify-center gap-10 md:gap-24 relative z-10">
+      <div className="flex flex-row items-center justify-center gap-8 md:gap-16 relative z-10">
         <motion.div 
           className={getCardClass('LEFT')}
           onClick={() => isSelectionMode ? handleChoice('LEFT') : null}
@@ -116,7 +116,7 @@ export default function NumberComparisonGame({ dataStr, answerStr, onVictory, on
 
       {/* Control Deck for True/False Mode */}
       {!isSelectionMode && (
-        <div className="flex flex-row items-center justify-center gap-8 md:gap-16 mt-8 z-10">
+        <div className="flex flex-row items-center justify-center gap-6 md:gap-10 mt-4 z-10">
           <motion.div 
             className={getBtnClass('YES')}
             onClick={() => handleChoice('YES')}
