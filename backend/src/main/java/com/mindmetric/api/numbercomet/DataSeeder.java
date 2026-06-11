@@ -1129,7 +1129,25 @@ public class DataSeeder implements CommandLineRunner {
                 String json = String.format("{\"leftCount\":%d,\"rightCount\":%d,\"itemEmoji\":\"%s\",\"itemName\":\"%s\",\"isEqual\":%b}", leftCount, rightCount, t[1], t[2], isEqual);
                 return buildT(ans, "EQUAL", "UNEQUAL", "NONE", q, "twin_sets_game", json);
             }
-            case 4: return buildS("EXTRA", new String[]{"EXTRA", "MATCH", "NONE"}, "Which group has leftovers?");
+            case 4: {
+                String[][] themes = {
+                    {"rabbits_carrots", "🐰", "Rabbits", "🥕", "Carrots"}, 
+                    {"dogs_bones", "🐶", "Dogs", "🦴", "Bones"}, 
+                    {"monkeys_bananas", "🐒", "Monkeys", "🍌", "Bananas"}
+                };
+                int idx = (qNum - 1) % 3;
+                String[] t = themes[idx];
+                
+                boolean leftHasMore = r(0,1) == 0;
+                int baseCount = r(2, 6);
+                int leftCount = leftHasMore ? baseCount + 1 : baseCount;
+                int rightCount = leftHasMore ? baseCount : baseCount + 1;
+                
+                String q = "Let's feed the " + t[2] + "! Can you draw a line from each " + t[2].substring(0, t[2].length() - 1) + " to a " + t[4].substring(0, t[4].length() - 1) + "?";
+                String ans = leftHasMore ? "LEFT" : "RIGHT";
+                String json = String.format("{\"leftCount\":%d,\"rightCount\":%d,\"leftEmoji\":\"%s\",\"leftName\":\"%s\",\"rightEmoji\":\"%s\",\"rightName\":\"%s\"}", leftCount, rightCount, t[1], t[2], t[3], t[4]);
+                return buildT(ans, "LEFT", "RIGHT", "NONE", q, "finding_leftovers_game", json);
+            }
             case 5: { int n = r(5,9); return buildN(n, 1, 10, "Is " + n + " more than " + (n-2) + "?"); }
             case 6: return buildS("ADD", new String[]{"ADD", "REMOVE", "KEEP"}, "How to make them equal?");
             case 7: return buildN(r(1,10), 1, 10, "Match the Ten-Frame");
