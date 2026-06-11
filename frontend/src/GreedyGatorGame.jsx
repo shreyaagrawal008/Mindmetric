@@ -102,6 +102,7 @@ export default function GreedyGatorGame({ dataStr, onCorrect }) {
 
   // Helper to render treats in an organized, evenly spaced grid
   const renderTreats = (count) => {
+    const textSize = count > 5 ? 'text-2xl md:text-3xl' : 'text-3xl md:text-5xl';
     return (
       <div className="w-full h-full flex flex-wrap justify-center content-center gap-1 md:gap-2 p-2 md:p-4">
         {Array.from({ length: count }).map((_, i) => {
@@ -109,7 +110,7 @@ export default function GreedyGatorGame({ dataStr, onCorrect }) {
           return (
             <div 
               key={i}
-              className="text-3xl md:text-5xl select-none pointer-events-none drop-shadow-md"
+              className={`${textSize} select-none pointer-events-none drop-shadow-md transition-all`}
               style={{ transform: `rotate(${rotation}deg)` }}
             >
               {itemEmoji}
@@ -142,7 +143,7 @@ export default function GreedyGatorGame({ dataStr, onCorrect }) {
         onClick={!askSymbol ? handleLeftClick : undefined}
         animate={shakeLeft ? { x: [-10, 10, -10, 10, 0] } : {}}
         transition={{ duration: 0.4 }}
-        className={`relative w-32 h-32 md:w-48 md:h-48 bg-white/30 backdrop-blur-sm rounded-full border-4 border-white/50 transition-all shadow-xl ${!askSymbol ? 'cursor-pointer hover:bg-white/40 active:scale-95' : ''}`}
+        className={`relative w-32 h-32 md:w-48 md:h-48 bg-white/30 backdrop-blur-sm rounded-full border-4 border-white/50 overflow-hidden transition-all shadow-xl ${!askSymbol ? 'cursor-pointer hover:bg-white/40 active:scale-95' : ''}`}
       >
         <AnimatePresence>
           {gatorState !== 'eating_left' && renderTreats(leftCount)}
@@ -197,7 +198,7 @@ export default function GreedyGatorGame({ dataStr, onCorrect }) {
         onClick={!askSymbol ? handleRightClick : undefined}
         animate={shakeRight ? { x: [-10, 10, -10, 10, 0] } : {}}
         transition={{ duration: 0.4 }}
-        className={`relative w-32 h-32 md:w-48 md:h-48 bg-white/30 backdrop-blur-sm rounded-full border-4 border-white/50 transition-all shadow-xl ${!askSymbol ? 'cursor-pointer hover:bg-white/40 active:scale-95' : ''}`}
+        className={`relative w-32 h-32 md:w-48 md:h-48 bg-white/30 backdrop-blur-sm rounded-full border-4 border-white/50 overflow-hidden transition-all shadow-xl ${!askSymbol ? 'cursor-pointer hover:bg-white/40 active:scale-95' : ''}`}
       >
         <AnimatePresence>
           {gatorState !== 'eating_right' && renderTreats(rightCount)}
