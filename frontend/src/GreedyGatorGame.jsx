@@ -141,7 +141,7 @@ export default function GreedyGatorGame({ dataStr, onCorrect }) {
         onClick={!askSymbol ? handleLeftClick : undefined}
         animate={shakeLeft ? { x: [-10, 10, -10, 10, 0] } : {}}
         transition={{ duration: 0.4 }}
-        className={`relative w-1/3 h-64 bg-white/30 backdrop-blur-sm rounded-full border-4 border-white/50 transition-all shadow-xl ${!askSymbol ? 'cursor-pointer hover:bg-white/40 active:scale-95' : ''}`}
+        className={`relative w-40 h-40 md:w-64 md:h-64 bg-white/30 backdrop-blur-sm rounded-full border-4 border-white/50 transition-all shadow-xl ${!askSymbol ? 'cursor-pointer hover:bg-white/40 active:scale-95' : ''}`}
       >
         <AnimatePresence>
           {gatorState !== 'eating_left' && renderTreats(leftCount)}
@@ -159,7 +159,7 @@ export default function GreedyGatorGame({ dataStr, onCorrect }) {
         transition={{ type: "spring", stiffness: 200, damping: 10 }}
       >
         <div className="text-[6rem] md:text-[9rem] select-none filter drop-shadow-2xl">
-          {gatorState === 'waiting' ? '🐊' : '🦖'} {/* Using T-Rex as "open mouth" if needed, or stick to 🐊 */}
+          🐊
         </div>
         {gatorState === 'waiting' && (
           <motion.div 
@@ -196,7 +196,7 @@ export default function GreedyGatorGame({ dataStr, onCorrect }) {
         onClick={!askSymbol ? handleRightClick : undefined}
         animate={shakeRight ? { x: [-10, 10, -10, 10, 0] } : {}}
         transition={{ duration: 0.4 }}
-        className={`relative w-1/3 h-64 bg-white/30 backdrop-blur-sm rounded-full border-4 border-white/50 transition-all shadow-xl ${!askSymbol ? 'cursor-pointer hover:bg-white/40 active:scale-95' : ''}`}
+        className={`relative w-40 h-40 md:w-64 md:h-64 bg-white/30 backdrop-blur-sm rounded-full border-4 border-white/50 transition-all shadow-xl ${!askSymbol ? 'cursor-pointer hover:bg-white/40 active:scale-95' : ''}`}
       >
         <AnimatePresence>
           {gatorState !== 'eating_right' && renderTreats(rightCount)}

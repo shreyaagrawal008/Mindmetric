@@ -3672,7 +3672,7 @@ export default function NumberCometGame({ userId, onExit }) {
             </main>
 
             <footer className="lower-area" style={currentQuestion.type && (currentQuestion.type.startsWith('comparison_') || ['ordering_size', 'shape_scanner_circle', 'shape_strict_square', 'shape_sharp_triangle', 'comparison_matches', 'dragAndDrop_bigSmall'].includes(currentQuestion.type)) ? { display: 'none' } : {}}>
-              {!isPlaceholder && currentQuestion.options && (currentQuestion.type !== 'traceShape' || traceCompleted) && (!currentQuestion.type || (!currentQuestion.type.startsWith('comparison_') && !['ordering_size', 'shape_scanner_circle', 'shape_strict_square', 'shape_sharp_triangle', 'comparison_matches', 'dragAndDrop_bigSmall'].includes(currentQuestion.type))) && (
+              {!isPlaceholder && currentQuestion.options && (currentQuestion.type !== 'traceShape' || traceCompleted) && (!currentQuestion.type || (!currentQuestion.type.startsWith('comparison_') && !['ordering_size', 'shape_scanner_circle', 'shape_strict_square', 'shape_sharp_triangle', 'comparison_matches', 'dragAndDrop_bigSmall', 'greedy_gator_game'].includes(currentQuestion.type))) && (
                 <div className="options-container" style={{ display: 'flex', width: '100%', gap: '5%', justifyContent: 'center' }}>
                   {currentQuestion.options.map((option, idx) => {
                     let displayContent = option;
