@@ -3416,9 +3416,9 @@ export default function NumberCometGame({ userId, onExit }) {
         <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1, minHeight: '300px' }}>
            <TenFrameGame 
               key={currentQuestionIndex}
-              dataStr={currentQuestion.asset}
-              answerStr={currentQuestion.answer}
-              optionsStr={currentQuestion.options}
+              dataStr={currentQuestion.assetValue || currentQuestion.asset}
+              answerStr={currentQuestion.correctAnswer || currentQuestion.answer}
+              optionsStr={JSON.stringify([currentQuestion.optionBlue, currentQuestion.optionPink, currentQuestion.optionGreen].filter(Boolean))}
               onCorrectSound={() => playFeedbackTone('correct', volume)}
               onErrorSound={() => playFeedbackTone('wrong', volume)}
               onVictory={() => {
