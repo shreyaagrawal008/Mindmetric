@@ -70,6 +70,7 @@ export default function GreedyGatorGame({ dataStr, onCorrect }) {
   const leftCount = asset.leftCount;
   const rightCount = asset.rightCount;
   const itemEmoji = asset.itemEmoji;
+  const askSymbol = asset.askSymbol || false;
 
   const handleLeftClick = () => {
     if (gatorState !== 'waiting') return;
@@ -137,10 +138,10 @@ export default function GreedyGatorGame({ dataStr, onCorrect }) {
       
       {/* Left Pile */}
       <motion.div 
-        onClick={handleLeftClick}
+        onClick={!askSymbol ? handleLeftClick : undefined}
         animate={shakeLeft ? { x: [-10, 10, -10, 10, 0] } : {}}
         transition={{ duration: 0.4 }}
-        className="relative w-1/3 h-64 bg-white/30 backdrop-blur-sm rounded-full border-4 border-white/50 cursor-pointer hover:bg-white/40 active:scale-95 transition-all shadow-xl"
+        className={`relative w-1/3 h-64 bg-white/30 backdrop-blur-sm rounded-full border-4 border-white/50 transition-all shadow-xl ${!askSymbol ? 'cursor-pointer hover:bg-white/40 active:scale-95' : ''}`}
       >
         <AnimatePresence>
           {gatorState !== 'eating_left' && renderTreats(leftCount)}
@@ -170,14 +171,32 @@ export default function GreedyGatorGame({ dataStr, onCorrect }) {
             <div className="absolute -bottom-2 -left-2 w-4 h-4 bg-white transform rotate-45 border-b-2 border-l-2 border-gray-200"></div>
           </motion.div>
         )}
+
+        {/* Symbol Buttons for Advanced Tier */}
+        {askSymbol && gatorState === 'waiting' && (
+          <div className="absolute -bottom-24 left-1/2 -translate-x-1/2 flex flex-row gap-4">
+            <button 
+              onClick={handleLeftClick} 
+              className="bg-white hover:bg-yellow-100 text-5xl font-bold py-2 px-6 rounded-2xl shadow-xl border-4 border-yellow-400 active:scale-95 transition-all text-green-700"
+            >
+              &gt;
+            </button>
+            <button 
+              onClick={handleRightClick} 
+              className="bg-white hover:bg-yellow-100 text-5xl font-bold py-2 px-6 rounded-2xl shadow-xl border-4 border-yellow-400 active:scale-95 transition-all text-green-700"
+            >
+              &lt;
+            </button>
+          </div>
+        )}
       </motion.div>
 
       {/* Right Pile */}
       <motion.div 
-        onClick={handleRightClick}
+        onClick={!askSymbol ? handleRightClick : undefined}
         animate={shakeRight ? { x: [-10, 10, -10, 10, 0] } : {}}
         transition={{ duration: 0.4 }}
-        className="relative w-1/3 h-64 bg-white/30 backdrop-blur-sm rounded-full border-4 border-white/50 cursor-pointer hover:bg-white/40 active:scale-95 transition-all shadow-xl"
+        className={`relative w-1/3 h-64 bg-white/30 backdrop-blur-sm rounded-full border-4 border-white/50 transition-all shadow-xl ${!askSymbol ? 'cursor-pointer hover:bg-white/40 active:scale-95' : ''}`}
       >
         <AnimatePresence>
           {gatorState !== 'eating_right' && renderTreats(rightCount)}

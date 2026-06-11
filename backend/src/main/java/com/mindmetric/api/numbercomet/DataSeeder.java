@@ -1076,9 +1076,14 @@ public class DataSeeder implements CommandLineRunner {
                 int leftCount = r(1, 9);
                 int rightCount;
                 do { rightCount = r(1, 9); } while (leftCount == rightCount);
-                String q = "The Gator is super hungry! Which group of " + t[2] + " will he want to eat?";
+                
+                boolean askSymbol = qNum > 15;
+                String q = askSymbol 
+                    ? "Which symbol makes the Gator eat the most " + t[2] + "?"
+                    : "The Gator is super hungry! Which group of " + t[2] + " will he want to eat?";
+                
                 String ans = leftCount > rightCount ? "A" : "B";
-                String json = String.format("{\"leftCount\":%d,\"rightCount\":%d,\"itemEmoji\":\"%s\",\"itemName\":\"%s\"}", leftCount, rightCount, t[1], t[2]);
+                String json = String.format("{\"leftCount\":%d,\"rightCount\":%d,\"itemEmoji\":\"%s\",\"itemName\":\"%s\",\"askSymbol\":%b}", leftCount, rightCount, t[1], t[2], askSymbol);
                 return buildT(ans, "A", "B", "NONE", q, "greedy_gator_game", json);
             }
             case 2: return buildN(r(1,4), 1, 10, "Which is fewer?");
