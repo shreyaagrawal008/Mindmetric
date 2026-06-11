@@ -1229,7 +1229,29 @@ public class DataSeeder implements CommandLineRunner {
                 
                 return buildT(ans, "LEFT", "RIGHT", "NONE", q, "estimation_blitz_game", json);
             }
-            case 8: return buildN(r(7,10), 1, 10, "Guess which has more");
+            case 8: {
+                int count = r(1, 10);
+                String[] emojis = {"🔴", "⭐", "💎", "🍎"};
+                String itemEmoji = emojis[r(0, emojis.length - 1)];
+                
+                int wrong1, wrong2;
+                do { wrong1 = r(1, 10); } while (wrong1 == count);
+                do { wrong2 = r(1, 10); } while (wrong2 == count || wrong2 == wrong1);
+                
+                String[] options = new String[]{String.valueOf(count), String.valueOf(wrong1), String.valueOf(wrong2)};
+                // Shuffle options
+                for (int i = options.length - 1; i > 0; i--) {
+                    int j = r(0, i);
+                    String temp = options[i];
+                    options[i] = options[j];
+                    options[j] = temp;
+                }
+                
+                String q = "Look at our magic grid! How many dots can you count inside it? Tap the matching card!";
+                String json = String.format("{\"count\":%d,\"itemEmoji\":\"%s\"}", count, itemEmoji);
+                
+                return buildT(String.valueOf(count), options[0], options[1], options[2], q, "ten_frame_game", json);
+            }
             default: return buildN(1, 1, 5, "Error");
         }
     }
