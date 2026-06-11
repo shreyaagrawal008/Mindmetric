@@ -117,7 +117,7 @@ const FairnessAdjusterGame = ({ dataStr, onCorrectSound, onVictory }) => {
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0, opacity: 0, rotate: 180 }}
           transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-          className="text-4xl md:text-6xl drop-shadow-md m-1 md:m-2"
+          className="text-4xl md:text-5xl drop-shadow-md m-1 md:m-2"
         >
           {emoji}
         </motion.div>
@@ -127,13 +127,13 @@ const FairnessAdjusterGame = ({ dataStr, onCorrectSound, onVictory }) => {
   };
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-center p-4 pt-20 overflow-hidden touch-none">
+    <div className="relative w-full h-full flex flex-col items-center justify-center p-2 pt-28 overflow-hidden touch-none">
       {isBalanced && <Confetti width={windowDimension.width} height={windowDimension.height} recycle={false} numberOfPieces={300} gravity={0.2} />}
       
-      <div className="w-full max-w-4xl flex flex-row items-stretch justify-between relative">
+      <div className="w-full max-w-4xl flex flex-row items-stretch justify-between relative px-2">
         
         {/* Left Side */}
-        <div className="w-5/12 flex flex-col items-center border-4 border-dashed border-blue-400 bg-blue-900/40 rounded-3xl p-4 md:p-6 shadow-xl relative min-h-[300px] md:min-h-[400px]">
+        <div className="w-5/12 flex flex-col items-center border-4 border-dashed border-blue-400 bg-blue-900/40 rounded-3xl p-3 md:p-4 shadow-xl relative min-h-[260px] md:min-h-[320px]">
           <div className="text-xl md:text-2xl font-bold text-white mb-2 uppercase drop-shadow-md flex items-center gap-2">
             <span className="text-3xl md:text-4xl">{data.receiverEmoji}</span>
             <span className="hidden md:inline">{data.receiverName}</span>
@@ -149,7 +149,7 @@ const FairnessAdjusterGame = ({ dataStr, onCorrectSound, onVictory }) => {
             {!isBalanced && leftCount > rightCount && (
               <button 
                 onClick={() => handleRemove('left')}
-                className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-red-500 border-4 border-white shadow-lg text-white text-2xl md:text-3xl font-black flex items-center justify-center hover:bg-red-400 active:scale-95 transition-all"
+                className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-red-500 border-4 border-white shadow-lg text-white text-xl md:text-2xl font-black flex items-center justify-center hover:bg-red-400 active:scale-95 transition-all"
               >
                 🗑️
               </button>
@@ -157,7 +157,7 @@ const FairnessAdjusterGame = ({ dataStr, onCorrectSound, onVictory }) => {
             {!isBalanced && leftCount < rightCount && (
               <button 
                 onClick={() => handleAdd('left')}
-                className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-green-500 border-4 border-white shadow-lg text-white text-3xl md:text-4xl font-black flex items-center justify-center hover:bg-green-400 active:scale-95 transition-all"
+                className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-green-500 border-4 border-white shadow-lg text-white text-2xl md:text-3xl font-black flex items-center justify-center hover:bg-green-400 active:scale-95 transition-all"
               >
                 +
               </button>
@@ -172,18 +172,18 @@ const FairnessAdjusterGame = ({ dataStr, onCorrectSound, onVictory }) => {
               rotate: isBalanced ? 0 : (leftCount > rightCount ? -15 : 15),
               scale: isBalanced ? 1.2 : 1
             }}
-            className="text-5xl md:text-7xl drop-shadow-xl z-20"
+            className="text-4xl md:text-6xl drop-shadow-xl z-20"
           >
             ⚖️
           </motion.div>
-          <div className="text-white font-bold text-lg md:text-2xl mt-4 text-center h-8">
+          <div className="text-white font-bold text-base md:text-xl mt-2 text-center h-8">
             {isBalanced ? <span className="text-green-400">EQUAL!</span> : 
              <span className="text-yellow-300">{leftCount} vs {rightCount}</span>}
           </div>
         </div>
 
         {/* Right Side */}
-        <div className="w-5/12 flex flex-col items-center border-4 border-dashed border-pink-400 bg-pink-900/40 rounded-3xl p-4 md:p-6 shadow-xl relative min-h-[300px] md:min-h-[400px]">
+        <div className="w-5/12 flex flex-col items-center border-4 border-dashed border-pink-400 bg-pink-900/40 rounded-3xl p-3 md:p-4 shadow-xl relative min-h-[260px] md:min-h-[320px]">
           <div className="text-xl md:text-2xl font-bold text-white mb-2 uppercase drop-shadow-md flex items-center gap-2">
             <span className="text-3xl md:text-4xl">{data.receiverEmoji}</span>
             <span className="hidden md:inline">{data.receiverName}</span>
@@ -199,7 +199,7 @@ const FairnessAdjusterGame = ({ dataStr, onCorrectSound, onVictory }) => {
             {!isBalanced && rightCount < leftCount && (
               <button 
                 onClick={() => handleAdd('right')}
-                className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-green-500 border-4 border-white shadow-lg text-white text-3xl md:text-4xl font-black flex items-center justify-center hover:bg-green-400 active:scale-95 transition-all"
+                className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-green-500 border-4 border-white shadow-lg text-white text-2xl md:text-3xl font-black flex items-center justify-center hover:bg-green-400 active:scale-95 transition-all"
               >
                 +
               </button>
@@ -207,7 +207,7 @@ const FairnessAdjusterGame = ({ dataStr, onCorrectSound, onVictory }) => {
             {!isBalanced && rightCount > leftCount && (
               <button 
                 onClick={() => handleRemove('right')}
-                className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-red-500 border-4 border-white shadow-lg text-white text-2xl md:text-3xl font-black flex items-center justify-center hover:bg-red-400 active:scale-95 transition-all"
+                className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-red-500 border-4 border-white shadow-lg text-white text-xl md:text-2xl font-black flex items-center justify-center hover:bg-red-400 active:scale-95 transition-all"
               >
                 🗑️
               </button>
