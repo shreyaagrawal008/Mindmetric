@@ -3299,8 +3299,9 @@ export default function NumberCometGame({ userId, onExit }) {
            <GreedyGatorGame 
               key={currentQuestionIndex}
               dataStr={currentQuestion.asset} 
+              onCorrectSound={() => playFeedbackTone('correct', volume)}
+              onErrorSound={() => playFeedbackTone('wrong', volume)}
               onCorrect={() => {
-                 playFeedbackTone('correct', volume);
                  setTraceCompleted(true);
                  setTimeout(progressToNext, 1500);
               }} 
@@ -3314,8 +3315,9 @@ export default function NumberCometGame({ userId, onExit }) {
            <TinyTeamGame 
               key={currentQuestionIndex}
               dataStr={currentQuestion.asset} 
+              onCorrectSound={() => playFeedbackTone('correct', volume)}
+              onErrorSound={() => playFeedbackTone('wrong', volume)}
               onVictory={() => {
-                 playFeedbackTone('correct', volume);
                  setTraceCompleted(true);
                  setTimeout(progressToNext, 1500);
               }} 
@@ -3329,8 +3331,9 @@ export default function NumberCometGame({ userId, onExit }) {
            <TwinSetsGame 
               key={currentQuestionIndex}
               dataStr={currentQuestion.asset} 
+              onCorrectSound={() => playFeedbackTone('correct', volume)}
+              onErrorSound={() => playFeedbackTone('wrong', volume)}
               onVictory={() => {
-                 playFeedbackTone('correct', volume);
                  setTraceCompleted(true);
                  setTimeout(progressToNext, 1500);
               }} 

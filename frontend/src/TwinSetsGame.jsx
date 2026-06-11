@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Confetti from 'react-confetti';
 
-const TwinSetsGame = ({ dataStr, onVictory }) => {
+const TwinSetsGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound }) => {
   const [data, setData] = useState(null);
   const [gameState, setGameState] = useState('waiting'); // waiting, correct, incorrect
   const [showConfetti, setShowConfetti] = useState(false);
@@ -10,7 +10,6 @@ const TwinSetsGame = ({ dataStr, onVictory }) => {
   const [placedSymbol, setPlacedSymbol] = useState(null); // '=', '≠'
   const [wiggleSymbol, setWiggleSymbol] = useState(false);
 
-  const audioCtxRef = useRef(null);
   const dropZoneRef = useRef(null);
 
   useEffect(() => {
@@ -28,77 +27,19 @@ const TwinSetsGame = ({ dataStr, onVictory }) => {
     }
   }, [dataStr]);
 
-  const initAudio = () => {
-    if (!audioCtxRef.current) {
-      audioCtxRef.current = new (window.AudioContext || window.webkitAudioContext)();
-    }
-  };
-
-  const playSuccessSound = () => {
-    if (!audioCtxRef.current) return;
-    const ctx = audioCtxRef.current;
-    
-    const osc1 = ctx.createOscillator();
-    const osc2 = ctx.createOscillator();
-    const gainNode = ctx.createGain();
-
-    osc1.type = 'sine';
-    osc2.type = 'triangle';
-
-    osc1.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
-    osc1.frequency.exponentialRampToValueAtTime(1046.50, ctx.currentTime + 0.1); // C6
-    
-    osc2.frequency.setValueAtTime(659.25, ctx.currentTime); // E5
-    osc2.frequency.exponentialRampToValueAtTime(1318.51, ctx.currentTime + 0.1); // E6
-
-    gainNode.gain.setValueAtTime(0, ctx.currentTime);
-    gainNode.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.05);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
-
-    osc1.connect(gainNode);
-    osc2.connect(gainNode);
-    gainNode.connect(ctx.destination);
-
-    osc1.start();
-    osc2.start();
-    osc1.stop(ctx.currentTime + 0.5);
-    osc2.stop(ctx.currentTime + 0.5);
-  };
-
-  const playErrorSound = () => {
-    if (!audioCtxRef.current) return;
-    const ctx = audioCtxRef.current;
-    const osc = ctx.createOscillator();
-    const gainNode = ctx.createGain();
-
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(150, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.2);
-
-    gainNode.gain.setValueAtTime(0.1, ctx.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
-
-    osc.connect(gainNode);
-    gainNode.connect(ctx.destination);
-
-    osc.start();
-    osc.stop(ctx.currentTime + 0.2);
-  };
-
   if (!data) return null;
 
   const { leftCount, rightCount, itemEmoji, isEqual } = data;
   const targetSymbol = isEqual ? '=' : '≠';
 
   const handleValidation = (chosenSymbol) => {
-    initAudio();
     if (gameState !== 'waiting') return;
     
     setPlacedSymbol(chosenSymbol);
 
     if (chosenSymbol === targetSymbol) {
       setGameState('correct');
-      playSuccessSound();
+      if (onCorrectSound) onCorrectSound();
       
       setTimeout(() => {
         setShowConfetti(true);
@@ -108,7 +49,7 @@ const TwinSetsGame = ({ dataStr, onVictory }) => {
       }, 500);
     } else {
       setGameState('incorrect');
-      playErrorSound();
+      if (onErrorSound) onErrorSound();
       setWiggleSymbol(true);
       
       setTimeout(() => {

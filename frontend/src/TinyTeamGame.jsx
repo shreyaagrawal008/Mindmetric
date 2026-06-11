@@ -2,15 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Confetti from 'react-confetti';
 
-const TinyTeamGame = ({ dataStr, onVictory }) => {
+const TinyTeamGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound }) => {
   const [data, setData] = useState(null);
   const [teamState, setTeamState] = useState('waiting'); // waiting, moving_left, moving_right
   const [showConfetti, setShowConfetti] = useState(false);
   const [windowDimension, setWindowDimension] = useState({ width: window.innerWidth, height: window.innerHeight });
   const [shakeLeft, setShakeLeft] = useState(false);
   const [shakeRight, setShakeRight] = useState(false);
-
-  const audioCtxRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => setWindowDimension({ width: window.innerWidth, height: window.innerHeight });
@@ -26,77 +24,18 @@ const TinyTeamGame = ({ dataStr, onVictory }) => {
     }
   }, [dataStr]);
 
-  const initAudio = () => {
-    if (!audioCtxRef.current) {
-      audioCtxRef.current = new (window.AudioContext || window.webkitAudioContext)();
-    }
-  };
-
-  const playSuccessSound = () => {
-    if (!audioCtxRef.current) return;
-    const ctx = audioCtxRef.current;
-    
-    // Play a happy little chime/march sound
-    const osc1 = ctx.createOscillator();
-    const osc2 = ctx.createOscillator();
-    const gainNode = ctx.createGain();
-
-    osc1.type = 'sine';
-    osc2.type = 'triangle';
-
-    osc1.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
-    osc1.frequency.exponentialRampToValueAtTime(1046.50, ctx.currentTime + 0.1); // C6
-    
-    osc2.frequency.setValueAtTime(659.25, ctx.currentTime); // E5
-    osc2.frequency.exponentialRampToValueAtTime(1318.51, ctx.currentTime + 0.1); // E6
-
-    gainNode.gain.setValueAtTime(0, ctx.currentTime);
-    gainNode.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.05);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
-
-    osc1.connect(gainNode);
-    osc2.connect(gainNode);
-    gainNode.connect(ctx.destination);
-
-    osc1.start();
-    osc2.start();
-    osc1.stop(ctx.currentTime + 0.5);
-    osc2.stop(ctx.currentTime + 0.5);
-  };
-
-  const playErrorSound = () => {
-    if (!audioCtxRef.current) return;
-    const ctx = audioCtxRef.current;
-    const osc = ctx.createOscillator();
-    const gainNode = ctx.createGain();
-
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(150, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.2);
-
-    gainNode.gain.setValueAtTime(0.1, ctx.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
-
-    osc.connect(gainNode);
-    gainNode.connect(ctx.destination);
-
-    osc.start();
-    osc.stop(ctx.currentTime + 0.2);
-  };
-
   if (!data) return null;
 
   const { leftCount, rightCount, itemEmoji, teamEmoji, askSymbol } = data;
   const targetIsLeft = leftCount < rightCount;
 
   const handleChoice = (isLeftChoice) => {
-    initAudio();
     if (teamState !== 'waiting') return;
 
     if (isLeftChoice === targetIsLeft) {
       // Success
       setTeamState(isLeftChoice ? 'moving_left' : 'moving_right');
-      playSuccessSound();
+      if (onCorrectSound) onCorrectSound();
       
       setTimeout(() => {
         setShowConfetti(true);
@@ -106,13 +45,13 @@ const TinyTeamGame = ({ dataStr, onVictory }) => {
       }, 800);
     } else {
       // Failure
-      playErrorSound();
+      if (onErrorSound) onErrorSound();
       if (isLeftChoice) {
         setShakeLeft(true);
-        setTimeout(() => setShakeLeft(false), 400);
+        setTimeout(() => setShakeLeft(false), 500);
       } else {
         setShakeRight(true);
-        setTimeout(() => setShakeRight(false), 400);
+        setTimeout(() => setShakeRight(false), 500);
       }
     }
   };

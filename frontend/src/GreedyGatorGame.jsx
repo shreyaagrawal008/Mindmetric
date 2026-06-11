@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Confetti from 'react-confetti';
 
-export default function GreedyGatorGame({ dataStr, onCorrect }) {
+export default function GreedyGatorGame({ dataStr, onCorrect, onCorrectSound, onErrorSound }) {
   const asset = JSON.parse(dataStr);
   const crunchSoundRef = useRef(null);
   const buzzSoundRef = useRef(null);
@@ -77,10 +77,12 @@ export default function GreedyGatorGame({ dataStr, onCorrect }) {
     if (leftCount > rightCount) {
       setGatorState('eating_left');
       if (crunchSoundRef.current) crunchSoundRef.current();
+      if (onCorrectSound) onCorrectSound();
       setShowConfetti(true);
       setTimeout(() => onCorrect(), 2500);
     } else {
       if (buzzSoundRef.current) buzzSoundRef.current();
+      if (onErrorSound) onErrorSound();
       setShakeLeft(true);
       setTimeout(() => setShakeLeft(false), 500);
     }
@@ -91,10 +93,12 @@ export default function GreedyGatorGame({ dataStr, onCorrect }) {
     if (rightCount > leftCount) {
       setGatorState('eating_right');
       if (crunchSoundRef.current) crunchSoundRef.current();
+      if (onCorrectSound) onCorrectSound();
       setShowConfetti(true);
       setTimeout(() => onCorrect(), 2500);
     } else {
       if (buzzSoundRef.current) buzzSoundRef.current();
+      if (onErrorSound) onErrorSound();
       setShakeRight(true);
       setTimeout(() => setShakeRight(false), 500);
     }
