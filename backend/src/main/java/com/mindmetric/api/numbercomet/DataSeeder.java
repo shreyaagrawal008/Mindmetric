@@ -1108,7 +1108,27 @@ public class DataSeeder implements CommandLineRunner {
                 String json = String.format("{\"leftCount\":%d,\"rightCount\":%d,\"itemEmoji\":\"%s\",\"itemName\":\"%s\",\"teamEmoji\":\"%s\",\"teamName\":\"%s\",\"askSymbol\":%b}", leftCount, rightCount, t[1], t[2], t[3], t[4], askSymbol);
                 return buildT(ans, "A", "B", "NONE", q, "tiny_team_game", json);
             }
-            case 3: return buildS("EQUAL", new String[]{"EQUAL", "UNEQUAL", "DIFF"}, "Are they the same?");
+            case 3: {
+                String[][] themes = {
+                    {"stars", "⭐", "Shining Stars"}, 
+                    {"gems", "💎", "Shiny Gems"}, 
+                    {"butterflies", "🦋", "Beautiful Butterflies"}, 
+                    {"balloons", "🎈", "Party Balloons"}
+                };
+                int idx = (qNum - 1) % 4;
+                String[] t = themes[idx];
+                
+                boolean isEqual = r(0,1) == 0;
+                int leftCount = r(2, 9);
+                int rightCount = isEqual ? leftCount : (leftCount + (r(0,1) == 0 ? 1 : -1));
+                if (rightCount < 1) rightCount = 1;
+                if (!isEqual && rightCount == leftCount) rightCount++;
+                
+                String q = "Look at these groups! Are they perfect Twin Sets? Tap the correct sign to link them!";
+                String ans = isEqual ? "EQUAL" : "UNEQUAL";
+                String json = String.format("{\"leftCount\":%d,\"rightCount\":%d,\"itemEmoji\":\"%s\",\"itemName\":\"%s\",\"isEqual\":%b}", leftCount, rightCount, t[1], t[2], isEqual);
+                return buildT(ans, "EQUAL", "UNEQUAL", "NONE", q, "twin_sets_game", json);
+            }
             case 4: return buildS("EXTRA", new String[]{"EXTRA", "MATCH", "NONE"}, "Which group has leftovers?");
             case 5: { int n = r(5,9); return buildN(n, 1, 10, "Is " + n + " more than " + (n-2) + "?"); }
             case 6: return buildS("ADD", new String[]{"ADD", "REMOVE", "KEEP"}, "How to make them equal?");
