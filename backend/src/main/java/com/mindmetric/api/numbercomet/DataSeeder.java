@@ -1148,7 +1148,42 @@ public class DataSeeder implements CommandLineRunner {
                 String json = String.format("{\"leftCount\":%d,\"rightCount\":%d,\"leftEmoji\":\"%s\",\"leftName\":\"%s\",\"rightEmoji\":\"%s\",\"rightName\":\"%s\"}", leftCount, rightCount, t[1], t[2], t[3], t[4]);
                 return buildT(ans, "LEFT", "RIGHT", "NONE", q, "finding_leftovers_game", json);
             }
-            case 5: { int n = r(5,9); return buildN(n, 1, 10, "Is " + n + " more than " + (n-2) + "?"); }
+            case 5: {
+                int num1 = r(1, 10);
+                int num2;
+                do { num2 = r(1, 10); } while (num1 == num2);
+                
+                boolean isTrueFalseMode = r(0,1) == 0;
+                boolean askMore = r(0,1) == 0;
+                
+                String q;
+                String ans;
+                String modeStr;
+                
+                if (isTrueFalseMode) {
+                    modeStr = "true_false";
+                    if (askMore) {
+                        q = "Is " + num1 + " more than " + num2 + "?";
+                        ans = (num1 > num2) ? "YES" : "NO";
+                    } else {
+                        q = "Is " + num1 + " less than " + num2 + "?";
+                        ans = (num1 < num2) ? "YES" : "NO";
+                    }
+                    String json = String.format("{\"num1\":%d,\"num2\":%d,\"mode\":\"%s\"}", num1, num2, modeStr);
+                    return buildT(ans, "YES", "NO", "NONE", q, "number_comparison_game", json);
+                } else {
+                    modeStr = "selection";
+                    if (askMore) {
+                        q = "Which number is larger?";
+                        ans = (num1 > num2) ? "LEFT" : "RIGHT";
+                    } else {
+                        q = "Which number is smaller?";
+                        ans = (num1 < num2) ? "LEFT" : "RIGHT";
+                    }
+                    String json = String.format("{\"num1\":%d,\"num2\":%d,\"mode\":\"%s\"}", num1, num2, modeStr);
+                    return buildT(ans, "LEFT", "RIGHT", "NONE", q, "number_comparison_game", json);
+                }
+            }
             case 6: return buildS("ADD", new String[]{"ADD", "REMOVE", "KEEP"}, "How to make them equal?");
             case 7: return buildN(r(1,10), 1, 10, "Match the Ten-Frame");
             case 8: return buildN(r(7,10), 1, 10, "Guess which has more");
