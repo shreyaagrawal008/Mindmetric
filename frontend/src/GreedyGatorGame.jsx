@@ -103,15 +103,15 @@ export default function GreedyGatorGame({ dataStr, onCorrect }) {
   // Helper to render treats in a random scattered pile
   const renderTreats = (count) => {
     return Array.from({ length: count }).map((_, i) => {
-      // random pos within a bounding box
-      const top = 10 + Math.random() * 60;
-      const left = 10 + Math.random() * 60;
+      // Constrain positions to keep them inside the circle
+      const top = 25 + Math.random() * 50;
+      const left = 25 + Math.random() * 50;
       const rotation = Math.random() * 45 - 22.5;
       return (
         <div 
           key={i}
-          className="absolute text-4xl md:text-6xl select-none pointer-events-none drop-shadow-md"
-          style={{ top: `${top}%`, left: `${left}%`, transform: `rotate(${rotation}deg)` }}
+          className="absolute text-4xl md:text-6xl select-none pointer-events-none drop-shadow-md -translate-x-1/2 -translate-y-1/2"
+          style={{ top: `${top}%`, left: `${left}%`, transform: `translate(-50%, -50%) rotate(${rotation}deg)` }}
         >
           {itemEmoji}
         </div>
