@@ -143,9 +143,14 @@ export default function FindingLeftoversGame({ dataStr, onVictory, onCorrectSoun
     };
   };
 
+  const isLarge = Math.max(leftCount, rightCount) >= 5;
+  const emojiSize = isLarge ? "text-4xl md:text-5xl" : "text-5xl md:text-6xl";
+  const dotSize = isLarge ? "w-6 h-6 border-2" : "w-8 h-8 border-4";
+  const gapSize = isLarge ? "gap-2" : "gap-4";
+
   return (
     <div 
-      className="relative w-full h-full flex flex-col items-center justify-between p-4 md:p-8 overflow-hidden bg-gradient-to-br from-teal-900 via-emerald-900 to-teal-900 rounded-2xl touch-none"
+      className="relative w-full h-full flex flex-col items-center justify-between p-2 md:p-4 overflow-hidden rounded-2xl touch-none pt-32"
       ref={containerRef}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
@@ -153,35 +158,43 @@ export default function FindingLeftoversGame({ dataStr, onVictory, onCorrectSoun
     >
       {showConfetti && <Confetti width={windowDimension.width} height={windowDimension.height} recycle={false} numberOfPieces={400} gravity={0.15} />}
       
-      {/* Title */}
-      <div className="text-white text-2xl md:text-4xl font-bold mb-4 drop-shadow-lg text-center z-20">
-        {gameState === 'drawing' ? "Draw lines to feed them!" : "Look! Which group has leftovers?"}
-      </div>
+      {/* Title (Only show in answering phase since Phase 1 is covered by the global header) */}
+      <AnimatePresence>
+        {gameState !== 'drawing' && (
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            className="text-white text-3xl md:text-5xl font-bold mb-2 drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] text-center z-20 bg-black/40 px-6 py-2 rounded-full border border-white/20"
+          >
+            Look! Which group has leftovers?
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Main Play Area */}
       <div className="flex-1 w-full flex flex-row items-center justify-center gap-10 md:gap-32 relative z-10">
         
         {/* Left Column */}
         <motion.div 
-          className={`flex flex-col gap-4 p-4 rounded-3xl transition-all duration-300 ${gameState === 'answering' ? 'cursor-pointer hover:bg-white/10 border-4 border-dashed border-white/30' : ''} ${gameState === 'correct' && leftCount > rightCount ? 'bg-green-500/30 border-green-400' : ''} ${gameState === 'incorrect' ? 'animate-shake' : ''}`}
+          className={`flex flex-col ${gapSize} p-2 rounded-3xl transition-all duration-300 ${gameState === 'answering' ? 'cursor-pointer hover:bg-white/10 border-4 border-dashed border-white/30' : 'border-4 border-transparent'} ${gameState === 'correct' && leftCount > rightCount ? 'bg-green-500/30 border-green-400' : ''} ${gameState === 'incorrect' ? 'animate-shake' : ''}`}
           onClick={() => gameState === 'answering' ? handleAnswerClick('left') : null}
           whileHover={gameState === 'answering' ? { scale: 1.05 } : {}}
         >
           {Array.from({ length: leftCount }).map((_, i) => {
             const isLeftover = gameState === 'correct' && leftCount > rightCount && !lines.some(l => l.fromIdx === i);
             return (
-              <div key={i} className="flex flex-row items-center gap-4">
+              <div key={i} className="flex flex-row items-center gap-2 md:gap-4">
                 <motion.div 
                   animate={isLeftover ? { y: [0, -20, 0], scale: [1, 1.2, 1] } : {}} 
                   transition={isLeftover ? { repeat: Infinity, duration: 0.6 } : {}}
-                  className="text-5xl md:text-6xl drop-shadow-lg select-none"
+                  className={`${emojiSize} drop-shadow-lg select-none`}
                 >
                   {leftEmoji}
                 </motion.div>
                 <div 
                   ref={el => leftDotsRef.current[i] = el}
                   onPointerDown={(e) => handlePointerDown(e, 'left', i)}
-                  className={`w-8 h-8 rounded-full shadow-[0_0_15px_rgba(255,255,255,0.8)] border-4 border-white transition-all ${lines.some(l => l.fromIdx === i) ? 'bg-green-400' : 'bg-yellow-400 cursor-pointer hover:scale-125'}`}
+                  className={`${dotSize} rounded-full shadow-[0_0_15px_rgba(255,255,255,0.8)] border-white transition-all ${lines.some(l => l.fromIdx === i) ? 'bg-green-400' : 'bg-yellow-400 cursor-pointer hover:scale-125'}`}
                 />
               </div>
             );
@@ -190,22 +203,22 @@ export default function FindingLeftoversGame({ dataStr, onVictory, onCorrectSoun
 
         {/* Right Column */}
         <motion.div 
-          className={`flex flex-col gap-4 p-4 rounded-3xl transition-all duration-300 ${gameState === 'answering' ? 'cursor-pointer hover:bg-white/10 border-4 border-dashed border-white/30' : ''} ${gameState === 'correct' && rightCount > leftCount ? 'bg-green-500/30 border-green-400' : ''} ${gameState === 'incorrect' ? 'animate-shake' : ''}`}
+          className={`flex flex-col ${gapSize} p-2 rounded-3xl transition-all duration-300 ${gameState === 'answering' ? 'cursor-pointer hover:bg-white/10 border-4 border-dashed border-white/30' : 'border-4 border-transparent'} ${gameState === 'correct' && rightCount > leftCount ? 'bg-green-500/30 border-green-400' : ''} ${gameState === 'incorrect' ? 'animate-shake' : ''}`}
           onClick={() => gameState === 'answering' ? handleAnswerClick('right') : null}
           whileHover={gameState === 'answering' ? { scale: 1.05 } : {}}
         >
           {Array.from({ length: rightCount }).map((_, i) => {
             const isLeftover = gameState === 'correct' && rightCount > leftCount && !lines.some(l => l.toIdx === i);
             return (
-              <div key={i} className="flex flex-row items-center gap-4">
+              <div key={i} className="flex flex-row items-center gap-2 md:gap-4">
                 <div 
                   ref={el => rightDotsRef.current[i] = el}
-                  className={`w-8 h-8 rounded-full shadow-[0_0_15px_rgba(255,255,255,0.8)] border-4 border-white transition-all ${lines.some(l => l.toIdx === i) ? 'bg-green-400' : 'bg-blue-400'}`}
+                  className={`${dotSize} rounded-full shadow-[0_0_15px_rgba(255,255,255,0.8)] border-white transition-all ${lines.some(l => l.toIdx === i) ? 'bg-green-400' : 'bg-blue-400'}`}
                 />
                 <motion.div 
                   animate={isLeftover ? { y: [0, -20, 0], scale: [1, 1.2, 1] } : {}} 
                   transition={isLeftover ? { repeat: Infinity, duration: 0.6 } : {}}
-                  className="text-5xl md:text-6xl drop-shadow-lg select-none"
+                  className={`${emojiSize} drop-shadow-lg select-none`}
                 >
                   {rightEmoji}
                 </motion.div>
