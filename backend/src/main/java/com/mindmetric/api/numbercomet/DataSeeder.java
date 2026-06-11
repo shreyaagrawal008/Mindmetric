@@ -1184,7 +1184,24 @@ public class DataSeeder implements CommandLineRunner {
                     return buildT(ans, "LEFT", "RIGHT", "NONE", q, "number_comparison_game", json);
                 }
             }
-            case 6: return buildS("ADD", new String[]{"ADD", "REMOVE", "KEEP"}, "How to make them equal?");
+            case 6: {
+                String[][] themes = {
+                    {"monkeys_bananas", "🐒", "Monkeys", "🍌", "Bananas"}, 
+                    {"robots_blocks", "🤖", "Robots", "🧱", "Blocks"}, 
+                    {"pigs_apples", "🐷", "Pigs", "🍎", "Apples"},
+                    {"squirrels_acorns", "🐿️", "Squirrels", "🌰", "Acorns"}
+                };
+                int idx = (qNum - 1) % 4;
+                String[] t = themes[idx];
+                
+                int leftCount = r(1, 10);
+                int rightCount;
+                do { rightCount = r(1, 10); } while (leftCount == rightCount);
+                
+                String q = "Oh no! The " + t[2] + " are upset because their " + t[4] + " are not fair. Can you fix the piles to make them EQUAL?";
+                String json = String.format("{\"leftCount\":%d,\"rightCount\":%d,\"itemEmoji\":\"%s\",\"itemName\":\"%s\",\"receiverEmoji\":\"%s\",\"receiverName\":\"%s\"}", leftCount, rightCount, t[3], t[4], t[1], t[2]);
+                return buildT("BALANCED", "BALANCED", "UNBALANCED", "NONE", q, "fairness_adjuster_game", json);
+            }
             case 7: return buildN(r(1,10), 1, 10, "Match the Ten-Frame");
             case 8: return buildN(r(7,10), 1, 10, "Guess which has more");
             default: return buildN(1, 1, 5, "Error");
