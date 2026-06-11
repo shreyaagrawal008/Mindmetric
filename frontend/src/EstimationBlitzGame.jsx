@@ -110,7 +110,7 @@ const EstimationBlitzGame = ({ dataStr, answerStr, onCorrectSound, onErrorSound,
   };
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-start pt-24 pb-4 p-2 overflow-hidden touch-none">
+    <div className="relative w-full h-full flex flex-col items-center justify-start pt-4 pb-2 p-2 overflow-hidden touch-none">
       {gameState === 'correct' && <Confetti width={windowDimension.width} height={windowDimension.height} recycle={false} numberOfPieces={300} gravity={0.3} />}
       
       {/* Top Timer UI */}
@@ -118,7 +118,7 @@ const EstimationBlitzGame = ({ dataStr, answerStr, onCorrectSound, onErrorSound,
         <motion.div 
           animate={{ scale: timeLeft <= 3 && gameState === 'playing' ? [1, 1.2, 1] : 1 }}
           transition={{ repeat: timeLeft <= 3 ? Infinity : 0, duration: 0.5 }}
-          className={`text-5xl md:text-6xl font-black drop-shadow-xl ${timeLeft <= 2 ? 'text-red-500' : 'text-yellow-400'}`}
+          className={`text-4xl md:text-5xl font-black drop-shadow-xl ${timeLeft <= 2 ? 'text-red-500' : 'text-yellow-400'}`}
         >
           {timeLeft > 0 ? `00:0${timeLeft}` : 'TIME UP!'}
         </motion.div>

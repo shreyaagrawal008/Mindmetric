@@ -49,7 +49,7 @@ const TenFrameGame = ({ dataStr, answerStr, optionsStr, onCorrectSound, onErrorS
   if (!data) return null;
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-center p-4 pt-16 overflow-hidden touch-none">
+    <div className="relative w-full h-full flex flex-col items-center justify-center p-4 pt-4 overflow-hidden touch-none">
       {gameState === 'correct' && <Confetti width={windowDimension.width} height={windowDimension.height} recycle={false} numberOfPieces={300} gravity={0.3} />}
       
       {/* Top Area: The Frame Arena */}

@@ -127,7 +127,7 @@ const FairnessAdjusterGame = ({ dataStr, onCorrectSound, onVictory }) => {
   };
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-center p-2 pt-28 overflow-hidden touch-none">
+    <div className="relative w-full h-full flex flex-col items-center justify-center p-2 pt-4 overflow-hidden touch-none">
       {isBalanced && <Confetti width={windowDimension.width} height={windowDimension.height} recycle={false} numberOfPieces={300} gravity={0.2} />}
       
       <div className="w-full max-w-4xl flex flex-row items-stretch justify-between relative px-2">
