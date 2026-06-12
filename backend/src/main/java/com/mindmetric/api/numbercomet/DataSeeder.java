@@ -1274,9 +1274,15 @@ public class DataSeeder implements CommandLineRunner {
                 return buildT("10", String.valueOf(qNum + 10), String.valueOf(qNum + 40), String.valueOf(qNum + 70), q, "base_10_anchor_game", json);
             }
             case 2: {
-                String q = "Agent 11 and Agent 12 are wearing disguises! Can you look inside their bags to see what they are hiding?";
-                String json = "{\"target1\":11,\"target2\":12}";
-                return buildT("11", String.valueOf(qNum + 10), String.valueOf(qNum + 40), String.valueOf(qNum + 70), q, "number_castle_game", json);
+                int[] teens = {11, 12, 13, 14, 15, 16, 17, 18, 19};
+                int t1 = teens[qNum % 9];
+                int t2 = teens[(qNum + 1) % 9];
+                String[] emojis = {"🕵️", "🥷", "🧙", "🧛", "🦸", "🧑‍🚀", "👩‍🎤", "💂"};
+                String emoji = emojis[qNum % emojis.length];
+                
+                String q = "Agent " + t1 + " and Agent " + t2 + " are wearing disguises! Can you look inside their bags to see what they are hiding?";
+                String json = String.format("{\"target1\":%d,\"target2\":%d,\"emoji\":\"%s\"}", t1, t2, emoji);
+                return buildT(String.valueOf(t1), String.valueOf(qNum + 10), String.valueOf(qNum + 40), String.valueOf(qNum + 70), q, "number_castle_game", json);
             }
             case 3: return buildN(r(13,14), 11, 16, "Numbers 13 and 14");
             case 4: return buildN(r(15,16), 13, 18, "Numbers 15 and 16");
