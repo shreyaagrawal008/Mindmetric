@@ -6,26 +6,21 @@ const NumberCastleGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound }) 
   const [data, setData] = useState(null);
   
   // Game State
-  const [revealed1, setRevealed1] = useState(false);
-  const [revealed2, setRevealed2] = useState(false);
+  const [revealed11, setRevealed11] = useState(false);
+  const [revealed12, setRevealed12] = useState(false);
   const [matches, setMatches] = useState({
-    agent1_word: false,
-    agent1_eq: false,
-    agent2_word: false,
-    agent2_eq: false
+    agent11_word: false,
+    agent11_eq: false,
+    agent12_word: false,
+    agent12_eq: false
   });
   
   const [isVictorious, setIsVictorious] = useState(false);
   const [windowDimension, setWindowDimension] = useState({ width: window.innerWidth, height: window.innerHeight });
 
   // Drop zone refs
-  const agent1Ref = useRef(null);
-  const agent2Ref = useRef(null);
-  
-  const numberToWord = (num) => {
-    const words = { 11: 'ELEVEN', 12: 'TWELVE', 13: 'THIRTEEN', 14: 'FOURTEEN', 15: 'FIFTEEN', 16: 'SIXTEEN', 17: 'SEVENTEEN', 18: 'EIGHTEEN', 19: 'NINETEEN' };
-    return words[num] || num.toString();
-  };
+  const agent11Ref = useRef(null);
+  const agent12Ref = useRef(null);
 
   useEffect(() => {
     if (dataStr) {
@@ -42,7 +37,7 @@ const NumberCastleGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound }) 
 
   // Check victory condition
   useEffect(() => {
-    if (matches.agent1_word && matches.agent1_eq && matches.agent2_word && matches.agent2_eq && !isVictorious) {
+    if (matches.agent11_word && matches.agent11_eq && matches.agent12_word && matches.agent12_eq && !isVictorious) {
       setIsVictorious(true);
       if (onCorrectSound) onCorrectSound();
       setTimeout(() => {
@@ -51,8 +46,8 @@ const NumberCastleGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound }) 
     }
   }, [matches, isVictorious, onCorrectSound, onVictory]);
 
-  const checkDrop = (e, info, cardId, targetAgentIdx) => {
-    const targetRef = targetAgentIdx === 1 ? agent1Ref : agent2Ref;
+  const checkDrop = (e, info, cardId, targetAgent) => {
+    const targetRef = targetAgent === 11 ? agent11Ref : agent12Ref;
     if (!targetRef.current) return false;
 
     // Use getBoundingClientRect for accurate hit detection
@@ -89,7 +84,8 @@ const NumberCastleGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound }) 
     </div>
   );
 
-  const Agent = ({ id, revealed, onReveal, matchesWord, matchesEq, targetRef, emoji }) => {
+  const Agent = ({ id, revealed, onReveal, matchesWord, matchesEq, targetRef }) => {
+    const isTwin11 = id === 11;
     const isFullyMatched = matchesWord && matchesEq;
 
     return (
@@ -109,7 +105,7 @@ const NumberCastleGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound }) 
         >
           {/* Base Character Emoji */}
           <div className="text-7xl md:text-8xl relative z-10 drop-shadow-xl flex items-center justify-center">
-            {isVictorious ? '🤴' : (emoji || '🕵️')}
+            {isVictorious ? '🤴' : '🕵️'}
             
             {/* The Trench Coat (Hides the inner value) */}
             <AnimatePresence>
@@ -157,7 +153,7 @@ const NumberCastleGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound }) 
         {/* Drop Zone Slots */}
         <div className="mt-4 w-full flex flex-col gap-2 relative z-0">
            <div className={`h-10 md:h-12 w-full rounded-xl border-4 border-dashed flex items-center justify-center text-xs md:text-sm font-bold transition-colors ${matchesWord ? 'border-green-500 bg-green-500/20 text-green-300' : 'border-slate-500/50 text-slate-500'}`}>
-              {matchesWord ? numberToWord(id) : 'Drop Word Here'}
+              {matchesWord ? (id === 11 ? 'ELEVEN' : 'TWELVE') : 'Drop Word Here'}
            </div>
            <div className={`h-10 md:h-12 w-full rounded-xl border-4 border-dashed flex items-center justify-center text-xs md:text-sm font-bold transition-colors ${matchesEq ? 'border-blue-500 bg-blue-500/20 text-blue-300' : 'border-slate-500/50 text-slate-500'}`}>
               {matchesEq ? `10 + ${id - 10}` : 'Drop Equation Here'}
@@ -167,13 +163,13 @@ const NumberCastleGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound }) 
     );
   };
 
-  const DraggableCard = ({ id, content, type, targetAgentIdx }) => {
+  const DraggableCard = ({ id, content, type, targetAgent }) => {
     // Determine if this specific card has been matched
     let isMatched = false;
-    if (targetAgentIdx === 1 && type === 'word') isMatched = matches.agent1_word;
-    if (targetAgentIdx === 1 && type === 'eq') isMatched = matches.agent1_eq;
-    if (targetAgentIdx === 2 && type === 'word') isMatched = matches.agent2_word;
-    if (targetAgentIdx === 2 && type === 'eq') isMatched = matches.agent2_eq;
+    if (targetAgent === 11 && type === 'word') isMatched = matches.agent11_word;
+    if (targetAgent === 11 && type === 'eq') isMatched = matches.agent11_eq;
+    if (targetAgent === 12 && type === 'word') isMatched = matches.agent12_word;
+    if (targetAgent === 12 && type === 'eq') isMatched = matches.agent12_eq;
 
     if (isMatched) return null; // Hide from bank if matched
 
@@ -181,7 +177,7 @@ const NumberCastleGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound }) 
       <motion.div
         drag
         dragSnapToOrigin={true}
-        onDragEnd={(e, info) => checkDrop(e, info, id, targetAgentIdx)}
+        onDragEnd={(e, info) => checkDrop(e, info, id, targetAgent)}
         whileHover={{ scale: 1.1 }}
         whileDrag={{ scale: 1.2, zIndex: 50, rotate: -5 }}
         className={`cursor-grab active:cursor-grabbing px-4 py-2 md:px-6 md:py-3 rounded-xl font-black text-sm md:text-xl shadow-xl z-40 touch-none select-none ${
@@ -217,46 +213,44 @@ const NumberCastleGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound }) 
       {/* Header */}
       <div className="text-center z-10 bg-slate-900/80 px-6 py-2 rounded-2xl border-4 border-purple-500 shadow-xl mb-2">
         <h2 className="text-lg md:text-2xl font-black text-white drop-shadow-md">
-          {!revealed1 || !revealed2 ? "Tap to reveal the Secret Agents!" : "Drag the true identities to their houses!"}
+          {!revealed11 || !revealed12 ? "Tap to reveal the Secret Agents!" : "Drag the true identities to their houses!"}
         </h2>
       </div>
 
       {/* Agents Area */}
       <div className="flex-1 w-full max-w-4xl flex flex-row justify-center gap-8 md:gap-24 z-10 items-center">
         <Agent 
-          id={data.target1 || 11} 
-          revealed={revealed1} 
-          onReveal={() => setRevealed1(true)} 
-          matchesWord={matches.agent1_word}
-          matchesEq={matches.agent1_eq}
-          targetRef={agent1Ref}
-          emoji={data.emoji}
+          id={11} 
+          revealed={revealed11} 
+          onReveal={() => setRevealed11(true)} 
+          matchesWord={matches.agent11_word}
+          matchesEq={matches.agent11_eq}
+          targetRef={agent11Ref}
         />
         
         <Agent 
-          id={data.target2 || 12} 
-          revealed={revealed2} 
-          onReveal={() => setRevealed2(true)} 
-          matchesWord={matches.agent2_word}
-          matchesEq={matches.agent2_eq}
-          targetRef={agent2Ref}
-          emoji={data.emoji}
+          id={12} 
+          revealed={revealed12} 
+          onReveal={() => setRevealed12(true)} 
+          matchesWord={matches.agent12_word}
+          matchesEq={matches.agent12_eq}
+          targetRef={agent12Ref}
         />
       </div>
 
       {/* Word/Equation Bank (Draggables) */}
       <AnimatePresence>
-        {!isVictorious && (revealed1 || revealed2) && (
+        {!isVictorious && (revealed11 || revealed12) && (
           <motion.div 
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             className="w-full max-w-3xl bg-slate-800/80 p-4 rounded-3xl border-4 border-slate-600 shadow-2xl flex flex-wrap justify-center gap-4 z-40"
           >
             {/* Scramble order visually with flex-wrap but maintain logical binding */}
-            <DraggableCard id="agent2_eq" content={`10 + ${(data.target2 || 12) - 10}`} type="eq" targetAgentIdx={2} />
-            <DraggableCard id="agent1_word" content={numberToWord(data.target1 || 11)} type="word" targetAgentIdx={1} />
-            <DraggableCard id="agent2_word" content={numberToWord(data.target2 || 12)} type="word" targetAgentIdx={2} />
-            <DraggableCard id="agent1_eq" content={`10 + ${(data.target1 || 11) - 10}`} type="eq" targetAgentIdx={1} />
+            <DraggableCard id="agent12_eq" content="10 + 2" type="eq" targetAgent={12} />
+            <DraggableCard id="agent11_word" content="ELEVEN" type="word" targetAgent={11} />
+            <DraggableCard id="agent12_word" content="TWELVE" type="word" targetAgent={12} />
+            <DraggableCard id="agent11_eq" content="10 + 1" type="eq" targetAgent={11} />
           </motion.div>
         )}
       </AnimatePresence>
