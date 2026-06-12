@@ -91,7 +91,7 @@ public class DataSeeder implements CommandLineRunner {
             case 3: return genLevel3(topic, qNum);
             case 4: return genLevel4(topic, qNum);
             case 5: return genLevel5(topic, qNum);
-            case 6: return genLevel6(topic);
+            case 6: return genLevel6(topic, qNum);
             case 7: return genLevel7(topic);
             case 8: return genLevel8(topic);
             case 9: return genLevel9(topic);
@@ -1256,9 +1256,23 @@ public class DataSeeder implements CommandLineRunner {
         }
     }
 
-    private String[] genLevel6(int topic) {
+    private String[] genLevel6(int topic, int qNum) {
         switch(topic) {
-            case 1: return buildN(10, 5, 15, "Base-10 Anchor");
+            case 1: {
+                String[][] themes = {
+                    {"crystals", "💎", "Energy Crystals"}, 
+                    {"sticks", "🪵", "Wooden Sticks"}, 
+                    {"beams", "🏗️", "Steel Beams"},
+                    {"wands", "🪄", "Magic Wands"}
+                };
+                int idx = (qNum - 1) % themes.length;
+                String[] t = themes[idx];
+                
+                String q = "Let's build a Base-10 Power Block! Drop " + t[2] + " until you have 10!";
+                String json = String.format("{\"themeId\":\"%s\",\"itemEmoji\":\"%s\",\"itemName\":\"%s\"}", t[0], t[1], t[2]);
+                
+                return buildT("10", String.valueOf(qNum + 10), String.valueOf(qNum + 40), String.valueOf(qNum + 70), q, "base_10_anchor_game", json);
+            }
             case 2: return buildN(r(11,12), 10, 15, "11 and 12 Twins");
             case 3: return buildN(r(13,14), 11, 16, "Numbers 13 and 14");
             case 4: return buildN(r(15,16), 13, 18, "Numbers 15 and 16");
