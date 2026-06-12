@@ -1273,7 +1273,11 @@ public class DataSeeder implements CommandLineRunner {
                 
                 return buildT("10", String.valueOf(qNum + 10), String.valueOf(qNum + 40), String.valueOf(qNum + 70), q, "base_10_anchor_game", json);
             }
-            case 2: return buildN(r(11,12), 10, 15, "11 and 12 Twins");
+            case 2: {
+                String q = "Agent 11 and Agent 12 are wearing disguises! Can you look inside their bags to see what they are hiding?";
+                String json = "{\"target1\":11,\"target2\":12}";
+                return buildT("11", String.valueOf(qNum + 10), String.valueOf(qNum + 40), String.valueOf(qNum + 70), q, "number_castle_game", json);
+            }
             case 3: return buildN(r(13,14), 11, 16, "Numbers 13 and 14");
             case 4: return buildN(r(15,16), 13, 18, "Numbers 15 and 16");
             case 5: return buildN(r(17,19), 15, 20, "Numbers 17, 18, 19");
