@@ -104,7 +104,7 @@ const NumberCastleGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound }) 
           className={`relative cursor-pointer transition-transform ${!revealed ? 'hover:scale-105 hover:-translate-y-2' : ''}`}
         >
           {/* Base Character Emoji */}
-          <div className="text-8xl md:text-9xl relative z-10 drop-shadow-xl flex items-center justify-center">
+          <div className="text-7xl md:text-8xl relative z-10 drop-shadow-xl flex items-center justify-center">
             {isVictorious ? '🤴' : '🕵️'}
             
             {/* The Trench Coat (Hides the inner value) */}
@@ -142,7 +142,7 @@ const NumberCastleGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound }) 
               <motion.div 
                 initial={{ opacity: 0, scale: 0.5, y: -20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap z-30"
+                className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 whitespace-nowrap z-30"
               >
                 <Base10Block ones={id - 10} />
               </motion.div>
@@ -151,11 +151,11 @@ const NumberCastleGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound }) 
         </div>
 
         {/* Drop Zone Slots */}
-        <div className="mt-12 w-full flex flex-col gap-2 relative z-0">
-           <div className={`h-12 md:h-16 w-full rounded-xl border-4 border-dashed flex items-center justify-center text-sm md:text-lg font-bold transition-colors ${matchesWord ? 'border-green-500 bg-green-500/20 text-green-300' : 'border-slate-500/50 text-slate-500'}`}>
+        <div className="mt-4 w-full flex flex-col gap-2 relative z-0">
+           <div className={`h-10 md:h-12 w-full rounded-xl border-4 border-dashed flex items-center justify-center text-xs md:text-sm font-bold transition-colors ${matchesWord ? 'border-green-500 bg-green-500/20 text-green-300' : 'border-slate-500/50 text-slate-500'}`}>
               {matchesWord ? (id === 11 ? 'ELEVEN' : 'TWELVE') : 'Drop Word Here'}
            </div>
-           <div className={`h-12 md:h-16 w-full rounded-xl border-4 border-dashed flex items-center justify-center text-sm md:text-lg font-bold transition-colors ${matchesEq ? 'border-blue-500 bg-blue-500/20 text-blue-300' : 'border-slate-500/50 text-slate-500'}`}>
+           <div className={`h-10 md:h-12 w-full rounded-xl border-4 border-dashed flex items-center justify-center text-xs md:text-sm font-bold transition-colors ${matchesEq ? 'border-blue-500 bg-blue-500/20 text-blue-300' : 'border-slate-500/50 text-slate-500'}`}>
               {matchesEq ? `10 + ${id - 10}` : 'Drop Equation Here'}
            </div>
         </div>
@@ -180,7 +180,7 @@ const NumberCastleGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound }) 
         onDragEnd={(e, info) => checkDrop(e, info, id, targetAgent)}
         whileHover={{ scale: 1.1 }}
         whileDrag={{ scale: 1.2, zIndex: 50, rotate: -5 }}
-        className={`cursor-grab active:cursor-grabbing px-6 py-3 md:px-8 md:py-4 rounded-xl font-black text-xl md:text-2xl shadow-xl z-40 touch-none select-none ${
+        className={`cursor-grab active:cursor-grabbing px-4 py-2 md:px-6 md:py-3 rounded-xl font-black text-sm md:text-xl shadow-xl z-40 touch-none select-none ${
           type === 'word' 
             ? 'bg-gradient-to-b from-green-400 to-green-600 text-white border-b-4 border-green-800' 
             : 'bg-gradient-to-b from-blue-400 to-blue-600 text-white border-b-4 border-blue-800'
@@ -211,14 +211,14 @@ const NumberCastleGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound }) 
       {isVictorious && <Confetti width={windowDimension.width} height={windowDimension.height} recycle={false} numberOfPieces={500} gravity={0.2} />}
 
       {/* Header */}
-      <div className="text-center z-10 bg-slate-900/80 px-8 py-4 rounded-3xl border-4 border-purple-500 shadow-xl mb-4">
-        <h2 className="text-xl md:text-3xl font-black text-white drop-shadow-md">
+      <div className="text-center z-10 bg-slate-900/80 px-6 py-2 rounded-2xl border-4 border-purple-500 shadow-xl mb-2">
+        <h2 className="text-lg md:text-2xl font-black text-white drop-shadow-md">
           {!revealed11 || !revealed12 ? "Tap to reveal the Secret Agents!" : "Drag the true identities to their houses!"}
         </h2>
       </div>
 
       {/* Agents Area */}
-      <div className="flex-1 w-full max-w-4xl flex flex-row justify-center gap-12 md:gap-32 z-10 items-center">
+      <div className="flex-1 w-full max-w-4xl flex flex-row justify-center gap-8 md:gap-24 z-10 items-center">
         <Agent 
           id={11} 
           revealed={revealed11} 
@@ -244,7 +244,7 @@ const NumberCastleGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound }) 
           <motion.div 
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="w-full max-w-3xl bg-slate-800/80 p-6 rounded-3xl border-4 border-slate-600 shadow-2xl flex flex-wrap justify-center gap-6 z-40 min-h-[120px]"
+            className="w-full max-w-3xl bg-slate-800/80 p-4 rounded-3xl border-4 border-slate-600 shadow-2xl flex flex-wrap justify-center gap-4 z-40"
           >
             {/* Scramble order visually with flex-wrap but maintain logical binding */}
             <DraggableCard id="agent12_eq" content="10 + 2" type="eq" targetAgent={12} />
