@@ -4,22 +4,18 @@ import Confetti from 'react-confetti';
 
 const Base10AnchorGame = ({ dataStr, onCorrectSound, onVictory }) => {
   const [data, setData] = useState(null);
-  const [onesCount, setOnesCount] = useState(0);
-  const [tensCount, setTensCount] = useState(0);
-  const [gameState, setGameState] = useState('playing'); // playing, snapping, bound, completed
+  const [fuelCount, setFuelCount] = useState(0); // 0 to 10
+  const [rodsCount, setRodsCount] = useState(0);
+  const [gameState, setGameState] = useState('playing'); // playing, fusing, completed
   const [windowDimension, setWindowDimension] = useState({ width: window.innerWidth, height: window.innerHeight });
-
-  // Generate random positions for loose items so they look scattered in the workbench
-  const [looseItemPositions, setLooseItemPositions] = useState([]);
 
   useEffect(() => {
     if (dataStr) {
       try {
         setData(JSON.parse(dataStr));
-        setOnesCount(0);
-        setTensCount(0);
+        setFuelCount(0);
+        setRodsCount(0);
         setGameState('playing');
-        setLooseItemPositions([]);
       } catch (e) {
         console.error("Failed to parse data", e);
       }
@@ -29,126 +25,96 @@ const Base10AnchorGame = ({ dataStr, onCorrectSound, onVictory }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, [dataStr]);
 
-  const handleDispense = useCallback(() => {
-    if (gameState !== 'playing' || onesCount >= 10) return;
+  const handleTapFuel = useCallback(() => {
+    if (gameState !== 'playing' || fuelCount >= 10) return;
 
-    // Generate a random position within the workbench bounds (approx 0-80%)
-    const newPos = {
-      x: Math.random() * 80 + 10,
-      y: Math.random() * 80 + 10,
-      rotation: Math.random() * 360,
-    };
-    
-    setLooseItemPositions(prev => [...prev, newPos]);
-    const nextCount = onesCount + 1;
-    setOnesCount(nextCount);
+    const nextCount = fuelCount + 1;
+    setFuelCount(nextCount);
 
     if (nextCount === 10) {
-      setGameState('snapping');
+      setGameState('fusing');
       
-      // Sequence: 
-      // 1. Wait a moment
-      // 2. Snap together (animate positions to center)
-      // 3. Transform to bundle and move to vault
       setTimeout(() => {
-        setGameState('bound');
         if (onCorrectSound) onCorrectSound();
-      }, 1000);
+      }, 800);
 
       setTimeout(() => {
-        setTensCount(1);
-        setOnesCount(0);
-        setLooseItemPositions([]);
+        setRodsCount(1);
+        setFuelCount(0);
         setGameState('completed');
         
         setTimeout(() => {
           if (onVictory) onVictory();
         }, 2500);
-      }, 2500);
+      }, 1800);
     }
-  }, [gameState, onesCount, onCorrectSound, onVictory]);
+  }, [gameState, fuelCount, onCorrectSound, onVictory]);
 
   if (!data) return null;
+
+  // Determine item emoji, use battery if not present
+  const itemEmoji = data.itemEmoji || '🔋';
 
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-start p-2 pt-4 overflow-hidden touch-none select-none">
       {gameState === 'completed' && <Confetti width={windowDimension.width} height={windowDimension.height} recycle={false} numberOfPieces={400} gravity={0.3} />}
       
       {/* Scoreboard */}
-      <div className="bg-slate-900/80 border-4 border-yellow-400 rounded-2xl px-6 py-3 mb-4 shadow-xl flex gap-8 z-10">
+      <div className="bg-slate-900/80 border-4 border-cyan-400 rounded-2xl px-6 py-2 mb-4 shadow-[0_0_20px_rgba(34,211,238,0.3)] flex gap-8 z-10">
         <div className="flex flex-col items-center">
-          <span className="text-yellow-400 font-bold text-xl md:text-2xl tracking-widest uppercase">Tens</span>
-          <span className={`text-4xl md:text-5xl font-black ${tensCount > 0 ? 'text-white' : 'text-slate-500'}`}>{tensCount}</span>
+          <span className="text-cyan-400 font-bold text-lg md:text-xl tracking-widest uppercase">Tens</span>
+          <span className={`text-4xl md:text-5xl font-black ${rodsCount > 0 ? 'text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]' : 'text-slate-600'}`}>{rodsCount}</span>
         </div>
-        <div className="w-1 bg-slate-600 rounded-full"></div>
+        <div className="w-1 bg-slate-600 rounded-full my-1"></div>
         <div className="flex flex-col items-center">
-          <span className="text-blue-300 font-bold text-xl md:text-2xl tracking-widest uppercase">Ones</span>
-          <span className="text-4xl md:text-5xl font-black text-white w-8 text-center">{onesCount}</span>
+          <span className="text-blue-300 font-bold text-lg md:text-xl tracking-widest uppercase">Ones</span>
+          <span className={`text-4xl md:text-5xl font-black w-8 text-center ${fuelCount > 0 ? 'text-white' : 'text-slate-600'}`}>{fuelCount}</span>
         </div>
       </div>
 
-      {/* Main Play Area */}
-      <div className="flex-1 w-full max-w-5xl flex flex-row gap-4 px-2 mb-4 relative h-64 md:h-96">
+      <div className="flex-1 w-full max-w-4xl flex flex-row items-end justify-center gap-6 md:gap-16 px-2 mb-6">
         
-        {/* Left: Workbench */}
-        <div className="w-1/2 h-full bg-blue-900/40 border-4 border-blue-400 rounded-3xl relative overflow-hidden flex flex-col shadow-inner">
-          <div className="bg-blue-950/80 text-blue-200 text-center py-2 font-bold text-lg md:text-xl border-b-2 border-blue-500/50 uppercase tracking-wide">
-            Workbench
+        {/* Left: The Fuel Gauge (Tens Maker) */}
+        <div className="flex flex-col items-center h-full max-h-[60vh] justify-end">
+          <div className="text-cyan-200 font-black mb-2 uppercase tracking-wider text-sm md:text-base drop-shadow-md">
+            Fuel Gauge
           </div>
           
-          <div className="flex-1 relative">
-            {/* Render loose items */}
-            <AnimatePresence>
-              {looseItemPositions.map((pos, i) => {
-                const isSnapping = gameState === 'snapping';
-                return (
-                  <motion.div
-                    key={i}
-                    initial={{ scale: 0, y: -100, opacity: 0 }}
-                    animate={{ 
-                      scale: 1, 
-                      opacity: 1,
-                      // If snapping, bring to center and rotate flat
-                      left: isSnapping ? '50%' : `${pos.x}%`,
-                      top: isSnapping ? '50%' : `${pos.y}%`,
-                      rotate: isSnapping ? 0 : pos.rotation,
-                      x: isSnapping ? '-50%' : 0,
-                      y: isSnapping ? '-50%' : 0,
-                    }}
-                    exit={{ opacity: 0, scale: 0 }}
-                    transition={{ 
-                      type: isSnapping ? 'tween' : 'spring', 
-                      duration: isSnapping ? 0.8 : 0.5,
-                      delay: isSnapping ? 0 : 0
-                    }}
-                    className="absolute text-5xl md:text-6xl filter drop-shadow-md z-20"
-                    style={!isSnapping ? { left: `${pos.x}%`, top: `${pos.y}%` } : {}}
-                  >
-                    {data.itemEmoji}
-                  </motion.div>
-                );
-              })}
-            </AnimatePresence>
+          <div className={`relative w-20 md:w-28 flex-1 bg-slate-900/80 border-4 ${gameState === 'fusing' ? 'border-yellow-400 shadow-[0_0_40px_rgba(250,204,21,1)]' : 'border-cyan-500/50 shadow-[0_0_20px_rgba(6,182,212,0.3)]'} rounded-t-3xl rounded-b-xl flex flex-col-reverse overflow-hidden transition-all duration-500`}>
+            
+            {/* 10 Segments */}
+            {Array.from({length: 10}).map((_, i) => {
+              const isFilled = i < fuelCount;
+              return (
+                <div key={i} className="flex-1 border-b border-cyan-800/30 flex items-center justify-center relative">
+                   <AnimatePresence>
+                     {isFilled && gameState !== 'fusing' && gameState !== 'completed' && (
+                        <motion.div
+                          initial={{ scale: 0, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          className="text-3xl md:text-4xl drop-shadow-lg z-10"
+                        >
+                           {itemEmoji}
+                        </motion.div>
+                     )}
+                   </AnimatePresence>
+                </div>
+              );
+            })}
 
-            {/* The Bound Rod showing in workbench temporarily */}
+            {/* Fused Rod Animation */}
             <AnimatePresence>
-              {gameState === 'bound' && (
+              {gameState === 'fusing' && (
                 <motion.div
-                  initial={{ scale: 0.5, opacity: 0 }}
-                  animate={{ scale: 1.2, opacity: 1 }}
-                  exit={{ x: '150%', opacity: 0 }} // Flies into vault
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                  className="absolute inset-0 flex items-center justify-center z-30"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ y: -500, opacity: 0 }}
+                  transition={{ duration: 0.5, exit: { duration: 0.6, ease: "easeIn" } }}
+                  className="absolute inset-0 z-20 flex items-center justify-center bg-gradient-to-t from-yellow-500 via-amber-400 to-yellow-200"
                 >
-                  <div className="relative bg-gradient-to-b from-yellow-300 to-amber-600 p-2 rounded-xl border-4 border-yellow-200 shadow-[0_0_50px_rgba(250,204,21,0.8)] flex flex-col items-center">
-                     {/* 10 items stacked neatly */}
-                     <div className="grid grid-rows-10 gap-[2px]">
-                        {Array.from({length: 10}).map((_, i) => (
-                           <div key={i} className="text-2xl md:text-3xl leading-none">{data.itemEmoji}</div>
-                        ))}
-                     </div>
-                     <div className="absolute top-1/4 w-full h-4 bg-red-500/80 -mx-4 z-40 rounded shadow-md border border-red-300 transform -rotate-2"></div>
-                     <div className="absolute bottom-1/4 w-full h-4 bg-red-500/80 -mx-4 z-40 rounded shadow-md border border-red-300 transform rotate-2"></div>
+                  <div className="absolute inset-0 opacity-50 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] mix-blend-overlay"></div>
+                  <div className="text-5xl drop-shadow-[0_0_20px_rgba(255,255,255,1)] font-black text-white transform -rotate-90 tracking-widest">
+                    10-ROD
                   </div>
                 </motion.div>
               )}
@@ -156,79 +122,73 @@ const Base10AnchorGame = ({ dataStr, onCorrectSound, onVictory }) => {
           </div>
         </div>
 
-        {/* Arrow / Transition Area */}
-        <div className="w-12 md:w-24 flex items-center justify-center flex-col">
-           <motion.div 
-              animate={{ x: [0, 10, 0] }} 
-              transition={{ repeat: Infinity, duration: 1.5 }}
-              className="text-4xl md:text-6xl text-white opacity-50"
-           >
-              ➡️
-           </motion.div>
+        {/* Center: Action Area (Loose Fuel) */}
+        <div className="flex flex-col items-center justify-end h-full w-48 md:w-64 pb-8">
+           <AnimatePresence>
+              {gameState === 'playing' && (
+                 <motion.button
+                   initial={{ opacity: 0, scale: 0.5 }}
+                   animate={{ opacity: 1, scale: 1 }}
+                   exit={{ opacity: 0, scale: 0 }}
+                   whileHover={{ scale: 1.1 }}
+                   whileTap={{ scale: 0.9 }}
+                   onClick={handleTapFuel}
+                   className="relative group cursor-pointer flex flex-col items-center"
+                 >
+                    <div className="absolute inset-0 bg-cyan-400 rounded-full blur-xl opacity-40 group-hover:opacity-70 transition-opacity"></div>
+                    <div className="bg-slate-800 border-4 border-cyan-400 rounded-full w-24 h-24 md:w-32 md:h-32 flex flex-col items-center justify-center shadow-[0_0_30px_rgba(34,211,238,0.5)] z-10 overflow-hidden">
+                       <span className="text-5xl md:text-6xl drop-shadow-md mb-1">{itemEmoji}</span>
+                       <span className="text-xs md:text-sm font-black text-cyan-300 tracking-wider">TAP TO LOAD</span>
+                    </div>
+                 </motion.button>
+              )}
+           </AnimatePresence>
+
+           {gameState === 'fusing' && (
+             <div className="text-2xl md:text-3xl text-yellow-400 font-black animate-pulse drop-shadow-[0_0_10px_rgba(250,204,21,0.8)] text-center">
+               FUSING CORE...
+             </div>
+           )}
+
+           {gameState === 'completed' && (
+             <div className="text-2xl md:text-3xl text-green-400 font-black drop-shadow-[0_0_10px_rgba(74,222,128,0.8)] text-center">
+               CORE LOADED!
+             </div>
+           )}
         </div>
 
-        {/* Right: The 10s Express Vault */}
-        <div className="w-1/2 h-full bg-indigo-900/40 border-4 border-purple-500 rounded-3xl relative overflow-hidden flex flex-col shadow-inner">
-          <div className="bg-indigo-950/80 text-purple-200 text-center py-2 font-bold text-lg md:text-xl border-b-2 border-purple-500/50 uppercase tracking-wide">
-            Tens Vault
+        {/* Right: Engine Core (Tens Vault) */}
+        <div className="flex flex-col items-center h-full max-h-[60vh] justify-end">
+          <div className="text-purple-300 font-black mb-2 uppercase tracking-wider text-sm md:text-base drop-shadow-md">
+            Engine Core
           </div>
           
-          <div className="flex-1 relative flex items-center justify-center">
-            <AnimatePresence>
-               {gameState === 'completed' && tensCount > 0 && (
+          <div className={`relative w-24 md:w-32 flex-1 bg-slate-900/80 border-4 border-purple-500/50 rounded-xl flex items-end justify-center p-2 overflow-hidden shadow-[inset_0_0_40px_rgba(168,85,247,0.2)] transition-all duration-500`}>
+             <AnimatePresence>
+               {gameState === 'completed' && rodsCount > 0 && (
                   <motion.div
-                    initial={{ scale: 0, x: -100 }}
-                    animate={{ scale: 1, x: 0 }}
-                    className="relative bg-gradient-to-b from-yellow-300 to-amber-600 p-2 rounded-xl border-4 border-yellow-200 shadow-xl flex flex-col items-center"
+                    initial={{ y: -500, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.6, type: "spring", bounce: 0.4 }}
+                    className="w-full h-full bg-gradient-to-t from-yellow-600 via-yellow-400 to-yellow-200 rounded-lg shadow-[0_0_30px_rgba(250,204,21,0.8)] flex items-center justify-center relative overflow-hidden"
                   >
-                     <div className="grid grid-rows-10 gap-[2px]">
-                        {Array.from({length: 10}).map((_, i) => (
-                           <div key={i} className="text-2xl md:text-3xl leading-none">{data.itemEmoji}</div>
-                        ))}
+                     <div className="absolute inset-0 opacity-50 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] mix-blend-overlay"></div>
+                     <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-orange-600 to-transparent"></div>
+                     <div className="text-2xl md:text-4xl font-black text-white transform -rotate-90 drop-shadow-[0_0_10px_rgba(0,0,0,0.5)] z-10 tracking-widest">
+                        10-ROD
                      </div>
-                     <div className="absolute top-1/4 w-[110%] h-4 bg-red-500/90 -ml-[5%] z-40 rounded shadow-md border border-red-300 transform -rotate-2"></div>
-                     <div className="absolute bottom-1/4 w-[110%] h-4 bg-red-500/90 -ml-[5%] z-40 rounded shadow-md border border-red-300 transform rotate-2"></div>
                   </motion.div>
                )}
-            </AnimatePresence>
-            {gameState !== 'completed' && (
-              <div className="text-slate-500/50 text-2xl md:text-4xl font-black text-center px-4">
-                EMPTY
-              </div>
-            )}
+             </AnimatePresence>
+             {rodsCount === 0 && (
+                <div className="text-purple-500/30 font-black text-2xl absolute top-1/2 transform -translate-y-1/2 -rotate-90 tracking-widest w-full text-center">
+                  EMPTY
+                </div>
+             )}
           </div>
         </div>
+
       </div>
-
-      {/* Dispenser Button */}
-      <AnimatePresence>
-        {gameState === 'playing' && (
-          <motion.button
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 50, opacity: 0 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleDispense}
-            className="mt-2 md:mt-4 px-8 py-4 bg-gradient-to-b from-green-400 to-green-600 border-b-8 border-green-800 rounded-3xl text-3xl md:text-4xl font-black text-white shadow-2xl flex items-center gap-4 hover:brightness-110 active:border-b-0 active:translate-y-2 transition-all"
-          >
-            <span>DROP 1</span>
-            <span className="text-4xl">{data.itemEmoji}</span>
-          </motion.button>
-        )}
-      </AnimatePresence>
-
-      {gameState === 'snapping' && (
-         <div className="mt-4 text-2xl md:text-4xl text-yellow-300 font-bold animate-pulse drop-shadow-md">
-            10 ITEMS REACHED! BINDING...
-         </div>
-      )}
-
-      {gameState === 'bound' && (
-         <div className="mt-4 text-2xl md:text-4xl text-green-400 font-bold drop-shadow-md">
-            1 BOUND GROUP OF TEN!
-         </div>
-      )}
     </div>
   );
 };
