@@ -1300,7 +1300,14 @@ public class DataSeeder implements CommandLineRunner {
                 String json = "{\"target\":" + target + ",\"missionName\":\"" + missionName + "\"}";
                 return buildT(String.valueOf(target), String.valueOf(target + 10), String.valueOf(target + 20), String.valueOf(qNum + 40), q, "astromaze_rocket_game", json);
             }
-            case 6: { int n = r(1,9); return buildN(n, 1, 9, "10 and what makes " + (10+n) + "?"); }
+            case 6: {
+                String[] potions = {"Dragonfire", "Stardust", "Moondrop", "Elven-tears", "Sun-spark", "Void-essence", "Frost-glint", "Shadow-mist", "Fairy-dust", "Phoenix-ash"};
+                int target = 12 + ((qNum - 1) % 3);
+                String potionName = potions[((qNum - 1) / 3) % 10];
+                String q = "Alchemist! We need to break down the magic matrix of " + target + " into its base components for the " + potionName + " potion! Cast your separation spell!";
+                String json = "{\"target\":" + target + ",\"potionName\":\"" + potionName + "\"}";
+                return buildT(String.valueOf(target), String.valueOf(target + 10), String.valueOf(target + 20), String.valueOf(qNum + 40), q, "teen_breakdown_game", json);
+            }
             case 7: return buildN(r(1,6), 1, 6, "Dice Flash!");
             case 8: return buildN(r(1,12), 1, 12, "Dominos Flash!");
             default: return buildN(1, 1, 10, "Error");
