@@ -145,7 +145,7 @@ const HoneybeeHiveGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound }) 
         <div className="relative flex flex-col items-center">
            <div className="text-amber-500/50 font-black tracking-widest text-xs md:text-sm uppercase mb-2 z-0">Loose Drops</div>
            
-           <div className="w-16 md:w-24 h-36 md:h-56 border-2 md:border-4 border-dashed border-amber-700/50 rounded-xl relative flex flex-wrap-reverse items-center justify-center p-1 md:p-2 gap-1 z-20 bg-amber-900/20">
+           <div className="w-20 md:w-32 h-36 md:h-56 border-2 md:border-4 border-dashed border-amber-700/50 rounded-xl relative flex flex-col-reverse flex-wrap content-center justify-start p-1 md:p-2 gap-1 md:gap-2 z-20 bg-amber-900/20">
               <AnimatePresence>
                  {Array.from({length: looseDrops}).map((_, i) => (
                     <motion.div
