@@ -1377,9 +1377,17 @@ public class DataSeeder implements CommandLineRunner {
                 return buildT("100", "50", "90", "110", q, "cosmic_star_bridge", json);
             }
             case 4: { // Grid Runner
-                int start = r(1, 40);
-                int jumps = r(3, 5); // 3 to 5 rows down
-                int target = start + (jumps * 10);
+                int startRow = r(0, 3);
+                int startCol = r(1, 10);
+                int targetRow = startRow + r(3, 5); // 3 to 5 rows down
+                int targetCol = r(1, 10);
+                if (targetCol == startCol) {
+                    targetCol = (startCol % 10) + 1;
+                }
+                
+                int start = startRow * 10 + startCol;
+                int target = targetRow * 10 + targetCol;
+                
                 String q = "Runner! The portal is open at coordinate " + target + ". Use your Jump Thrusters to reach it in the fewest moves possible!";
                 String json = "{\"start\":" + start + ",\"target\":" + target + "}";
                 return buildT(String.valueOf(target), String.valueOf(target - 1), String.valueOf(target + 1), String.valueOf(target - 10), q, "grid_runner", json);

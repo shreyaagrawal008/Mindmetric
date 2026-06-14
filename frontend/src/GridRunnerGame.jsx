@@ -119,7 +119,7 @@ const GridRunnerGame = ({ dataStr, onVictory }) => {
         speak(String(nextPos));
     } else {
         // Horizontal move drains power
-        const newPower = power - 25; // 4 horizontal steps drain it completely
+        const newPower = power - 6; // Drains slightly, so crossing a row takes ~54%. Trying to walk down rows unit-by-unit will fail.
         if (newPower <= 0) {
             playPowerDownSound();
             setPower(0);
