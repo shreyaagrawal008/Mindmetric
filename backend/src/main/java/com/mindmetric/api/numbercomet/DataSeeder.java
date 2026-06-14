@@ -1308,7 +1308,20 @@ public class DataSeeder implements CommandLineRunner {
                 String json = "{\"target\":" + target + ",\"potionName\":\"" + potionName + "\"}";
                 return buildT(String.valueOf(target), String.valueOf(target + 10), String.valueOf(target + 20), String.valueOf(qNum + 40), q, "teen_breakdown_game", json);
             }
-            case 7: return buildN(r(1,6), 1, 6, "Dice Flash!");
+            case 7: {
+                String[] hats = {"Crimson", "Cobalt", "Violet", "Emerald", "Onyx"};
+                int target = ((qNum - 1) % 6) + 1;
+                String hatColor = hats[((qNum - 1) / 6) % 5];
+                String q = "Quick! The " + hatColor + " hat revealed a pattern! How many dots did you see?";
+                
+                // Ensure choices have the target and two distinct random wrong options
+                int w1 = target == 1 ? 2 : target - 1;
+                int w2 = target == 6 ? 5 : target + 1;
+                if (w1 == w2) w2 = (w1 + 1) % 6 + 1;
+
+                String json = "{\"target\":" + target + ",\"hatColor\":\"" + hatColor + "\"}";
+                return buildT(String.valueOf(target), String.valueOf(w1), String.valueOf(w2), String.valueOf(target + 10), q, "dice_flash_game", json);
+            }
             case 8: return buildN(r(1,12), 1, 12, "Dominos Flash!");
             default: return buildN(1, 1, 10, "Error");
         }
