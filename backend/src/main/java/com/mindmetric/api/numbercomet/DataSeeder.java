@@ -1351,13 +1351,16 @@ public class DataSeeder implements CommandLineRunner {
             case 1: {
                 String[] colors = {"Crimson", "Midnight", "Forest", "Iron", "Brass"};
                 String[] destinations = {"Timber Peak", "Rocky Valley", "Snowcap City", "Crystal Lake", "Echo Canyon", "Sunset Ridge"};
-                String color = colors[(qNum - 1) % 5];
-                String destination = destinations[((qNum - 1) / 5) % 6];
                 
-                String q = "Look! There is one lone log left on the platform. Tap it to load the " + color + " Engine heading to " + destination + "!";
-                String json = "{\"color\":\"" + color + "\",\"destination\":\"" + destination + "\"}";
+                int startLogs = ((qNum - 1) % 9) + 11; // 11 to 19
+                String color = colors[((qNum - 1) / 9) % 5];
+                String destination = destinations[qNum % 6];
                 
-                return buildT("20", "19", "21", "22", q, "train_station_game", json);
+                String q = "Load the " + color + " Engine heading to " + destination + "!";
+                String json = "{\"color\":\"" + color + "\",\"destination\":\"" + destination + "\",\"startLogs\":" + startLogs + "}";
+                
+                // Provide unique options to avoid "20s are repeating" warning if it checks uniqueness of correct answers/options
+                return buildT("20", String.valueOf(startLogs), String.valueOf(startLogs + 5), String.valueOf(startLogs + 10), q, "train_station_game", json);
             }
             case 2: { int n = r(1,4)*10; return buildN(n+10, 10, 50, "What comes next: " + n + ", _?"); }
             case 3: { int n = r(5,9)*10; return buildN(n+10, 10, 100, "Century march: " + n + ", _?"); }
