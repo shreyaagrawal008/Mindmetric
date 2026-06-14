@@ -232,7 +232,7 @@ const ForestPathRescueGame = ({ dataStr, question, onVictory }) => {
       </AnimatePresence>
 
       {/* Main Play Area - The Path */}
-      <div className="flex-1 w-full relative z-10 flex flex-col items-center justify-center pt-20">
+      <div className="flex-1 w-full relative z-10 flex flex-col items-center justify-center pt-32 md:pt-40">
           
           <div className="flex items-center justify-center gap-4 md:gap-8 transform -rotate-6 md:-rotate-3">
               
@@ -242,7 +242,7 @@ const ForestPathRescueGame = ({ dataStr, question, onVictory }) => {
                   <motion.div 
                      className="absolute -top-16 md:-top-24 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center"
                      animate={isVictory ? {
-                         x: [0, 80, 160], // Hop to the middle stone, then the next
+                         x: [0, windowDimension.width < 768 ? 112 : 176, windowDimension.width < 768 ? 224 : 352], // Hop exactly 1 stone width + gap per jump
                          y: [0, -50, 0, -50, 0]
                      } : {
                          y: [0, -5, 0] // idle breathing
