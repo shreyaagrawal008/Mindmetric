@@ -3651,7 +3651,7 @@ export default function NumberCometGame({ userId, onExit }) {
               dataStr={currentQuestion.assetValue || currentQuestion.asset}
               onVictory={() => {
                  setTraceCompleted(true);
-                 setTimeout(progressToNext, 4000); 
+                 setTimeout(progressToNext, 2500); 
               }} 
            />
         </div>

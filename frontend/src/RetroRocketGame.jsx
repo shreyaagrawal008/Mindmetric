@@ -104,11 +104,9 @@ const RetroRocketGame = ({ dataStr, question, onVictory }) => {
         setWarningMessage(null);
         playPneumaticSound();
         
-        speak("Code accepted! Ignition sequence started!");
-        
         setTimeout(() => {
             if (onVictory) onVictory();
-        }, 4000); // 4 seconds for the rocket launch animation
+        }, 2500); // 2.5 seconds for the rocket launch animation
     } else {
         // Wrong!
         setWrongShakeId(val);
@@ -209,7 +207,7 @@ const RetroRocketGame = ({ dataStr, question, onVictory }) => {
           <motion.div 
              className="relative flex flex-col items-center z-20 scale-[0.65] md:scale-100 origin-bottom"
              animate={isVictory ? { y: -windowDimension.height - 200 } : { y: [0, -5, 0] }}
-             transition={isVictory ? { duration: 2.5, ease: "easeIn", delay: 1 } : { duration: 3, repeat: Infinity }}
+             transition={isVictory ? { duration: 2.0, ease: "easeIn" } : { duration: 3, repeat: Infinity }}
           >
               {/* Rocket Nose */}
               <div className="w-0 h-0 border-l-[30px] border-l-transparent border-r-[30px] border-r-transparent border-b-[50px] border-b-red-500"></div>
