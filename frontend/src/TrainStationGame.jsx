@@ -135,7 +135,6 @@ const TrainCar = ({ children, isLocked }) => (
 const TrainStationGame = ({ dataStr, onVictory }) => {
   const [data, setData] = useState(null);
   const [phase, setPhase] = useState(1); // 1: tapping, 2: rolling, 3: locked/whistle, 4: departure
-  const [currentLogs, setCurrentLogs] = useState(19);
   const [windowDimension, setWindowDimension] = useState({ width: window.innerWidth, height: window.innerHeight });
 
   useEffect(() => {
@@ -143,7 +142,6 @@ const TrainStationGame = ({ dataStr, onVictory }) => {
       try {
         const parsed = JSON.parse(dataStr);
         setData(parsed);
-        setCurrentLogs(parsed.startLogs || 19);
         setPhase(1);
       } catch (e) {
         console.error("Failed to parse data", e);
@@ -156,37 +154,33 @@ const TrainStationGame = ({ dataStr, onVictory }) => {
 
   const handleTapLog = () => {
     if (phase !== 1) return;
+    setPhase(2);
     
-    if (currentLogs < 19) {
-      // Just normal increment
-      setCurrentLogs(prev => prev + 1);
-    } else if (currentLogs === 19) {
-      // The final tap triggers the milestone
-      setPhase(2);
-      setCurrentLogs(20);
-      
+    setTimeout(() => {
+      setPhase(3);
+      playSlamSound();
       setTimeout(() => {
-        setPhase(3);
-        playSlamSound();
+        playTrainWhistle();
         setTimeout(() => {
-          playTrainWhistle();
+          setPhase(4);
           setTimeout(() => {
-            setPhase(4);
-            setTimeout(() => {
-              if (onVictory) onVictory();
-            }, 3500);
-          }, 3000);
-        }, 500);
-      }, 800);
-    }
+            if (onVictory) onVictory();
+          }, 3500);
+        }, 3000);
+      }, 500);
+    }, 800);
   };
 
   if (!data) return null;
-  const { color, destination } = data;
+  const { color, destination, target } = data; // target e.g. 40
   const trainHex = getTrainColor(color);
   
-  const platformLogsCount = 20 - currentLogs;
-  const isFinalLog = platformLogsCount === 1;
+  const carsCount = target / 10;
+  
+  // Calculate a safe scale factor to ensure the train fits horizontally
+  // Base train unit is roughly 100px width. Engine + carsCount.
+  const estimatedWidth = (carsCount + 1) * 120;
+  const scaleFactor = windowDimension.width < estimatedWidth ? (windowDimension.width / estimatedWidth) * 0.9 : 1;
 
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-between overflow-hidden touch-none select-none bg-slate-900 font-sans">
@@ -203,7 +197,7 @@ const TrainStationGame = ({ dataStr, onVictory }) => {
       <div className="flex-1 w-full flex flex-col items-center justify-start pt-4 md:pt-8 relative z-10 px-2">
         
         {/* Banner Announcement */}
-        <div className="h-20 flex items-center justify-center">
+        <div className="h-20 flex items-center justify-center z-50">
           <AnimatePresence mode="wait">
             {phase < 3 ? (
               <motion.div 
@@ -212,7 +206,7 @@ const TrainStationGame = ({ dataStr, onVictory }) => {
                 className="bg-slate-800/80 border-2 border-slate-500 px-4 py-2 rounded-lg shadow-xl text-center max-w-md"
               >
                 <p className="text-white font-bold text-sm md:text-base">
-                  {isFinalLog ? "Look! There is one lone log left on the platform." : "Tap the logs to load them into the station!"}
+                  Look! There is one lone log left on the platform.
                 </p>
                 <p className="text-amber-400 text-xs md:text-sm">{color} Engine • Next Stop: {destination}</p>
               </motion.div>
@@ -238,16 +232,16 @@ const TrainStationGame = ({ dataStr, onVictory }) => {
           <div className="text-slate-400 text-[10px] md:text-xs font-black uppercase tracking-widest mb-1">TOTAL LOGS</div>
           <div className="bg-black border-2 border-slate-700 px-6 py-2 rounded shadow-inner mb-2 flex">
             <span className="text-white font-mono font-black text-5xl md:text-6xl tracking-widest leading-none" style={{ textShadow: '0 0 10px rgba(255,255,255,0.5)' }}>
-              {currentLogs}
+              {phase < 3 ? target - 1 : target}
             </span>
           </div>
           <div className="flex gap-4">
             <div className="text-center">
-              <span className="text-amber-400 font-black text-lg md:text-xl">{currentLogs >= 20 ? '2' : '1'}</span>
+              <span className="text-amber-400 font-black text-lg md:text-xl">{phase < 3 ? (target / 10) - 1 : target / 10}</span>
               <div className="text-amber-200/50 text-[9px] md:text-[10px] font-bold uppercase">Tens</div>
             </div>
             <div className="text-center">
-              <span className="text-cyan-400 font-black text-lg md:text-xl">{currentLogs >= 20 ? '0' : currentLogs - 10}</span>
+              <span className="text-cyan-400 font-black text-lg md:text-xl">{phase < 3 ? '9' : '0'}</span>
               <div className="text-cyan-200/50 text-[9px] md:text-[10px] font-bold uppercase">Ones</div>
             </div>
           </div>
@@ -265,36 +259,34 @@ const TrainStationGame = ({ dataStr, onVictory }) => {
 
       {/* Platform Layer */}
       <div className="absolute bottom-0 w-full h-16 md:h-24 bg-slate-700 border-t-8 border-slate-500 shadow-[0_-10px_20px_rgba(0,0,0,0.5)] z-20 flex flex-wrap items-center justify-center gap-2 px-4 py-2">
-        {/* The Loose Logs on the Platform */}
-        {phase === 1 && platformLogsCount > 0 && Array.from({length: platformLogsCount}).map((_, i) => (
+        {/* The Lone Log on the Platform */}
+        {phase === 1 && (
           <motion.div 
-            key={i}
-            layoutId={`moving-log-${currentLogs + i}`}
-            onClick={i === 0 ? handleTapLog : undefined}
-            whileHover={i === 0 ? { scale: 1.1 } : {}}
-            whileTap={i === 0 ? { scale: 0.9 } : {}}
-            className={`relative z-50 ${i === 0 ? 'cursor-pointer animate-pulse' : 'opacity-80'}`}
+            layoutId="moving-log"
+            onClick={handleTapLog}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="relative z-50 cursor-pointer animate-pulse p-4"
           >
             <Log />
-            {i === 0 && (
-              <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-white text-slate-900 text-[10px] md:text-xs font-black px-2 py-0.5 rounded shadow whitespace-nowrap">
-                TAP ME!
-                <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white rotate-45"></div>
-              </div>
-            )}
+            <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-white text-slate-900 text-[10px] md:text-xs font-black px-2 py-0.5 rounded shadow whitespace-nowrap">
+              TAP ME!
+              <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white rotate-45"></div>
+            </div>
           </motion.div>
-        ))}
+        )}
       </div>
 
       {/* The Train */}
       <motion.div 
         animate={phase === 4 ? { x: '150%' } : { x: '0%' }}
         transition={{ duration: 3, ease: "easeIn" }}
-        className="absolute bottom-16 md:bottom-24 w-full flex justify-center items-end gap-1 md:gap-2 z-10"
+        className="absolute bottom-16 md:bottom-24 w-full flex justify-center items-end gap-1 md:gap-2 z-10 origin-bottom"
+        style={{ transform: `scale(${scaleFactor})` }}
       >
         
         {/* Engine */}
-        <div className="relative w-20 h-24 md:w-28 md:h-32 rounded-r-3xl rounded-tl-lg shadow-2xl flex flex-col justify-end border-b-8 border-slate-800" style={{ backgroundColor: trainHex }}>
+        <div className="relative w-20 h-24 md:w-28 md:h-32 rounded-r-3xl rounded-tl-lg shadow-2xl flex flex-col justify-end border-b-8 border-slate-800 shrink-0" style={{ backgroundColor: trainHex }}>
           <div className="absolute top-2 right-2 w-8 h-8 bg-amber-400 rounded-full blur-[2px] opacity-80"></div>
           <div className="absolute -top-8 left-4 w-6 h-8 bg-slate-600 rounded-t-sm border-2 border-slate-800"></div>
           {phase >= 3 && (
@@ -310,36 +302,41 @@ const TrainStationGame = ({ dataStr, onVictory }) => {
           <div className="absolute -bottom-2 right-2 w-8 h-8 md:w-10 md:h-10 bg-slate-800 rounded-full border-4 border-slate-400"></div>
         </div>
 
-        {/* Coupler */}
-        <div className="w-2 h-2 bg-slate-500 mb-4"></div>
-
-        {/* Car 1 (Fully Loaded & Locked) */}
-        <TrainCar isLocked={true}>
-          {Array.from({length: 10}).map((_, i) => <Log key={`c1-${i}`} />)}
-        </TrainCar>
-
-        {/* Coupler */}
-        <div className="w-2 h-2 bg-slate-500 mb-4"></div>
-
-        {/* Car 2 (Variable Logs Loaded, Some Empty) */}
-        <TrainCar isLocked={phase >= 3}>
-          {/* Slots 1 through 10 */}
-          {Array.from({length: 10}).map((_, i) => {
-            const logIndex = i + 10;
-            if (logIndex < currentLogs) {
-              return <Log key={`c2-${i}`} />;
-            } else if (logIndex === currentLogs && phase === 2) {
-              // The log currently flying in
-              return (
-                <motion.div key={`c2-${i}`} layoutId={`moving-log-${currentLogs}`} transition={{ type: 'spring', stiffness: 60, damping: 10 }}>
-                  <Log />
-                </motion.div>
-              );
-            } else {
-              return <EmptySlot key={`c2-${i}`} />;
-            }
-          })}
-        </TrainCar>
+        {/* Dynamic Cars */}
+        {Array.from({ length: carsCount }).map((_, carIndex) => {
+          const isLastCar = carIndex === carsCount - 1;
+          const isCarLocked = !isLastCar || phase >= 3;
+          
+          return (
+            <React.Fragment key={`car-group-${carIndex}`}>
+              {/* Coupler */}
+              <div className="w-2 h-2 bg-slate-500 mb-4 shrink-0"></div>
+              
+              <TrainCar isLocked={isCarLocked}>
+                {Array.from({ length: 10 }).map((_, slotIndex) => {
+                  if (!isLastCar) {
+                    return <Log key={`c${carIndex}-${slotIndex}`} />;
+                  } else {
+                    // Last car has 9 logs + 1 slot
+                    if (slotIndex < 9) {
+                      return <Log key={`c${carIndex}-${slotIndex}`} />;
+                    } else {
+                      if (phase === 1) {
+                        return <EmptySlot key={`c${carIndex}-${slotIndex}`} />;
+                      } else {
+                        return (
+                          <motion.div key={`c${carIndex}-${slotIndex}`} layoutId="moving-log" transition={{ type: 'spring', stiffness: 60, damping: 10 }}>
+                            <Log />
+                          </motion.div>
+                        );
+                      }
+                    }
+                  }
+                })}
+              </TrainCar>
+            </React.Fragment>
+          );
+        })}
 
       </motion.div>
 
