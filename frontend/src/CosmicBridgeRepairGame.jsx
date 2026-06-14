@@ -154,9 +154,9 @@ const CosmicBridgeRepairGame = ({ dataStr, question, onVictory }) => {
       </AnimatePresence>
 
       {/* Main Play Area - Cosmic Bridge */}
-      <div className="flex-1 w-full relative z-10 flex flex-col items-center justify-center pt-2">
+      <div className="flex-1 w-full relative z-10 flex flex-col items-center justify-center pt-12 md:pt-16 pb-4">
           
-          <div className="relative w-full max-w-3xl flex justify-center items-center mt-4 mb-4">
+          <div className="relative w-full max-w-3xl flex justify-center items-center mt-8 mb-8">
              
              {/* The Cosmic Energy Path */}
              <div className={`absolute top-1/2 left-0 w-full h-4 -translate-y-1/2 transition-colors duration-1000 blur-sm z-0 ${isVictory ? 'bg-green-400' : 'bg-cyan-900'}`}></div>
@@ -167,7 +167,7 @@ const CosmicBridgeRepairGame = ({ dataStr, question, onVictory }) => {
                  
                  {/* Rover Vehicle */}
                  <motion.div 
-                    className="absolute top-[-30px] md:top-[-40px] z-20 w-12 h-10 md:w-16 md:h-12 scale-75 md:scale-100"
+                    className="absolute top-[-40px] md:top-[-60px] z-20 w-12 h-10 md:w-16 md:h-12 scale-75 md:scale-100"
                     initial={{ left: '0%' }}
                     animate={isVictory ? { left: '100%', rotate: [0, 5, 0, -5, 0] } : { left: '15%', y: [0, -2, 0] }}
                     transition={isVictory ? { duration: 2, ease: "easeInOut", delay: 0.5 } : { duration: 1, repeat: Infinity, type: 'tween' }}
@@ -234,7 +234,7 @@ const CosmicBridgeRepairGame = ({ dataStr, question, onVictory }) => {
       </div>
 
       {/* Floating Asteroid Keys Options */}
-      <div className="w-full p-2 md:p-6 z-40 relative flex justify-center mb-2 md:mb-6">
+      <div className="w-full p-2 md:p-6 z-40 relative flex justify-center mb-6 md:mb-10">
           <div className="flex flex-wrap justify-center gap-4 md:gap-8">
               {options.map((opt, index) => {
                   const isWrongShake = wrongShakeId === opt;
