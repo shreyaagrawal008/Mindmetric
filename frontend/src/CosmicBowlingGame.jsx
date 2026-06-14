@@ -86,19 +86,45 @@ const CosmicBowlingGame = ({ question, dataStr, onVictory }) => {
         }
     };
 
+    const buttonRef = useRef(null);
+    const sphereRef = useRef(null);
+    const sphereOriginRef = useRef({ x: 0, y: 0 });
+
+    useEffect(() => {
+        if (sphereRef.current) {
+            const rect = sphereRef.current.getBoundingClientRect();
+            sphereOriginRef.current = {
+                x: rect.left + rect.width / 2,
+                y: rect.top + rect.height / 2
+            };
+        }
+    }, [windowDimension, sphereState]);
+
     const handleSphereDragEnd = async (event, info) => {
         if (sphereState !== 'idle') return;
         
         if (checkDrop(info, 'sphere')) {
             setSphereState('rolling');
             
+            let targetX = windowDimension.width > 768 ? 500 : 300;
+            let targetY = windowDimension.width > 768 ? 250 : 200;
+
+            if (buttonRef.current && sphereOriginRef.current.x !== 0) {
+                const buttonRect = buttonRef.current.getBoundingClientRect();
+                const buttonCenterX = buttonRect.left + buttonRect.width / 2;
+                const buttonTopY = buttonRect.top;
+                
+                targetX = buttonCenterX - sphereOriginRef.current.x;
+                // Aim slightly above the center of the button so it rests on it
+                targetY = buttonTopY - sphereOriginRef.current.y - 20; 
+            }
+            
             // Rolling animation down the ramp
-            // Assuming ramp goes down and right
             await sphereControls.start({
-                x: windowDimension.width > 768 ? 400 : 250,
-                y: windowDimension.width > 768 ? 200 : 150,
+                x: targetX,
+                y: targetY,
                 rotate: 720,
-                transition: { duration: 1.5, ease: "easeIn" }
+                transition: { duration: 1.0, ease: "easeIn" }
             });
             
             playDing();
@@ -173,6 +199,7 @@ const CosmicBowlingGame = ({ question, dataStr, onVictory }) => {
                     {/* Sphere Pedestal */}
                     <div className="relative flex flex-col items-center">
                         <motion.div 
+                            ref={sphereRef}
                             drag={sphereState === 'idle'}
                             dragMomentum={false}
                             onDragEnd={handleSphereDragEnd}
@@ -250,7 +277,7 @@ const CosmicBowlingGame = ({ question, dataStr, onVictory }) => {
                     </div>
 
                     {/* The Docking Bridge Switch / Button */}
-                    <div className="absolute right-0 md:right-[10%] bottom-[20%] md:bottom-[25%] z-10 flex flex-col items-center">
+                    <div ref={buttonRef} className="absolute right-0 md:right-[10%] bottom-[20%] md:bottom-[25%] z-10 flex flex-col items-center">
                         <motion.div 
                             animate={isVictory ? { y: 10 } : { y: 0 }}
                             className={`w-16 h-8 md:w-20 md:h-10 rounded-t-full shadow-inner border-2 border-black ${isVictory ? 'bg-green-500 shadow-[0_0_20px_#22c55e]' : 'bg-red-600'}`}
