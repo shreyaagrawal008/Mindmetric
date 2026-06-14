@@ -261,3 +261,9 @@ const CosmicBridgeRepairGame = ({ dataStr, question, onVictory }) => {
               })}
           </div>
       </div>
+      
+    </div>
+  );
+};
+
+export default CosmicBridgeRepairGame;
