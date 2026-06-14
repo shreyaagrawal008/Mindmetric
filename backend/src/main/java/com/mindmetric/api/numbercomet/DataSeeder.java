@@ -1371,7 +1371,11 @@ public class DataSeeder implements CommandLineRunner {
                 String json = "{\"color\":\"" + color + "\",\"target\":" + target + "}";
                 return buildT(String.valueOf(target), String.valueOf(target - 10), String.valueOf(target + 10), String.valueOf(target - 5), q, "toy_soldier_march", json);
             }
-            case 3: { int n = r(5,9)*10; return buildN(n+10, 10, 100, "Century march: " + n + ", _?"); }
+            case 3: { // Cosmic Star Bridge
+                String q = "To warp across the galaxy, our ship needs 100 star cells! Let's load them in packs of 10!";
+                String json = "{\"target\":100}";
+                return buildT("100", "50", "90", "110", q, "cosmic_star_bridge", json);
+            }
             case 4: return buildN(r(1,100), 1, 100, "Grid Runner");
             case 5: { int n = r(1,29); return buildN(n+1, 1, 30, "What comes after " + n + "?"); }
             case 6: { int n = r(2,30); return buildN(n-1, 1, 30, "What comes before " + n + "?"); }
