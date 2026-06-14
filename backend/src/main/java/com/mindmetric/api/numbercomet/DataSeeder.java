@@ -1292,7 +1292,14 @@ public class DataSeeder implements CommandLineRunner {
                 String json = "{\"target\":" + target + ",\"beeName\":\"" + beeName + "\"}";
                 return buildT(String.valueOf(target), String.valueOf(target + 10), String.valueOf(target + 20), String.valueOf(qNum + 40), q, "honeybee_hive_game", json);
             }
-            case 5: return buildN(r(17,19), 15, 20, "Numbers 17, 18, 19");
+            case 5: {
+                String[] missions = {"Apollo", "Artemis", "Voyager", "Cassini", "Hubble", "Galileo", "Kepler", "Pioneer", "Juno", "Orion"};
+                int target = 17 + ((qNum - 1) % 3);
+                String missionName = missions[((qNum - 1) / 3) % 10];
+                String q = "Mission Control needs " + target + " fuel cells to launch the " + missionName + " rocket! First, load the Main Tank with 10 cells!";
+                String json = "{\"target\":" + target + ",\"missionName\":\"" + missionName + "\"}";
+                return buildT(String.valueOf(target), String.valueOf(target + 10), String.valueOf(target + 20), String.valueOf(qNum + 40), q, "astromaze_rocket_game", json);
+            }
             case 6: { int n = r(1,9); return buildN(n, 1, 9, "10 and what makes " + (10+n) + "?"); }
             case 7: return buildN(r(1,6), 1, 6, "Dice Flash!");
             case 8: return buildN(r(1,12), 1, 12, "Dominos Flash!");
