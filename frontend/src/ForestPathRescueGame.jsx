@@ -281,11 +281,11 @@ const ForestPathRescueGame = ({ dataStr, question, onVictory }) => {
               </div>
 
               {/* Stone 2: The Missing Gap (Target) */}
-              <div className="relative">
+              <div className="relative w-24 h-16 md:w-36 md:h-24">
                   <AnimatePresence>
                       {!isVictory && (
                           <motion.div 
-                              className="w-24 h-16 md:w-36 md:h-24 rounded-full border-4 border-dashed border-white/30 flex items-center justify-center"
+                              className="absolute inset-0 w-full h-full rounded-full border-4 border-dashed border-white/30 flex items-center justify-center"
                               exit={{ opacity: 0, scale: 0 }}
                           >
                               <span className="text-4xl text-white/50 font-black animate-pulse">?</span>
@@ -296,7 +296,7 @@ const ForestPathRescueGame = ({ dataStr, question, onVictory }) => {
                   <AnimatePresence>
                       {isVictory && (
                           <motion.div 
-                              className="absolute inset-0 w-24 h-16 md:w-36 md:h-24 bg-yellow-100 rounded-full border-b-8 border-yellow-300 flex items-center justify-center shadow-[0_0_40px_#fef08a]"
+                              className="absolute inset-0 w-full h-full bg-yellow-100 rounded-full border-b-8 border-yellow-300 flex items-center justify-center shadow-[0_0_40px_#fef08a]"
                               initial={{ opacity: 0, y: -100, scale: 1.5 }}
                               animate={{ opacity: 1, y: 0, scale: 1 }}
                               transition={{ type: "spring", bounce: 0.5 }}
