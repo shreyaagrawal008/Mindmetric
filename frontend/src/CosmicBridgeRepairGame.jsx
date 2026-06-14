@@ -105,11 +105,7 @@ const CosmicBridgeRepairGame = ({ dataStr, question, onVictory }) => {
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-center touch-none select-none bg-transparent">
       
-      {/* Dynamic Nebula Background */}
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-50 overflow-hidden">
-         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600 rounded-full blur-[100px] opacity-30 animate-pulse"></div>
-         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-600 rounded-full blur-[100px] opacity-30" style={{ animation: 'pulse 4s infinite alternate-reverse' }}></div>
-      </div>
+      {/* Dynamic Nebula Background (Removed to match global starfield theme) */}
 
       {isVictory && (
         <div className="absolute inset-0 z-50 pointer-events-none overflow-hidden">
