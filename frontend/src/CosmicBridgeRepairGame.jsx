@@ -103,7 +103,7 @@ const CosmicBridgeRepairGame = ({ dataStr, question, onVictory }) => {
   if (!data || options.length === 0) return null;
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-between touch-none select-none bg-slate-900" style={{ background: 'linear-gradient(to bottom, #020617 0%, #172554 100%)' }}>
+    <div className="relative w-full h-full flex flex-col items-center justify-center touch-none select-none bg-slate-900" style={{ background: 'linear-gradient(to bottom, #020617 0%, #172554 100%)' }}>
       
       {/* Dynamic Nebula Background */}
       <div className="absolute inset-0 z-0 pointer-events-none opacity-50 overflow-hidden">
@@ -154,9 +154,9 @@ const CosmicBridgeRepairGame = ({ dataStr, question, onVictory }) => {
       </AnimatePresence>
 
       {/* Main Play Area - Cosmic Bridge */}
-      <div className="flex-1 w-full relative z-10 flex flex-col items-center justify-center pt-12 md:pt-16 pb-4">
+      <div className="w-full relative z-10 flex flex-col items-center justify-center mt-4 md:mt-8">
           
-          <div className="relative w-full max-w-3xl flex justify-center items-center mt-8 mb-8">
+          <div className="relative w-full max-w-3xl flex justify-center items-center mt-2 mb-4 md:mb-8">
              
              {/* The Cosmic Energy Path */}
              <div className={`absolute top-1/2 left-0 w-full h-4 -translate-y-1/2 transition-colors duration-1000 blur-sm z-0 ${isVictory ? 'bg-green-400' : 'bg-cyan-900'}`}></div>
@@ -234,7 +234,7 @@ const CosmicBridgeRepairGame = ({ dataStr, question, onVictory }) => {
       </div>
 
       {/* Floating Asteroid Keys Options */}
-      <div className="w-full p-2 md:p-6 z-40 relative flex justify-center mb-6 md:mb-10">
+      <div className="w-full p-2 md:p-6 z-40 relative flex justify-center mt-2 md:mt-4 mb-4 md:mb-8">
           <div className="flex flex-wrap justify-center gap-4 md:gap-8">
               {options.map((opt, index) => {
                   const isWrongShake = wrongShakeId === opt;
