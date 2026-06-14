@@ -232,7 +232,7 @@ const ForestPathRescueGame = ({ dataStr, question, onVictory }) => {
       </AnimatePresence>
 
       {/* Main Play Area - The Path */}
-      <div className="flex-1 w-full relative z-10 flex flex-col items-center justify-center pt-32 md:pt-40">
+      <div className="flex-1 w-full relative z-10 flex flex-col items-center justify-center pt-16 md:pt-20">
           
           <div className="flex items-center justify-center gap-4 md:gap-8 transform -rotate-6 md:-rotate-3">
               
@@ -321,18 +321,18 @@ const ForestPathRescueGame = ({ dataStr, question, onVictory }) => {
       </div>
 
       {/* Bottom Panel - Options */}
-      <div className="w-full p-6 md:p-12 bg-green-900/80 border-t-8 border-green-800 backdrop-blur-md z-40 rounded-t-[3rem] shadow-[0_-10px_30px_rgba(0,0,0,0.3)]">
-          <div className="text-center text-green-200 font-bold mb-6 text-lg md:text-2xl uppercase tracking-widest">
+      <div className="w-full p-4 md:p-6 bg-green-900/80 border-t-8 border-green-800 backdrop-blur-md z-40 rounded-t-[2rem] shadow-[0_-10px_30px_rgba(0,0,0,0.3)]">
+          <div className="text-center text-green-200 font-bold mb-4 text-base md:text-xl uppercase tracking-widest">
               Select the Missing Stone
           </div>
-          <div className="flex flex-wrap justify-center gap-6 md:gap-12">
+          <div className="flex flex-wrap justify-center gap-4 md:gap-8">
               {options.map((opt, index) => {
                   const isWrongShake = wrongShakeId === opt;
                   return (
                       <motion.button
                           key={index}
                           onClick={() => handleOptionClick(opt)}
-                          className="relative w-24 h-24 md:w-32 md:h-32 bg-gradient-to-b from-emerald-400 to-emerald-600 rounded-2xl border-b-8 border-emerald-800 flex items-center justify-center shadow-xl hover:from-emerald-300 hover:to-emerald-500 active:border-b-0 active:translate-y-2 transition-all group"
+                          className="relative w-20 h-20 md:w-28 md:h-28 bg-gradient-to-b from-emerald-400 to-emerald-600 rounded-2xl border-b-8 border-emerald-800 flex items-center justify-center shadow-xl hover:from-emerald-300 hover:to-emerald-500 active:border-b-0 active:translate-y-2 transition-all group"
                           animate={isWrongShake ? { x: [-10, 10, -10, 10, 0], backgroundColor: ['#ef4444', '#10b981'] } : {}}
                           transition={{ duration: 0.4 }}
                           whileHover={{ scale: 1.05 }}
@@ -340,7 +340,7 @@ const ForestPathRescueGame = ({ dataStr, question, onVictory }) => {
                           disabled={isVictory}
                       >
                           <div className="absolute inset-0 bg-white/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                          <span className="text-4xl md:text-5xl font-black text-white drop-shadow-lg">{opt}</span>
+                          <span className="text-3xl md:text-5xl font-black text-white drop-shadow-lg">{opt}</span>
                       </motion.button>
                   );
               })}
