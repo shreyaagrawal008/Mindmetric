@@ -34,15 +34,15 @@ const playZapSound = () => {
 };
 
 const TenRod = () => (
-  <div className="flex flex-col gap-0.5 p-1 bg-fuchsia-900/50 border-2 border-fuchsia-500 rounded-lg shadow-[0_0_15px_rgba(217,70,239,0.5)]">
+  <div className="flex flex-col gap-[1px] p-[2px] bg-fuchsia-900/50 border-2 border-fuchsia-500 rounded shadow-[0_0_10px_rgba(217,70,239,0.5)]">
     {Array.from({length: 10}).map((_, i) => (
-      <div key={i} className="w-6 h-3 md:w-8 md:h-4 bg-fuchsia-400 rounded-sm border border-fuchsia-200 shadow-inner"></div>
+      <div key={i} className="w-3 h-1.5 md:w-5 md:h-2 bg-fuchsia-400 rounded-sm border border-fuchsia-200"></div>
     ))}
   </div>
 );
 
 const SingleGem = () => (
-  <div className="w-6 h-6 md:w-8 md:h-8 bg-cyan-400 rounded-full border-2 border-cyan-100 shadow-[0_0_10px_rgba(34,211,238,0.8)] relative overflow-hidden">
+  <div className="w-5 h-5 md:w-6 md:h-6 bg-cyan-400 rounded-full border-2 border-cyan-100 shadow-[0_0_10px_rgba(34,211,238,0.8)] relative overflow-hidden">
     <div className="absolute top-1 left-1 w-2 h-2 bg-white rounded-full opacity-70"></div>
   </div>
 );
@@ -130,11 +130,11 @@ const TeenBreakdownGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound })
       <div className="flex-1 w-full max-w-5xl flex flex-col items-center justify-start pt-2 md:pt-4 relative z-10 px-4">
         
         {/* The Target Flask */}
-        <div className="relative flex flex-col items-center mb-2 md:mb-4">
+        <div className="relative flex flex-col items-center mb-2 md:mb-4 mt-2">
            <motion.div 
              animate={phase === 2 ? { scale: [1, 1.2, 1], rotate: [0, -5, 5, 0] } : { y: [0, -5, 0] }}
              transition={phase === 2 ? { duration: 0.5 } : { repeat: Infinity, duration: 3, ease: "easeInOut" }}
-             className={`w-24 h-32 md:w-32 md:h-40 relative flex items-end justify-center pb-4 z-20 ${phase === 2 ? 'drop-shadow-[0_0_50px_rgba(217,70,239,0.8)]' : 'drop-shadow-[0_0_20px_rgba(217,70,239,0.4)]'}`}
+             className={`w-32 h-40 md:w-40 md:h-48 relative flex items-end justify-center pb-8 z-20 ${phase === 2 ? 'drop-shadow-[0_0_50px_rgba(217,70,239,0.8)]' : 'drop-shadow-[0_0_20px_rgba(217,70,239,0.4)]'}`}
            >
               {/* Flask SVG Shape */}
               <svg viewBox="0 0 100 120" className="absolute inset-0 w-full h-full drop-shadow-xl" preserveAspectRatio="none">
@@ -150,7 +150,7 @@ const TeenBreakdownGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound })
               
               <div className="relative z-30 flex flex-col items-center">
                  {phase === 2 ? (
-                    <span className="text-2xl md:text-4xl font-black text-white drop-shadow-[0_0_10px_rgba(255,255,255,1)]">
+                    <span className="text-2xl md:text-3xl font-black text-white drop-shadow-[0_0_10px_rgba(255,255,255,1)] whitespace-nowrap">
                        10 + {target - 10} = {target}
                     </span>
                  ) : (
@@ -168,7 +168,7 @@ const TeenBreakdownGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound })
            
            {/* Pedestal A: Groups of 10 */}
            <div className="flex flex-col items-center flex-1">
-              <div className="h-32 md:h-44 w-full bg-slate-900/60 border-2 border-fuchsia-900 rounded-t-2xl relative flex items-end justify-center p-2 md:p-4">
+              <div className="h-32 md:h-40 w-full bg-slate-900/60 border-2 border-fuchsia-900 rounded-t-2xl relative flex items-end justify-center p-2 md:p-4">
                  <AnimatePresence>
                     {placedRods > 0 && (
                        <motion.div
@@ -185,7 +185,7 @@ const TeenBreakdownGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound })
                  {placedRods === 0 && <div className="absolute inset-0 flex items-center justify-center text-slate-600 font-bold opacity-50 pointer-events-none text-center px-2 text-xs md:text-sm">Tap 10-Rod to place</div>}
               </div>
               <div className="w-full py-1 bg-gradient-to-b from-fuchsia-900 to-slate-900 border-t-4 border-fuchsia-500 rounded-b-xl shadow-[0_5px_15px_rgba(217,70,239,0.3)] text-center">
-                 <span className="text-fuchsia-200 font-bold text-xs md:text-base tracking-wider">GROUPS OF 10</span>
+                 <span className="text-fuchsia-200 font-bold text-xs md:text-sm tracking-wider">GROUPS OF 10</span>
               </div>
            </div>
 
@@ -205,7 +205,7 @@ const TeenBreakdownGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound })
                  )}
               </AnimatePresence>
 
-              <div className={`h-32 md:h-44 w-full bg-slate-900/60 border-2 rounded-t-2xl relative flex items-center justify-center p-2 transition-colors ${showError ? 'border-red-500 bg-red-900/20' : 'border-cyan-900'}`}>
+              <div className={`h-32 md:h-40 w-full bg-slate-900/60 border-2 rounded-t-2xl relative flex items-center justify-center p-2 transition-colors ${showError ? 'border-red-500 bg-red-900/20' : 'border-cyan-900'}`}>
                  
                  <div className="w-full h-full flex flex-wrap-reverse content-start justify-center gap-1 md:gap-2">
                     <AnimatePresence>
@@ -227,7 +227,7 @@ const TeenBreakdownGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound })
 
               </div>
               <div className="w-full py-1 bg-gradient-to-b from-cyan-900 to-slate-900 border-t-4 border-cyan-500 rounded-b-xl shadow-[0_5px_15px_rgba(34,211,238,0.3)] text-center">
-                 <span className="text-cyan-200 font-bold text-xs md:text-base tracking-wider">EXTRA ONES</span>
+                 <span className="text-cyan-200 font-bold text-xs md:text-sm tracking-wider">EXTRA ONES</span>
               </div>
            </div>
 
@@ -235,18 +235,18 @@ const TeenBreakdownGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound })
       </div>
 
       {/* Inventory Action Bar */}
-      <div className="w-full h-20 md:h-24 bg-slate-900 border-t-4 border-slate-700 flex items-center justify-center gap-8 md:gap-16 shadow-[0_-10px_25px_rgba(0,0,0,0.8)] z-40 px-4 pb-2">
+      <div className="w-full h-auto min-h-[5rem] bg-slate-900 border-t-4 border-slate-700 flex items-center justify-center gap-8 md:gap-16 shadow-[0_-10px_25px_rgba(0,0,0,0.8)] z-40 px-4 py-2">
          
          {/* 10-Rod Inventory Button */}
          <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleTapRod}
-            className="flex flex-col items-center justify-center p-1 md:p-2 bg-slate-800 rounded-xl border-2 border-slate-600 shadow-lg relative overflow-hidden group w-24 md:w-32"
+            className="flex flex-col items-center justify-center p-2 md:p-3 bg-slate-800 rounded-xl border-2 border-slate-600 shadow-lg relative overflow-hidden group w-24 md:w-32"
          >
             <div className="absolute inset-0 bg-fuchsia-500/10 group-hover:bg-fuchsia-500/20 transition-colors"></div>
             <TenRod />
-            <span className="mt-1 md:mt-2 text-fuchsia-300 font-bold text-[10px] md:text-xs tracking-widest bg-slate-900 px-2 py-1 rounded-md">ADD ROD</span>
+            <span className="mt-2 text-fuchsia-300 font-bold text-[10px] md:text-xs tracking-widest bg-slate-900 px-2 py-1 rounded-md">ADD ROD</span>
          </motion.button>
 
          {/* Single Gem Inventory Button */}
@@ -254,11 +254,11 @@ const TeenBreakdownGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound })
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleTapGem}
-            className="flex flex-col items-center justify-center p-1 md:p-2 bg-slate-800 rounded-xl border-2 border-slate-600 shadow-lg relative overflow-hidden group w-24 md:w-32"
+            className="flex flex-col items-center justify-center p-2 md:p-3 bg-slate-800 rounded-xl border-2 border-slate-600 shadow-lg relative overflow-hidden group w-24 md:w-32 h-full"
          >
             <div className="absolute inset-0 bg-cyan-500/10 group-hover:bg-cyan-500/20 transition-colors"></div>
-            <SingleGem />
-            <span className="mt-1 md:mt-2 text-cyan-300 font-bold text-[10px] md:text-xs tracking-widest bg-slate-900 px-2 py-1 rounded-md">ADD GEM</span>
+            <div className="flex-1 flex items-center justify-center"><SingleGem /></div>
+            <span className="mt-2 text-cyan-300 font-bold text-[10px] md:text-xs tracking-widest bg-slate-900 px-2 py-1 rounded-md">ADD GEM</span>
          </motion.button>
 
       </div>
