@@ -145,19 +145,14 @@ const HoneybeeHiveGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound }) 
         <div className="relative flex flex-col items-center">
            <div className="text-amber-500/50 font-black tracking-widest text-xs md:text-sm uppercase mb-2 z-0">Loose Drops</div>
            
-           <div className="w-20 md:w-32 h-36 md:h-56 border-2 md:border-4 border-dashed border-amber-700/50 rounded-xl relative flex flex-wrap-reverse items-start justify-center p-2 md:p-4 gap-1 z-20 bg-amber-900/20">
-              {/* Counter Badge */}
-              <div className="absolute -top-4 -right-4 w-8 h-8 md:w-12 md:h-12 bg-amber-500 border-2 md:border-4 border-amber-200 rounded-full flex items-center justify-center shadow-lg z-30">
-                 <span className="text-base md:text-xl font-black text-amber-950">{looseDrops}</span>
-              </div>
-              
+           <div className="w-16 md:w-24 h-36 md:h-56 border-2 md:border-4 border-dashed border-amber-700/50 rounded-xl relative flex flex-wrap-reverse items-center justify-center p-1 md:p-2 gap-1 z-20 bg-amber-900/20">
               <AnimatePresence>
                  {Array.from({length: looseDrops}).map((_, i) => (
                     <motion.div
                        key={`loose-${i}`}
                        initial={{ y: -50, opacity: 0, scale: 0.5 }}
                        animate={{ y: 0, opacity: 1, scale: 1 }}
-                       className="text-2xl md:text-4xl filter drop-shadow-[0_0_5px_rgba(251,191,36,0.8)]"
+                       className="text-xl md:text-3xl filter drop-shadow-[0_0_2px_rgba(251,191,36,0.8)]"
                     >
                        🍯
                     </motion.div>
