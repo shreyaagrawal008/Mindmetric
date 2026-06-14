@@ -6,24 +6,26 @@ const playMarchSound = () => {
   try {
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     
-    const playStep = (time) => {
+    const playStep = (time, isLeftFoot) => {
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
-      osc.type = 'triangle';
+      
+      // Use noise-like low frequency for footsteps
+      osc.type = 'square'; 
       
       const filter = audioCtx.createBiquadFilter();
       filter.type = 'lowpass';
-      filter.frequency.value = 150;
+      filter.frequency.value = isLeftFoot ? 120 : 150; // Slightly different pitch for left/right
       
       osc.connect(filter);
       filter.connect(gain);
       gain.connect(audioCtx.destination);
       
-      osc.frequency.setValueAtTime(60, time);
+      osc.frequency.setValueAtTime(isLeftFoot ? 50 : 60, time);
       osc.frequency.exponentialRampToValueAtTime(10, time + 0.1);
       
       gain.gain.setValueAtTime(0, time);
-      gain.gain.linearRampToValueAtTime(1, time + 0.02);
+      gain.gain.linearRampToValueAtTime(0.8, time + 0.02);
       gain.gain.exponentialRampToValueAtTime(0.01, time + 0.1);
       
       osc.start(time);
@@ -31,9 +33,10 @@ const playMarchSound = () => {
     };
 
     const now = audioCtx.currentTime;
-    playStep(now);
-    playStep(now + 0.3);
-    playStep(now + 0.6);
+    // Play a sequence of 8 quick marching steps
+    for (let i = 0; i < 8; i++) {
+        playStep(now + (i * 0.15), i % 2 === 0);
+    }
   } catch (e) {
     console.error("Audio API not supported", e);
   }

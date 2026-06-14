@@ -1362,7 +1362,15 @@ public class DataSeeder implements CommandLineRunner {
                 
                 return buildT(String.valueOf(targetDecade), String.valueOf(targetDecade - 1), String.valueOf(targetDecade + 1), String.valueOf(targetDecade + 10), q, "train_station_game", json);
             }
-            case 2: { int n = r(1,4)*10; return buildN(n+10, 10, 50, "What comes next: " + n + ", _?"); }
+            case 2: { // Toy Soldier March
+                int squads = (((qNum - 1) % 7) + 3); // 3 to 9 squads (30 to 90)
+                int target = squads * 10;
+                String[] colors = {"Blue", "Red", "Green", "Purple", "Gold"};
+                String color = colors[(qNum - 1) % 5];
+                String q = "Company, march! Send a squad of 10 to the first bridge gate!";
+                String json = "{\"color\":\"" + color + "\",\"target\":" + target + "}";
+                return buildT(String.valueOf(target), String.valueOf(target - 10), String.valueOf(target + 10), String.valueOf(target - 5), q, "toy_soldier_march", json);
+            }
             case 3: { int n = r(5,9)*10; return buildN(n+10, 10, 100, "Century march: " + n + ", _?"); }
             case 4: return buildN(r(1,100), 1, 100, "Grid Runner");
             case 5: { int n = r(1,29); return buildN(n+1, 1, 30, "What comes after " + n + "?"); }
