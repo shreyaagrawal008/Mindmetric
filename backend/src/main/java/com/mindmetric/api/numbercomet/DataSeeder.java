@@ -1284,7 +1284,14 @@ public class DataSeeder implements CommandLineRunner {
                 String json = "{\"target\":" + target + "}";
                 return buildT(String.valueOf(target), String.valueOf(target + 10), String.valueOf(target + 20), String.valueOf(qNum + 40), q, "teen_tower_game", json);
             }
-            case 4: return buildN(r(15,16), 13, 18, "Numbers 15 and 16");
+            case 4: {
+                String[] bees = {"Benny", "Betty", "Buzz", "Barry", "Bea", "Bumble", "Barnaby", "Bella", "Buster", "Bailey", "Baxter", "Bonnie", "Bobby", "Brody", "Bree"};
+                int target = 15 + ((qNum - 1) % 2);
+                String beeName = bees[(qNum - 1) % 15];
+                String q = "Let's help Worker Bee " + beeName + " store " + target + " drops of honey! First, fill the main hive frame with 10 drops!";
+                String json = "{\"target\":" + target + ",\"beeName\":\"" + beeName + "\"}";
+                return buildT(String.valueOf(target), String.valueOf(target + 10), String.valueOf(target + 20), String.valueOf(qNum + 40), q, "honeybee_hive_game", json);
+            }
             case 5: return buildN(r(17,19), 15, 20, "Numbers 17, 18, 19");
             case 6: { int n = r(1,9); return buildN(n, 1, 9, "10 and what makes " + (10+n) + "?"); }
             case 7: return buildN(r(1,6), 1, 6, "Dice Flash!");
