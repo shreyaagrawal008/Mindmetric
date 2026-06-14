@@ -172,7 +172,7 @@ const TrainStationGame = ({ dataStr, onVictory }) => {
   };
 
   if (!data) return null;
-  const { color, destination, target } = data; // target e.g. 40
+  const { color, destination, target = 20 } = data; // target e.g. 40, fallback to 20 if cached data is used
   const trainHex = getTrainColor(color);
   
   const carsCount = target / 10;
