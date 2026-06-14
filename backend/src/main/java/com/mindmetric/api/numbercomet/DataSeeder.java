@@ -1432,7 +1432,12 @@ public class DataSeeder implements CommandLineRunner {
                 String json = "{\"prev\":" + prev + ",\"next\":" + next + ",\"target\":" + target + "}";
                 return buildT(String.valueOf(correct), String.valueOf(wrong1), String.valueOf(wrong2), String.valueOf(wrong3), q, "cosmic_bridge_repair", json);
             }
-            case 8: { int n = r(1,4)*5; return buildN(n, 5, 20, "Count the tally marks!"); }
+            case 8: { // Astromaze Island Castaway
+                int target = 5;
+                String q = "We need to track our firewood bundles before the sun sets! Tap the screen to draw a tally mark for each log!";
+                String json = "{\"target\":" + target + "}";
+                return buildT("NONE", "A", "B", "C", q, "island_castaway_game", json);
+            }
             default: return buildN(1, 1, 10, "Error");
         }
     }
