@@ -1448,8 +1448,30 @@ public class DataSeeder implements CommandLineRunner {
         String[] faces = {"SQUARE", "CIRCLE", "TRIANGLE"};
         switch(topic) {
             case 1: { // Astromaze Cosmic Bowling Alley
-                String q = "Astronaut! We need to activate the docking bridge switch at the bottom of the ramp. Pick the magic shape that can roll all the way down to press the button!";
-                return buildT("NONE", "A", "B", "C", q, "cosmic_bowling_game", "{}");
+                String[] colors = {"red", "blue", "green", "purple", "orange"};
+                String[] colorHexes = {"#ef4444", "#3b82f6", "#10b981", "#8b5cf6", "#f59e0b"};
+                int sIdx = r(0, 4);
+                int cIdx = r(0, 4);
+                if (sIdx == cIdx) cIdx = (cIdx + 1) % 5;
+                
+                String sphereColor = colorHexes[sIdx];
+                String cubeColor = colorHexes[cIdx];
+                String spherePos = r(0, 1) == 0 ? "left" : "right";
+                
+                String[] correctShapes = {"sphere", "wheel", "ring"};
+                String[] wrongShapes = {"cube", "pyramid", "prism"};
+                String correctShape = correctShapes[r(0, 2)];
+                String wrongShape = wrongShapes[r(0, 2)];
+                
+                String[] voiceovers = {
+                    "Astronaut! We need to activate the docking bridge switch at the bottom of the ramp. Pick the magic shape that can roll!",
+                    "Explorer! The bridge is locked. Test the shapes on the gravity ramp and find the one that rolls smoothly!",
+                    "Captain! Which shape will slide smoothly down the ramp to hit the button? Drag it to the drop zone!"
+                };
+                String q = voiceovers[r(0, 2)];
+                
+                String json = "{\"sphereColor\":\"" + sphereColor + "\",\"cubeColor\":\"" + cubeColor + "\",\"spherePos\":\"" + spherePos + "\",\"correctShape\":\"" + correctShape + "\",\"wrongShape\":\"" + wrongShape + "\"}";
+                return buildT("NONE", "A", "B", "C", q, "cosmic_bowling_game", json);
             }
             case 2: return buildS("CUBE", shapes3d, "Stacking Cubes");
             case 3: return buildS("CYLINDER", shapes3d, "Smooth Cylinder");

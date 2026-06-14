@@ -19,6 +19,21 @@ const CosmicBowlingGame = ({ question, dataStr, onVictory }) => {
     const cubeControls = useAnimation();
     const sphereControls = useAnimation();
 
+    const config = React.useMemo(() => {
+        try {
+            const parsed = JSON.parse(dataStr);
+            return {
+                sphereColor: parsed.sphereColor || '#ef4444',
+                cubeColor: parsed.cubeColor || '#ea580c',
+                spherePos: parsed.spherePos || 'left',
+                correctShape: parsed.correctShape || 'sphere',
+                wrongShape: parsed.wrongShape || 'cube'
+            };
+        } catch (e) {
+            return { sphereColor: '#ef4444', cubeColor: '#ea580c', spherePos: 'left', correctShape: 'sphere', wrongShape: 'cube' };
+        }
+    }, [dataStr]);
+
     const [playThud] = useSound(thudSfxUrl, { volume: 0.8 });
     const [playDing] = useSound(dingSfxUrl, { volume: 1.0 });
 
@@ -141,6 +156,64 @@ const CosmicBowlingGame = ({ question, dataStr, onVictory }) => {
         }
     };
 
+    const renderCorrectShape = () => {
+        if (config.correctShape === 'wheel') {
+            return (
+                <div className="w-full h-full rounded-full border-[10px] md:border-[14px] border-gray-800 shadow-[inset_0_10px_20px_rgba(0,0,0,0.5)] flex items-center justify-center" style={{ backgroundColor: config.sphereColor }}>
+                    <div className="w-1/3 h-1/3 rounded-full border-4 border-gray-900 bg-gray-300"></div>
+                </div>
+            );
+        } else if (config.correctShape === 'ring') {
+            return (
+                <div className="w-full h-full rounded-full border-[14px] md:border-[20px] shadow-[0_10px_20px_rgba(0,0,0,0.5),inset_0_5px_15px_rgba(0,0,0,0.5)]" style={{ borderColor: config.sphereColor }}></div>
+            );
+        }
+        return (
+            <div className="w-full h-full rounded-full shadow-[inset_-10px_-10px_20px_rgba(0,0,0,0.5),0_10px_20px_rgba(0,0,0,0.5)]" style={{ background: sphereState === 'landed' ? 'radial-gradient(circle at 30% 30%, #fde047, #ca8a04)' : `radial-gradient(circle at 30% 30%, #fff, ${config.sphereColor}, #000)` }}>
+                <AnimatePresence>
+                    {sphereState === 'landed' && (
+                        <motion.div 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
+                        >
+                            <div className="flex space-x-4 mb-2">
+                                <div className="w-3 h-4 bg-black rounded-full"></div>
+                                <div className="w-3 h-4 bg-black rounded-full"></div>
+                            </div>
+                            <div className="w-10 h-4 border-b-4 border-black rounded-full"></div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
+        );
+    };
+
+    const renderWrongShape = () => {
+        if (config.wrongShape === 'pyramid') {
+            return (
+                <div className="absolute inset-0 flex justify-center items-end pb-1 drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)]">
+                    <div className="relative w-0 h-0 border-l-[35px] md:border-l-[45px] border-l-transparent border-r-[35px] md:border-r-[45px] border-r-transparent border-b-[60px] md:border-b-[80px]" style={{ borderBottomColor: config.cubeColor }}>
+                        <div className="absolute top-[0px] left-0 w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-b-[60px] md:border-b-[80px] brightness-75" style={{ borderBottomColor: config.cubeColor, transform: 'skewY(-15deg)', transformOrigin: 'bottom left' }}></div>
+                    </div>
+                </div>
+            );
+        } else if (config.wrongShape === 'prism') {
+            return (
+                <div className="absolute inset-0 shadow-lg border-2 border-slate-900 rounded-sm scale-y-125" style={{ backgroundColor: config.cubeColor }}>
+                    <div className="absolute top-0 left-0 w-full h-1/4 border-b-2 border-slate-900 opacity-60 bg-white" style={{ transform: 'skewX(-20deg)', transformOrigin: 'bottom' }}></div>
+                    <div className="absolute top-1/4 right-0 w-1/4 h-3/4 border-l-2 border-slate-900 opacity-60 bg-black" style={{ transform: 'skewY(-20deg)', transformOrigin: 'left' }}></div>
+                </div>
+            );
+        }
+        return (
+            <div className="absolute inset-0 shadow-lg border-2 border-slate-900 rounded-sm" style={{ backgroundColor: config.cubeColor }}>
+                <div className="absolute top-0 left-0 w-full h-1/3 border-b-2 border-slate-900 opacity-60 bg-white" style={{ transform: 'skewX(-20deg)', transformOrigin: 'bottom' }}></div>
+                <div className="absolute top-1/3 right-0 w-1/3 h-2/3 border-l-2 border-slate-900 opacity-60 bg-black" style={{ transform: 'skewY(-20deg)', transformOrigin: 'left' }}></div>
+            </div>
+        );
+    };
+
     return (
         <div className="absolute inset-0 flex flex-col items-center justify-center touch-none select-none overflow-hidden bg-slate-900">
             
@@ -194,7 +267,7 @@ const CosmicBowlingGame = ({ question, dataStr, onVictory }) => {
             <div className="relative z-10 w-full max-w-4xl h-[60vh] flex">
                 
                 {/* Inventory / Pedestals (Left Side) */}
-                <div className="w-1/3 h-full flex flex-col justify-around items-center">
+                <div className={`w-1/3 h-full flex ${config.spherePos === 'right' ? 'flex-col-reverse' : 'flex-col'} justify-around items-center`}>
                     
                     {/* Sphere Pedestal */}
                     <div className="relative flex flex-col items-center">
@@ -206,27 +279,9 @@ const CosmicBowlingGame = ({ question, dataStr, onVictory }) => {
                             animate={sphereControls}
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
-                            className={`z-30 cursor-grab active:cursor-grabbing w-20 h-20 md:w-28 md:h-28 rounded-full shadow-[inset_-10px_-10px_20px_rgba(0,0,0,0.5),0_10px_20px_rgba(0,0,0,0.5)] ${sphereState === 'landed' ? 'bg-yellow-400' : 'bg-red-500'}`}
-                            style={{
-                                background: sphereState === 'landed' ? 'radial-gradient(circle at 30% 30%, #fde047, #ca8a04)' : 'radial-gradient(circle at 30% 30%, #fca5a5, #dc2626, #7f1d1d)'
-                            }}
+                            className={`z-30 cursor-grab active:cursor-grabbing ${config.correctShape === 'wheel' ? 'w-24 h-24 md:w-32 md:h-32' : 'w-20 h-20 md:w-28 md:h-28'} relative`}
                         >
-                            {/* Smiley Face if victory */}
-                            <AnimatePresence>
-                                {sphereState === 'landed' && (
-                                    <motion.div 
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
-                                    >
-                                        <div className="flex space-x-4 mb-2">
-                                            <div className="w-3 h-4 bg-black rounded-full"></div>
-                                            <div className="w-3 h-4 bg-black rounded-full"></div>
-                                        </div>
-                                        <div className="w-10 h-4 border-b-4 border-black rounded-full"></div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
+                            {renderCorrectShape()}
                         </motion.div>
                         {/* Pedestal Base */}
                         <div className="w-24 h-8 md:w-32 md:h-10 bg-slate-700 rounded-full mt-2 border-t-4 border-slate-500 shadow-xl"></div>
@@ -243,13 +298,7 @@ const CosmicBowlingGame = ({ question, dataStr, onVictory }) => {
                             whileTap={{ scale: 0.9 }}
                             className="z-30 cursor-grab active:cursor-grabbing relative w-20 h-20 md:w-28 md:h-28"
                         >
-                            {/* CSS Isometric Cube simulation */}
-                            <div className="absolute inset-0 bg-orange-600 shadow-lg border-2 border-orange-800 rounded-sm">
-                                {/* Top face */}
-                                <div className="absolute top-0 left-0 w-full h-1/3 bg-orange-400 border-b-2 border-orange-800 opacity-80" style={{ transform: 'skewX(-20deg)', transformOrigin: 'bottom' }}></div>
-                                {/* Side face */}
-                                <div className="absolute top-1/3 right-0 w-1/3 h-2/3 bg-orange-700 border-l-2 border-orange-800 opacity-60" style={{ transform: 'skewY(-20deg)', transformOrigin: 'left' }}></div>
-                            </div>
+                            {renderWrongShape()}
                         </motion.div>
                         {/* Pedestal Base */}
                         <div className="w-24 h-8 md:w-32 md:h-10 bg-slate-700 rounded-full mt-2 border-t-4 border-slate-500 shadow-xl"></div>
