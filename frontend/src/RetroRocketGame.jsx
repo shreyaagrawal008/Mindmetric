@@ -128,10 +128,10 @@ const RetroRocketGame = ({ dataStr, question, onVictory }) => {
   if (!data || options.length === 0) return null;
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-between touch-none select-none bg-slate-900 font-mono overflow-hidden" style={{ background: 'linear-gradient(to bottom, #0f172a 0%, #1e1b4b 100%)' }}>
+    <div className="relative w-full h-full flex flex-col items-center justify-between touch-none select-none bg-slate-900 font-mono" style={{ background: 'linear-gradient(to bottom, #0f172a 0%, #1e1b4b 100%)' }}>
       
       {/* Dynamic Starfield Background */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
          {Array.from({ length: 40 }).map((_, i) => (
              <motion.div 
                key={i}
@@ -203,11 +203,11 @@ const RetroRocketGame = ({ dataStr, question, onVictory }) => {
       </AnimatePresence>
 
       {/* Main Play Area - Rocket Launchpad */}
-      <div className="flex-1 w-full relative z-10 flex flex-col items-center justify-end pb-8">
+      <div className="flex-1 w-full relative z-10 flex flex-col items-center justify-end pb-2 md:pb-8">
           
           {/* Rocket Ship */}
           <motion.div 
-             className="relative flex flex-col items-center z-20"
+             className="relative flex flex-col items-center z-20 scale-[0.65] md:scale-100 origin-bottom"
              animate={isVictory ? { y: -windowDimension.height - 200 } : { y: [0, -5, 0] }}
              transition={isVictory ? { duration: 2.5, ease: "easeIn", delay: 1 } : { duration: 3, repeat: Infinity }}
           >
@@ -246,7 +246,7 @@ const RetroRocketGame = ({ dataStr, question, onVictory }) => {
           </motion.div>
 
           {/* Launchpad Clamps */}
-          <div className="w-48 h-8 flex justify-between absolute bottom-8 z-30">
+          <div className="w-48 h-8 flex justify-between absolute bottom-4 md:bottom-8 z-30 scale-75 md:scale-100 origin-bottom">
               <motion.div 
                  className="w-12 h-16 bg-slate-600 border-2 border-slate-800 rounded-t-lg origin-bottom-left"
                  animate={isVictory ? { rotate: -45 } : { rotate: 0 }}
@@ -260,7 +260,7 @@ const RetroRocketGame = ({ dataStr, question, onVictory }) => {
           </div>
 
           {/* Launchpad Base Platform */}
-          <div className="w-64 md:w-96 h-8 bg-slate-800 border-t-4 border-slate-500 rounded-t-xl absolute bottom-0 z-10 flex justify-center items-center">
+          <div className="w-64 md:w-96 h-4 md:h-8 bg-slate-800 border-t-4 border-slate-500 rounded-t-xl absolute bottom-0 z-10 flex justify-center items-center">
              <div className="w-full h-1 bg-yellow-500/50 mt-1" style={{ backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(0,0,0,0.5) 10px, rgba(0,0,0,0.5) 20px)' }}></div>
           </div>
       </div>
