@@ -1322,7 +1322,26 @@ public class DataSeeder implements CommandLineRunner {
                 String json = "{\"target\":" + target + ",\"hatColor\":\"" + hatColor + "\"}";
                 return buildT(String.valueOf(target), String.valueOf(w1), String.valueOf(w2), String.valueOf(target + 10), q, "dice_flash_game", json);
             }
-            case 8: return buildN(r(1,12), 1, 12, "Dominos Flash!");
+            case 8: {
+                int[][] dominos = {{1,2}, {2,2}, {3,1}, {4,1}, {3,2}, {3,3}, {4,2}, {4,3}, {5,3}, {5,4}};
+                String[] sectors = {"Alpha", "Beta", "Gamma"};
+                int index = (qNum - 1) % 10;
+                int[] domino = dominos[index];
+                int left = domino[0];
+                int right = domino[1];
+                int target = left + right;
+                String sector = sectors[((qNum - 1) / 10) % 3];
+                
+                String q = "Power levels detected in Sector " + sector + "! What was the total matrix weight on that domino card?";
+                
+                // Ensure choices have the target and two distinct random wrong options
+                int w1 = target == 3 ? 4 : target - 1;
+                int w2 = target == 9 ? 8 : target + 1;
+                if (w1 == w2) w2 = target + 2;
+
+                String json = "{\"target\":" + target + ",\"left\":" + left + ",\"right\":" + right + ",\"sector\":\"" + sector + "\"}";
+                return buildT(String.valueOf(target), String.valueOf(w1), String.valueOf(w2), String.valueOf(target + 10), q, "dominos_flash_game", json);
+            }
             default: return buildN(1, 1, 10, "Error");
         }
     }
