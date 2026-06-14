@@ -103,7 +103,7 @@ const CosmicBridgeRepairGame = ({ dataStr, question, onVictory }) => {
   if (!data || options.length === 0) return null;
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-center touch-none select-none bg-slate-900" style={{ background: 'linear-gradient(to bottom, #020617 0%, #172554 100%)' }}>
+    <div className="relative w-full h-full flex flex-col items-center justify-center touch-none select-none bg-transparent">
       
       {/* Dynamic Nebula Background */}
       <div className="absolute inset-0 z-0 pointer-events-none opacity-50 overflow-hidden">
