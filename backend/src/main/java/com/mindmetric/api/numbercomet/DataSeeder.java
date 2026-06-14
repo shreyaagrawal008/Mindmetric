@@ -92,7 +92,7 @@ public class DataSeeder implements CommandLineRunner {
             case 4: return genLevel4(topic, qNum);
             case 5: return genLevel5(topic, qNum);
             case 6: return genLevel6(topic, qNum);
-            case 7: return genLevel7(topic);
+            case 7: return genLevel7(topic, qNum);
             case 8: return genLevel8(topic);
             case 9: return genLevel9(topic);
             case 10: return genLevel10(topic);
@@ -1346,9 +1346,19 @@ public class DataSeeder implements CommandLineRunner {
         }
     }
 
-    private String[] genLevel7(int topic) {
+    private String[] genLevel7(int topic, int qNum) {
         switch(topic) {
-            case 1: return buildN(20, 15, 25, "The Big 20!");
+            case 1: {
+                String[] colors = {"Crimson", "Midnight", "Forest", "Iron", "Brass"};
+                String[] destinations = {"Timber Peak", "Rocky Valley", "Snowcap City", "Crystal Lake", "Echo Canyon", "Sunset Ridge"};
+                String color = colors[(qNum - 1) % 5];
+                String destination = destinations[((qNum - 1) / 5) % 6];
+                
+                String q = "Look! There is one lone log left on the platform. Tap it to load the " + color + " Engine heading to " + destination + "!";
+                String json = "{\"color\":\"" + color + "\",\"destination\":\"" + destination + "\"}";
+                
+                return buildT("20", "19", "21", "22", q, "train_station_game", json);
+            }
             case 2: { int n = r(1,4)*10; return buildN(n+10, 10, 50, "What comes next: " + n + ", _?"); }
             case 3: { int n = r(5,9)*10; return buildN(n+10, 10, 100, "Century march: " + n + ", _?"); }
             case 4: return buildN(r(1,100), 1, 100, "Grid Runner");
