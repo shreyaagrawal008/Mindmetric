@@ -1403,7 +1403,19 @@ public class DataSeeder implements CommandLineRunner {
                 String json = "{\"squirrelPos\":" + n + ",\"target\":" + correct + ",\"nextPos\":" + (n + 2) + "}";
                 return buildT(String.valueOf(correct), String.valueOf(wrong1), String.valueOf(wrong2), String.valueOf(wrong3), q, "forest_path_rescue", json);
             }
-            case 6: { int n = r(2,30); return buildN(n-1, 1, 30, "What comes before " + n + "?"); }
+            case 6: { // Retro Rocket Countdown Base
+                int target = r(5, 90);
+                int correct = target - 1;
+                int wrong1 = target + 1; // Anti-forward distractor
+                int wrong2 = (target % 10) * 10 + (target / 10); // reverse digits
+                if (wrong2 == correct || wrong2 == wrong1) wrong2 = target - 10;
+                if (wrong2 <= 0) wrong2 = target + 10;
+                int wrong3 = wrong2; // duplicate so we only have 3 unique
+                
+                String q = "Systems check! The ignition lock is stuck at " + target + ". Quick, enter " + target + "'s Prior Neighbor to unlock the main fuel valves!";
+                String json = "{\"target\":" + target + "}";
+                return buildT(String.valueOf(correct), String.valueOf(wrong1), String.valueOf(wrong2), String.valueOf(wrong3), q, "retro_rocket_game", json);
+            }
             case 7: { int n = r(20,28); return buildN(n+1, 20, 30, "Missing gap: " + n + ", _, " + (n+2)); }
             case 8: { int n = r(1,4)*5; return buildN(n, 5, 20, "Count the tally marks!"); }
             default: return buildN(1, 1, 10, "Error");
