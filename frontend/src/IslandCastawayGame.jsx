@@ -54,14 +54,9 @@ const IslandCastawayGame = ({ question, dataStr, onVictory }) => {
 
     return (
         <div 
-            className="relative w-full h-full flex flex-col items-center justify-center touch-none select-none overflow-hidden bg-[#2D1B13]"
+            className="absolute inset-0 flex flex-col items-center justify-center touch-none select-none overflow-hidden"
             onClick={handleTap}
         >
-            {/* Wooden Log Cabin Wall Background */}
-            <div className="absolute inset-0 z-0 opacity-40" style={{
-                backgroundImage: 'repeating-linear-gradient(0deg, #3E2723, #3E2723 40px, #2A1710 40px, #2A1710 42px)'
-            }}></div>
-
             {/* Island Environment / Beach floor */}
             <div className="absolute bottom-0 left-0 w-full h-1/4 bg-gradient-to-t from-yellow-700/60 to-transparent z-0"></div>
 
@@ -99,7 +94,7 @@ const IslandCastawayGame = ({ question, dataStr, onVictory }) => {
                             <motion.div 
                                 initial={{ height: 0, opacity: 0 }}
                                 animate={{ height: '80%', opacity: 1 }}
-                                className="absolute left-[20%] w-3 bg-stone-900 rounded-full"
+                                className="absolute left-[20%] w-2 md:w-3 bg-[#2a2a2a] rounded-sm transform rotate-2 shadow-sm"
                                 style={{ top: '10%' }}
                             />
                         )}
@@ -111,7 +106,7 @@ const IslandCastawayGame = ({ question, dataStr, onVictory }) => {
                             <motion.div 
                                 initial={{ height: 0, opacity: 0 }}
                                 animate={{ height: '80%', opacity: 1 }}
-                                className="absolute left-[40%] w-3 bg-stone-900 rounded-full"
+                                className="absolute left-[40%] w-2 md:w-3 bg-[#252525] rounded-sm transform -rotate-1 shadow-sm"
                                 style={{ top: '10%' }}
                             />
                         )}
@@ -123,7 +118,7 @@ const IslandCastawayGame = ({ question, dataStr, onVictory }) => {
                             <motion.div 
                                 initial={{ height: 0, opacity: 0 }}
                                 animate={{ height: '80%', opacity: 1 }}
-                                className="absolute left-[60%] w-3 bg-stone-900 rounded-full"
+                                className="absolute left-[60%] w-2 md:w-3 bg-[#2f2f2f] rounded-sm transform rotate-1 shadow-sm"
                                 style={{ top: '10%' }}
                             />
                         )}
@@ -135,7 +130,7 @@ const IslandCastawayGame = ({ question, dataStr, onVictory }) => {
                             <motion.div 
                                 initial={{ height: 0, opacity: 0 }}
                                 animate={{ height: '80%', opacity: 1 }}
-                                className="absolute left-[80%] w-3 bg-stone-900 rounded-full"
+                                className="absolute left-[80%] w-2 md:w-3 bg-[#222222] rounded-sm transform -rotate-2 shadow-sm"
                                 style={{ top: '10%' }}
                             />
                         )}
@@ -148,7 +143,7 @@ const IslandCastawayGame = ({ question, dataStr, onVictory }) => {
                                 initial={{ width: 0, opacity: 0 }}
                                 animate={{ width: '120%', opacity: 1 }}
                                 transition={{ duration: 0.3, ease: 'easeOut' }}
-                                className="absolute left-[-10%] top-[48%] h-4 bg-stone-900 rounded-full transform -rotate-12"
+                                className="absolute left-[-10%] top-[48%] h-2 md:h-3 bg-[#1a1a1a] rounded-sm transform -rotate-12 shadow-sm"
                             />
                         )}
                     </AnimatePresence>
