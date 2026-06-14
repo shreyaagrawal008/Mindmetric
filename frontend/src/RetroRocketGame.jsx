@@ -266,29 +266,29 @@ const RetroRocketGame = ({ dataStr, question, onVictory }) => {
       </div>
 
       {/* Dashboard UI */}
-      <div className="w-full p-4 md:p-6 bg-slate-800 border-t-4 border-slate-600 z-40 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] flex flex-col items-center">
+      <div className="w-full p-2 md:p-4 bg-slate-800 border-t-4 border-slate-600 z-40 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] flex flex-col items-center">
           
           {/* Dashboard Screen */}
-          <div className="w-full max-w-md bg-slate-900 border-4 border-slate-700 rounded-xl p-4 mb-6 shadow-inner relative flex flex-col items-center">
+          <div className="w-full max-w-sm bg-slate-900 border-4 border-slate-700 rounded-xl p-2 md:p-3 mb-2 md:mb-4 shadow-inner relative flex flex-col items-center">
               {/* Status Bar */}
-              <div className="w-full flex justify-between items-center mb-4">
-                  <div className="flex gap-2">
-                      <div className={`w-3 h-3 rounded-full ${isVictory ? 'bg-green-500 shadow-[0_0_10px_#22c55e]' : 'bg-red-500 shadow-[0_0_10px_#ef4444] animate-pulse'}`}></div>
-                      <span className="text-xs text-slate-400 tracking-widest">{isVictory ? 'SYSTEM ALIGNED' : 'IGNITION LOCKED'}</span>
+              <div className="w-full flex justify-between items-center mb-2">
+                  <div className="flex gap-2 items-center">
+                      <div className={`w-2 h-2 md:w-3 md:h-3 rounded-full ${isVictory ? 'bg-green-500 shadow-[0_0_10px_#22c55e]' : 'bg-red-500 shadow-[0_0_10px_#ef4444] animate-pulse'}`}></div>
+                      <span className="text-[10px] md:text-xs text-slate-400 tracking-widest">{isVictory ? 'SYSTEM ALIGNED' : 'IGNITION LOCKED'}</span>
                   </div>
-                  <div className="text-xs text-cyan-400 tracking-widest font-bold">SEQ-ALPHA</div>
+                  <div className="text-[10px] md:text-xs text-cyan-400 tracking-widest font-bold">SEQ-ALPHA</div>
               </div>
 
               {/* The Lock Sequence Display */}
-              <div className="flex items-center justify-center gap-2 md:gap-4 bg-black/50 p-4 rounded-lg border border-slate-800 w-full">
+              <div className="flex items-center justify-center gap-2 md:gap-4 bg-black/50 p-2 md:p-3 rounded-lg border border-slate-800 w-full">
                   
                   {/* The Missing Key Slot */}
-                  <div className="relative w-16 h-20 md:w-20 md:h-24 bg-slate-800/80 rounded border-2 border-dashed border-cyan-500/50 flex flex-col items-center justify-center overflow-hidden">
-                      <span className="text-cyan-500/30 text-xs absolute top-1 uppercase tracking-widest">Prior</span>
+                  <div className="relative w-12 h-16 md:w-16 md:h-20 bg-slate-800/80 rounded border-2 border-dashed border-cyan-500/50 flex flex-col items-center justify-center overflow-hidden">
+                      <span className="text-cyan-500/30 text-[10px] absolute top-1 uppercase tracking-widest">Prior</span>
                       <AnimatePresence>
                           {!isVictory && (
                               <motion.div 
-                                  className="text-4xl text-cyan-400 font-bold animate-pulse"
+                                  className="text-3xl text-cyan-400 font-bold animate-pulse"
                                   exit={{ opacity: 0, scale: 0 }}
                               >_</motion.div>
                           )}
@@ -300,7 +300,7 @@ const RetroRocketGame = ({ dataStr, question, onVictory }) => {
                                   initial={{ opacity: 0, scale: 1.5 }}
                                   animate={{ opacity: 1, scale: 1 }}
                               >
-                                  <span className="text-4xl md:text-5xl font-black text-cyan-300 drop-shadow-[0_0_8px_#22d3ee]">{data.target - 1}</span>
+                                  <span className="text-3xl md:text-4xl font-black text-cyan-300 drop-shadow-[0_0_8px_#22d3ee]">{data.target - 1}</span>
                               </motion.div>
                           )}
                       </AnimatePresence>
@@ -308,30 +308,30 @@ const RetroRocketGame = ({ dataStr, question, onVictory }) => {
 
                   {/* Connector */}
                   <div className="flex flex-col gap-1 items-center justify-center opacity-50">
-                      <div className="w-4 h-1 bg-cyan-500"></div>
+                      <div className="w-3 h-1 bg-cyan-500"></div>
                   </div>
 
                   {/* The Target Number */}
-                  <div className="relative w-16 h-20 md:w-20 md:h-24 bg-slate-800 rounded border-2 border-slate-600 flex flex-col items-center justify-center shadow-[inset_0_0_15px_rgba(0,0,0,0.8)]">
-                      <span className="text-slate-400 text-xs absolute top-1 uppercase tracking-widest">Target</span>
-                      <span className="text-4xl md:text-5xl font-black text-white drop-shadow-md">{data.target}</span>
+                  <div className="relative w-12 h-16 md:w-16 md:h-20 bg-slate-800 rounded border-2 border-slate-600 flex flex-col items-center justify-center shadow-[inset_0_0_15px_rgba(0,0,0,0.8)]">
+                      <span className="text-slate-400 text-[10px] absolute top-1 uppercase tracking-widest">Target</span>
+                      <span className="text-3xl md:text-4xl font-black text-white drop-shadow-md">{data.target}</span>
                       {/* Flashing target indicator */}
                       {!isVictory && (
-                          <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-ping"></div>
+                          <div className="absolute -top-1 -right-1 w-2 h-2 md:w-3 md:h-3 bg-red-500 rounded-full animate-ping"></div>
                       )}
                   </div>
               </div>
           </div>
 
           {/* Keypad Options */}
-          <div className="flex flex-wrap justify-center gap-4 md:gap-8">
+          <div className="flex flex-wrap justify-center gap-3 md:gap-6">
               {options.map((opt, index) => {
                   const isWrongShake = wrongShakeId === opt;
                   return (
                       <motion.button
                           key={index}
                           onClick={() => handleOptionClick(opt)}
-                          className="relative w-20 h-16 md:w-24 md:h-20 bg-slate-700 rounded-lg border-b-8 border-slate-900 flex items-center justify-center shadow-lg hover:bg-slate-600 active:border-b-0 active:translate-y-2 transition-all group overflow-hidden"
+                          className="relative w-16 h-12 md:w-20 md:h-16 bg-slate-700 rounded-lg border-b-6 md:border-b-8 border-slate-900 flex items-center justify-center shadow-lg hover:bg-slate-600 active:border-b-0 active:translate-y-1 md:active:translate-y-2 transition-all group overflow-hidden"
                           animate={isWrongShake ? { x: [-10, 10, -10, 10, 0], backgroundColor: ['#7f1d1d', '#334155'] } : {}}
                           transition={{ duration: 0.4 }}
                           whileHover={{ scale: 1.05 }}
@@ -341,7 +341,7 @@ const RetroRocketGame = ({ dataStr, question, onVictory }) => {
                           {/* Neon glow effect on hover */}
                           <div className="absolute inset-0 bg-cyan-400/0 group-hover:bg-cyan-400/20 transition-all"></div>
                           {/* Button text */}
-                          <span className="text-3xl md:text-4xl font-black text-slate-200 group-hover:text-cyan-300 drop-shadow-[0_0_5px_rgba(0,0,0,0.5)] group-hover:drop-shadow-[0_0_8px_#22d3ee] transition-all">{opt}</span>
+                          <span className="text-2xl md:text-3xl font-black text-slate-200 group-hover:text-cyan-300 drop-shadow-[0_0_5px_rgba(0,0,0,0.5)] group-hover:drop-shadow-[0_0_8px_#22d3ee] transition-all">{opt}</span>
                       </motion.button>
                   );
               })}
