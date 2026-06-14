@@ -1416,7 +1416,22 @@ public class DataSeeder implements CommandLineRunner {
                 String json = "{\"target\":" + target + "}";
                 return buildT(String.valueOf(correct), String.valueOf(wrong1), String.valueOf(wrong2), String.valueOf(wrong3), q, "retro_rocket_game", json);
             }
-            case 7: { int n = r(20,28); return buildN(n+1, 20, 30, "Missing gap: " + n + ", _, " + (n+2)); }
+            case 7: { // Astromaze Cosmic Bridge Repair
+                int prev = r(1, 90);
+                int target = prev + 1;
+                int next = prev + 2;
+                
+                int correct = target;
+                int wrong1 = prev - 1; // under-shoot
+                if (wrong1 <= 0) wrong1 = next + 10;
+                int wrong2 = next + 1; // over-shoot
+                int wrong3 = (target % 10) * 10 + (target / 10); // reverse digits
+                if (wrong3 == correct || wrong3 == wrong1 || wrong3 == wrong2) wrong3 = target + 10;
+                
+                String q = "Runner! The cosmic energy path has a missing gap! We have " + prev + " on the left and " + next + " on the right. What magic number belongs between them to complete the bridge?";
+                String json = "{\"prev\":" + prev + ",\"next\":" + next + ",\"target\":" + target + "}";
+                return buildT(String.valueOf(correct), String.valueOf(wrong1), String.valueOf(wrong2), String.valueOf(wrong3), q, "cosmic_bridge_repair", json);
+            }
             case 8: { int n = r(1,4)*5; return buildN(n, 5, 20, "Count the tally marks!"); }
             default: return buildN(1, 1, 10, "Error");
         }
