@@ -154,30 +154,30 @@ const CosmicBridgeRepairGame = ({ dataStr, question, onVictory }) => {
       </AnimatePresence>
 
       {/* Main Play Area - Cosmic Bridge */}
-      <div className="w-full relative z-10 flex flex-col items-center justify-center mt-4 md:mt-8">
+      <div className="w-full relative z-10 flex flex-col items-center justify-center pt-8 md:pt-12">
           
-          <div className="relative w-full max-w-3xl flex justify-center items-center mt-2 mb-4 md:mb-8">
+          <div className="relative w-full max-w-3xl flex justify-center items-center">
              
              {/* The Cosmic Energy Path */}
-             <div className={`absolute top-1/2 left-0 w-full h-4 -translate-y-1/2 transition-colors duration-1000 blur-sm z-0 ${isVictory ? 'bg-green-400' : 'bg-cyan-900'}`}></div>
-             <div className={`absolute top-1/2 left-0 w-full h-1 -translate-y-1/2 transition-colors duration-1000 z-0 ${isVictory ? 'bg-green-200 shadow-[0_0_20px_#4ade80]' : 'bg-cyan-500'}`}></div>
+             <div className={`absolute top-1/2 left-0 w-full h-2 md:h-4 -translate-y-1/2 transition-colors duration-1000 blur-sm z-0 ${isVictory ? 'bg-green-400' : 'bg-cyan-900'}`}></div>
+             <div className={`absolute top-1/2 left-0 w-full h-0.5 md:h-1 -translate-y-1/2 transition-colors duration-1000 z-0 ${isVictory ? 'bg-green-200 shadow-[0_0_20px_#4ade80]' : 'bg-cyan-500'}`}></div>
 
              {/* Tiles Container */}
              <div className="relative z-10 flex items-center justify-between w-full max-w-2xl px-2 md:px-8">
                  
                  {/* Rover Vehicle */}
                  <motion.div 
-                    className="absolute top-[-40px] md:top-[-60px] z-20 w-12 h-10 md:w-16 md:h-12 scale-75 md:scale-100"
+                    className="absolute top-[-25px] md:top-[-40px] z-20 w-10 h-8 md:w-16 md:h-12 scale-75 md:scale-100"
                     initial={{ left: '0%' }}
                     animate={isVictory ? { left: '100%', rotate: [0, 5, 0, -5, 0] } : { left: '15%', y: [0, -2, 0] }}
                     transition={isVictory ? { duration: 2, ease: "easeInOut", delay: 0.5 } : { duration: 1, repeat: Infinity, type: 'tween' }}
                  >
-                     <div className="w-12 h-8 bg-white rounded-t-xl border-4 border-slate-300 relative">
-                         <div className="absolute top-1 right-1 w-4 h-4 bg-cyan-300 rounded-sm"></div>
+                     <div className="w-full h-3/4 bg-white rounded-t-xl border-2 md:border-4 border-slate-300 relative">
+                         <div className="absolute top-1 right-1 w-2 h-2 md:w-4 md:h-4 bg-cyan-300 rounded-sm"></div>
                      </div>
-                     <div className="flex justify-between px-1 -mt-2">
-                         <div className="w-4 h-4 bg-slate-800 rounded-full border-2 border-slate-500 animate-spin"></div>
-                         <div className="w-4 h-4 bg-slate-800 rounded-full border-2 border-slate-500 animate-spin"></div>
+                     <div className="flex justify-between px-1 -mt-1 md:-mt-2">
+                         <div className="w-3 h-3 md:w-4 md:h-4 bg-slate-800 rounded-full border border-slate-500 animate-spin"></div>
+                         <div className="w-3 h-3 md:w-4 md:h-4 bg-slate-800 rounded-full border border-slate-500 animate-spin"></div>
                      </div>
                  </motion.div>
 
@@ -189,7 +189,7 @@ const CosmicBridgeRepairGame = ({ dataStr, question, onVictory }) => {
                      >
                          <span className="text-2xl md:text-4xl font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">{data.prev}</span>
                      </motion.div>
-                     <div className={`w-full h-4 md:h-8 blur-md mt-2 transition-colors duration-500 ${isVictory ? 'bg-green-500/40' : 'bg-cyan-500/20'}`}></div>
+                     <div className={`w-full h-2 md:h-8 blur-md mt-1 md:mt-2 transition-colors duration-500 ${isVictory ? 'bg-green-500/40' : 'bg-cyan-500/20'}`}></div>
                  </div>
 
                  {/* Tile 2: Missing Gap */}
@@ -197,7 +197,7 @@ const CosmicBridgeRepairGame = ({ dataStr, question, onVictory }) => {
                      <AnimatePresence>
                          {!isVictory && (
                              <motion.div 
-                                 className="absolute inset-0 border-4 border-dashed border-cyan-500/50 rounded-xl flex items-center justify-center transform rotate-x-12"
+                                 className="absolute inset-0 border-2 md:border-4 border-dashed border-cyan-500/50 rounded-xl flex items-center justify-center transform rotate-x-12"
                                  exit={{ opacity: 0, scale: 0.5 }}
                              >
                                  <span className="text-3xl text-cyan-500/40 font-black animate-pulse">?</span>
@@ -226,7 +226,7 @@ const CosmicBridgeRepairGame = ({ dataStr, question, onVictory }) => {
                      >
                          <span className="text-2xl md:text-4xl font-black text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">{data.next}</span>
                      </motion.div>
-                     <div className={`w-full h-4 md:h-8 blur-md mt-2 transition-colors duration-500 ${isVictory ? 'bg-green-500/40' : 'bg-cyan-500/20'}`}></div>
+                     <div className={`w-full h-2 md:h-8 blur-md mt-1 md:mt-2 transition-colors duration-500 ${isVictory ? 'bg-green-500/40' : 'bg-cyan-500/20'}`}></div>
                  </div>
 
              </div>
@@ -234,7 +234,7 @@ const CosmicBridgeRepairGame = ({ dataStr, question, onVictory }) => {
       </div>
 
       {/* Floating Asteroid Keys Options */}
-      <div className="w-full p-2 md:p-6 z-40 relative flex justify-center mt-2 md:mt-4 mb-4 md:mb-8">
+      <div className="w-full p-2 z-40 relative flex justify-center mt-2 mb-2">
           <div className="flex flex-wrap justify-center gap-4 md:gap-8">
               {options.map((opt, index) => {
                   const isWrongShake = wrongShakeId === opt;
