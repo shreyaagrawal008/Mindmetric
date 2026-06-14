@@ -149,7 +149,7 @@ const ForestPathRescueGame = ({ dataStr, question, onVictory }) => {
   if (!data || options.length === 0) return null;
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-between overflow-hidden touch-none select-none bg-green-950 font-sans" style={{ background: 'radial-gradient(circle at top, #14532d 0%, #022c22 100%)' }}>
+    <div className="relative w-full h-full flex flex-col items-center justify-between touch-none select-none bg-green-950 font-sans" style={{ background: 'radial-gradient(circle at top, #14532d 0%, #022c22 100%)' }}>
       
       {/* Dynamic Forest Background elements */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -182,7 +182,7 @@ const ForestPathRescueGame = ({ dataStr, question, onVictory }) => {
       </div>
 
       {isVictory && (
-        <div className="absolute inset-0 z-50 pointer-events-none">
+        <div className="absolute inset-0 z-50 pointer-events-none overflow-hidden">
           {/* Green leaves & acorns confetti */}
           <Confetti 
              width={windowDimension.width} 
@@ -232,63 +232,63 @@ const ForestPathRescueGame = ({ dataStr, question, onVictory }) => {
       </AnimatePresence>
 
       {/* Main Play Area - The Path */}
-      <div className="flex-1 w-full relative z-10 flex flex-col items-center justify-center pt-16 md:pt-20">
+      <div className="flex-1 w-full relative z-10 flex flex-col items-center justify-center pt-8 md:pt-12">
           
-          <div className="flex items-center justify-center gap-4 md:gap-8 transform -rotate-6 md:-rotate-3">
+          <div className="flex items-center justify-center gap-3 md:gap-6 transform -rotate-6 md:-rotate-3">
               
               {/* Stone 1: Squirrel Position */}
               <div className="relative">
                   {/* The Squirrel */}
                   <motion.div 
-                     className="absolute -top-16 md:-top-24 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center"
+                     className="absolute -top-12 md:-top-16 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center"
                      animate={isVictory ? {
-                         x: [0, windowDimension.width < 768 ? 112 : 176, windowDimension.width < 768 ? 224 : 352], // Hop exactly 1 stone width + gap per jump
-                         y: [0, -50, 0, -50, 0]
+                         x: [0, windowDimension.width < 768 ? 92 : 136, windowDimension.width < 768 ? 184 : 272], // Hop exactly 1 stone width + gap per jump
+                         y: [0, -40, 0, -40, 0]
                      } : {
                          y: [0, -5, 0] // idle breathing
                      }}
                      transition={isVictory ? { duration: 1.2, delay: 0.8, ease: "easeInOut" } : { duration: 2, repeat: Infinity }}
                   >
                       {/* Squirrel Tail */}
-                      <div className="absolute -left-6 md:-left-8 top-4 md:top-6 w-8 h-12 md:w-12 md:h-16 bg-orange-600 rounded-full transform -rotate-12 border-2 border-orange-800 shadow-md"></div>
+                      <div className="absolute -left-5 md:-left-6 top-3 md:top-4 w-6 h-10 md:w-10 md:h-14 bg-orange-600 rounded-full transform -rotate-12 border-2 border-orange-800 shadow-md"></div>
                       {/* Squirrel Body */}
-                      <div className="w-12 h-14 md:w-16 md:h-20 bg-orange-500 rounded-t-full rounded-b-3xl border-2 border-orange-700 flex flex-col items-center relative shadow-lg">
+                      <div className="w-10 h-12 md:w-14 md:h-16 bg-orange-500 rounded-t-full rounded-b-3xl border-2 border-orange-700 flex flex-col items-center relative shadow-lg">
                           {/* Belly */}
-                          <div className="w-8 h-10 md:w-10 md:h-14 bg-orange-200 rounded-full mt-auto mb-1"></div>
+                          <div className="w-6 h-8 md:w-8 md:h-10 bg-orange-200 rounded-full mt-auto mb-1"></div>
                           {/* Head */}
-                          <div className="absolute -top-6 md:-top-8 w-14 h-12 md:w-18 md:h-16 bg-orange-500 rounded-full border-2 border-orange-700 flex justify-center shadow-sm">
+                          <div className="absolute -top-5 md:-top-6 w-12 h-10 md:w-16 md:h-14 bg-orange-500 rounded-full border-2 border-orange-700 flex justify-center shadow-sm">
                               {/* Ears */}
-                              <div className="absolute -left-1 -top-2 w-4 h-6 bg-orange-600 rounded-t-full border-2 border-orange-800 transform -rotate-12"></div>
-                              <div className="absolute -right-1 -top-2 w-4 h-6 bg-orange-600 rounded-t-full border-2 border-orange-800 transform rotate-12"></div>
+                              <div className="absolute -left-1 -top-2 w-3 h-5 bg-orange-600 rounded-t-full border-2 border-orange-800 transform -rotate-12"></div>
+                              <div className="absolute -right-1 -top-2 w-3 h-5 bg-orange-600 rounded-t-full border-2 border-orange-800 transform rotate-12"></div>
                               {/* Eyes */}
-                              <div className="absolute top-4 left-3 w-2 h-2 md:w-3 md:h-3 bg-black rounded-full"></div>
-                              <div className="absolute top-4 right-3 w-2 h-2 md:w-3 md:h-3 bg-black rounded-full"></div>
+                              <div className="absolute top-3 left-2 w-2 h-2 md:w-2.5 md:h-2.5 bg-black rounded-full"></div>
+                              <div className="absolute top-3 right-2 w-2 h-2 md:w-2.5 md:h-2.5 bg-black rounded-full"></div>
                               {/* Nose */}
-                              <div className="absolute top-7 w-2 h-2 bg-pink-500 rounded-full"></div>
+                              <div className="absolute top-5 w-1.5 h-1.5 bg-pink-500 rounded-full"></div>
                           </div>
                           {/* Arms */}
-                          <div className="absolute top-4 -left-1 w-3 h-6 bg-orange-500 rounded-full border border-orange-700 transform rotate-45"></div>
-                          <div className="absolute top-4 -right-1 w-3 h-6 bg-orange-500 rounded-full border border-orange-700 transform -rotate-45"></div>
+                          <div className="absolute top-3 -left-1 w-2 h-5 bg-orange-500 rounded-full border border-orange-700 transform rotate-45"></div>
+                          <div className="absolute top-3 -right-1 w-2 h-5 bg-orange-500 rounded-full border border-orange-700 transform -rotate-45"></div>
                       </div>
                   </motion.div>
 
                   {/* Stone */}
-                  <div className="w-24 h-16 md:w-36 md:h-24 bg-slate-400 rounded-full border-b-8 border-slate-600 flex items-center justify-center shadow-2xl relative">
+                  <div className="w-20 h-14 md:w-28 md:h-20 bg-slate-400 rounded-full border-b-6 border-slate-600 flex items-center justify-center shadow-xl relative">
                       {/* Moss */}
-                      <div className="absolute top-0 left-2 w-8 h-4 bg-green-600/60 rounded-full blur-[1px]"></div>
-                      <span className="text-3xl md:text-5xl font-black text-slate-800 drop-shadow-md">{data.squirrelPos}</span>
+                      <div className="absolute top-0 left-2 w-6 h-3 bg-green-600/60 rounded-full blur-[1px]"></div>
+                      <span className="text-2xl md:text-4xl font-black text-slate-800 drop-shadow-md">{data.squirrelPos}</span>
                   </div>
               </div>
 
               {/* Stone 2: The Missing Gap (Target) */}
-              <div className="relative w-24 h-16 md:w-36 md:h-24">
+              <div className="relative w-20 h-14 md:w-28 md:h-20">
                   <AnimatePresence>
                       {!isVictory && (
                           <motion.div 
                               className="absolute inset-0 w-full h-full rounded-full border-4 border-dashed border-white/30 flex items-center justify-center"
                               exit={{ opacity: 0, scale: 0 }}
                           >
-                              <span className="text-4xl text-white/50 font-black animate-pulse">?</span>
+                              <span className="text-3xl md:text-4xl text-white/50 font-black animate-pulse">?</span>
                           </motion.div>
                       )}
                   </AnimatePresence>
@@ -296,8 +296,8 @@ const ForestPathRescueGame = ({ dataStr, question, onVictory }) => {
                   <AnimatePresence>
                       {isVictory && (
                           <motion.div 
-                              className="absolute inset-0 w-full h-full bg-yellow-100 rounded-full border-b-8 border-yellow-300 flex items-center justify-center shadow-[0_0_40px_#fef08a]"
-                              initial={{ opacity: 0, y: -100, scale: 1.5 }}
+                              className="absolute inset-0 w-full h-full bg-yellow-100 rounded-full border-b-6 border-yellow-300 flex items-center justify-center shadow-[0_0_30px_#fef08a]"
+                              initial={{ opacity: 0, y: -80, scale: 1.5 }}
                               animate={{ opacity: 1, y: 0, scale: 1 }}
                               transition={{ type: "spring", bounce: 0.5 }}
                           >
@@ -305,16 +305,16 @@ const ForestPathRescueGame = ({ dataStr, question, onVictory }) => {
                               <div className="absolute inset-0 flex items-center justify-center">
                                   <div className="w-full h-full bg-white/40 rounded-full animate-ping"></div>
                               </div>
-                              <span className="text-3xl md:text-5xl font-black text-yellow-800 drop-shadow-md z-10">{data.target}</span>
+                              <span className="text-2xl md:text-4xl font-black text-yellow-800 drop-shadow-md z-10">{data.target}</span>
                           </motion.div>
                       )}
                   </AnimatePresence>
               </div>
 
               {/* Stone 3: The Next Stone */}
-              <div className="w-24 h-16 md:w-36 md:h-24 bg-slate-400 rounded-full border-b-8 border-slate-600 flex items-center justify-center shadow-2xl relative">
-                   <div className="absolute bottom-2 right-2 w-6 h-3 bg-green-700/50 rounded-full blur-[1px]"></div>
-                   <span className="text-3xl md:text-5xl font-black text-slate-800 drop-shadow-md">{data.nextPos}</span>
+              <div className="w-20 h-14 md:w-28 md:h-20 bg-slate-400 rounded-full border-b-6 border-slate-600 flex items-center justify-center shadow-xl relative">
+                   <div className="absolute bottom-2 right-2 w-4 h-2 bg-green-700/50 rounded-full blur-[1px]"></div>
+                   <span className="text-2xl md:text-4xl font-black text-slate-800 drop-shadow-md">{data.nextPos}</span>
               </div>
 
           </div>
