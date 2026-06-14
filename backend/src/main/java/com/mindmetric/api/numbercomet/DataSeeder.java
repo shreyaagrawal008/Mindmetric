@@ -1392,7 +1392,17 @@ public class DataSeeder implements CommandLineRunner {
                 String json = "{\"start\":" + start + ",\"target\":" + target + "}";
                 return buildT(String.valueOf(target), String.valueOf(target - 1), String.valueOf(target + 1), String.valueOf(target - 10), q, "grid_runner", json);
             }
-            case 5: { int n = r(1,29); return buildN(n+1, 1, 30, "What comes after " + n + "?"); }
+            case 5: { // Forest Path Rescue
+                int n = r(1, 80); // Squirrel is on n, target is n+1, next is n+2
+                int correct = n + 1;
+                int wrong1 = n - 1 < 0 ? n + 10 : n - 1; // Anti-regression distractor
+                int wrong2 = n + 10;
+                int wrong3 = correct + 10;
+                
+                String q = "Oh no! The bridge is broken! The baby squirrel is stuck on stone " + n + ". Who is " + n + "'s Next Neighbor? Tap the magic number to build the next stone!";
+                String json = "{\"squirrelPos\":" + n + ",\"target\":" + correct + ",\"nextPos\":" + (n + 2) + "}";
+                return buildT(String.valueOf(correct), String.valueOf(wrong1), String.valueOf(wrong2), String.valueOf(wrong3), q, "forest_path_rescue", json);
+            }
             case 6: { int n = r(2,30); return buildN(n-1, 1, 30, "What comes before " + n + "?"); }
             case 7: { int n = r(20,28); return buildN(n+1, 20, 30, "Missing gap: " + n + ", _, " + (n+2)); }
             case 8: { int n = r(1,4)*5; return buildN(n, 5, 20, "Count the tally marks!"); }
