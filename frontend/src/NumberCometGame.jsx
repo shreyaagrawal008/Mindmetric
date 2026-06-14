@@ -3644,7 +3644,7 @@ export default function NumberCometGame({ userId, onExit }) {
     }
     if (currentQuestion.type === 'retro_rocket_game') {
       return (
-        <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1, minHeight: '300px' }}>
+        <div style={{ width: '100%', flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '300px', overflow: 'hidden' }}>
            <RetroRocketGame 
               key={currentQuestionIndex}
               question={currentQuestion}
@@ -3925,7 +3925,7 @@ export default function NumberCometGame({ userId, onExit }) {
         </header>
 
         {currentQuestion.type === 'inside_outside_game' || currentQuestion.type === 'greedy_gator_game' || currentQuestion.type === 'tiny_team_game' || currentQuestion.type === 'twin_sets_game' || currentQuestion.type === 'finding_leftovers_game' || currentQuestion.type === 'number_comparison_game' || currentQuestion.type === 'fairness_adjuster_game' || currentQuestion.type === 'estimation_blitz_game' || currentQuestion.type === 'ten_frame_game' || currentQuestion.type === 'base_10_anchor_game' || currentQuestion.type === 'number_castle_game' || currentQuestion.type === 'teen_tower_game' || currentQuestion.type === 'honeybee_hive_game' || currentQuestion.type === 'astromaze_rocket_game' || currentQuestion.type === 'teen_breakdown_game' || currentQuestion.type === 'dice_flash_game' || currentQuestion.type === 'dominos_flash_game' || currentQuestion.type === 'train_station_game' || currentQuestion.type === 'toy_soldier_march' || currentQuestion.type === 'cosmic_star_bridge' || currentQuestion.type === 'grid_runner' || currentQuestion.type === 'forest_path_rescue' || currentQuestion.type === 'retro_rocket_game' || currentQuestion.type === 'above_below_game' || currentQuestion.type === 'front_behind_game' || currentQuestion.type === 'cosmic_playroom' || currentQuestion.type === 'deliverySpacePort' || currentQuestion.type === 'dragAndDrop_bigSmall' || currentQuestion.type === 'comparison_realWorldSize' || currentQuestion.type === 'comparison_tallShort' || currentQuestion.type === 'comparison_tallShortRealWorld' || currentQuestion.type === 'comparison_longShortRealWorld' ? (
-          <main style={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%', height: '100%', background: currentQuestion.type === 'dragAndDrop_bigSmall' ? 'linear-gradient(to bottom, transparent 60%, #1a4a1a 60%, #0a2a0a 100%)' : 'transparent', position: 'relative' }}>
+          <main style={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%', minHeight: 0, background: currentQuestion.type === 'dragAndDrop_bigSmall' ? 'linear-gradient(to bottom, transparent 60%, #1a4a1a 60%, #0a2a0a 100%)' : 'transparent', position: 'relative' }}>
             {/* Split screen subtle effect */}
             {currentQuestion.type === 'dragAndDrop_bigSmall' && <div style={{ position: 'absolute', top: 0, left: '50%', width: '2px', height: '100%', background: 'rgba(255,255,255,0.1)', zIndex: 0 }}></div>}
             
