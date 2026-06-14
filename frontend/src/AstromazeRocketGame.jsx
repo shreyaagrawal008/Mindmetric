@@ -17,6 +17,44 @@ const FuelCanister = ({ loaded }) => (
   </div>
 );
 
+const playRocketSound = () => {
+  try {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const bufferSize = audioCtx.sampleRate * 2.5; // 2.5 seconds of noise
+    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+    const data = buffer.getChannelData(0);
+    
+    // Generate white noise
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = Math.random() * 2 - 1;
+    }
+
+    const noiseSource = audioCtx.createBufferSource();
+    noiseSource.buffer = buffer;
+
+    // Use a lowpass filter to create a deep rumble that gets brighter
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(100, audioCtx.currentTime); // Deep start
+    filter.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 1.5); // Roar
+
+    // Volume envelope
+    const gainNode = audioCtx.createGain();
+    gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+    gainNode.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 0.5); // Swell up during ignition
+    gainNode.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 1.5); // Hold during blast off
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 2.5); // Fade out as it leaves
+
+    noiseSource.connect(filter);
+    filter.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+
+    noiseSource.start();
+  } catch (e) {
+    console.error("Audio API not supported", e);
+  }
+};
+
 const AstromazeRocketGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound }) => {
   const [data, setData] = useState(null);
   const [phase, setPhase] = useState(1);
@@ -58,6 +96,7 @@ const AstromazeRocketGame = ({ dataStr, onVictory, onCorrectSound, onErrorSound 
 
     if (10 + nextDrops === data.target) {
       setPhase(2.5); // Ignition
+      playRocketSound(); // Trigger the massive rocket roar!
       setTimeout(() => {
         setPhase(3); // Blast Off!
         setTimeout(() => {
