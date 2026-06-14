@@ -1447,7 +1447,10 @@ public class DataSeeder implements CommandLineRunner {
         String[] types = {"FLAT", "SOLID", "LINE"};
         String[] faces = {"SQUARE", "CIRCLE", "TRIANGLE"};
         switch(topic) {
-            case 1: return buildS("SPHERE", shapes3d, "Rolling Spheres");
+            case 1: { // Astromaze Cosmic Bowling Alley
+                String q = "Astronaut! We need to activate the docking bridge switch at the bottom of the ramp. Pick the magic shape that can roll all the way down to press the button!";
+                return buildT("NONE", "A", "B", "C", q, "cosmic_bowling_game", "{}");
+            }
             case 2: return buildS("CUBE", shapes3d, "Stacking Cubes");
             case 3: return buildS("CYLINDER", shapes3d, "Smooth Cylinder");
             case 4: return buildS("CONE", shapes3d, "Party Cone");
