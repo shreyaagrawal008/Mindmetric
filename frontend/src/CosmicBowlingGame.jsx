@@ -21,15 +21,16 @@ const CosmicBowlingGame = ({ question, dataStr, onVictory }) => {
 
     const config = React.useMemo(() => {
         try {
-            const parsed = JSON.parse(dataStr);
+            const parsed = typeof dataStr === 'string' ? JSON.parse(dataStr) : dataStr;
             return {
-                sphereColor: parsed.sphereColor || '#ef4444',
-                cubeColor: parsed.cubeColor || '#ea580c',
-                spherePos: parsed.spherePos || 'left',
-                correctShape: parsed.correctShape || 'sphere',
-                wrongShape: parsed.wrongShape || 'cube'
+                sphereColor: parsed?.sphereColor || '#ef4444',
+                cubeColor: parsed?.cubeColor || '#ea580c',
+                spherePos: parsed?.spherePos || 'left',
+                correctShape: parsed?.correctShape || 'sphere',
+                wrongShape: parsed?.wrongShape || 'cube'
             };
         } catch (e) {
+            console.error("Failed to parse config:", e, dataStr);
             return { sphereColor: '#ef4444', cubeColor: '#ea580c', spherePos: 'left', correctShape: 'sphere', wrongShape: 'cube' };
         }
     }, [dataStr]);

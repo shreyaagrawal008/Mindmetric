@@ -93,7 +93,7 @@ public class DataSeeder implements CommandLineRunner {
             case 5: return genLevel5(topic, qNum);
             case 6: return genLevel6(topic, qNum);
             case 7: return genLevel7(topic, qNum);
-            case 8: return genLevel8(topic);
+            case 8: return genLevel8(topic, qNum);
             case 9: return genLevel9(topic);
             case 10: return genLevel10(topic);
             case 11: return genLevel11(topic);
@@ -1442,7 +1442,7 @@ public class DataSeeder implements CommandLineRunner {
         }
     }
 
-    private String[] genLevel8(int topic) {
+    private String[] genLevel8(int topic, int qNum) {
         String[] shapes3d = {"SPHERE", "CUBE", "CYLINDER", "CONE", "PYRAMID"};
         String[] types = {"FLAT", "SOLID", "LINE"};
         String[] faces = {"SQUARE", "CIRCLE", "TRIANGLE"};
@@ -1473,7 +1473,27 @@ public class DataSeeder implements CommandLineRunner {
                 String json = "{\"sphereColor\":\"" + sphereColor + "\",\"cubeColor\":\"" + cubeColor + "\",\"spherePos\":\"" + spherePos + "\",\"correctShape\":\"" + correctShape + "\",\"wrongShape\":\"" + wrongShape + "\"}";
                 return buildT("NONE", "A", "B", "C", q, "cosmic_bowling_game", json);
             }
-            case 2: return buildS("CUBE", shapes3d, "Stacking Cubes");
+            case 2: { // Astromaze Cosmic Tower Builder
+                // Create 30 strictly unique objects using 10 images and 3 CSS hue rotations (0, 120, 240)
+                int imageIdx = ((qNum - 1) % 10) + 1; // 1 to 10
+                int hueIdx = (qNum - 1) / 10; // 0 to 2
+                int hueRotate = hueIdx * 120;
+                
+                String cartonImage = "/images/cartons/carton" + imageIdx + ".png";
+                String sphereImage = "/images/cartons/sphere.png";
+                
+                boolean layoutReverse = r(0, 1) == 1;
+                
+                String[] voiceovers = {
+                    "Architect! We need to construct a stable communication tower. Pick the shape that stacks safely!",
+                    "Builder! Help us build a tall tower without it collapsing. Which shape stacks best?",
+                    "Engineer! The spaceship is waiting. Stack three stable blocks on the foundation!"
+                };
+                String q = voiceovers[r(0, 2)];
+                
+                String json = "{\"cartonImage\":\"" + cartonImage + "\",\"sphereImage\":\"" + sphereImage + "\",\"layoutReverse\":" + layoutReverse + ",\"hueRotate\":" + hueRotate + "}";
+                return buildT("NONE", "A", "B", "C", q, "cosmic_tower_builder", json);
+            }
             case 3: return buildS("CYLINDER", shapes3d, "Smooth Cylinder");
             case 4: return buildS("CONE", shapes3d, "Party Cone");
             case 5: return buildS(types[r(0,1)], types, "Flat vs Solid?");
