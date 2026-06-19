@@ -80,6 +80,7 @@ function App() {
     return (
         <Dashboard
             user={user}
+            setUser={setUser}
             onOpenAuth={(mode) => { setAuthMode(mode); setShowAuth(true); }}
             onLogout={() => { localStorage.removeItem("mindmetric-user"); setUser(null); window.location.assign("/"); }}
         />
@@ -140,7 +141,23 @@ function Dashboard({ user, setUser, onOpenAuth, onLogout }) {
                                 <span className="text-sm font-bold text-yellow-400 flex items-center gap-1">
                                     <Star className="w-4 h-4" /> {globalScore}
                                 </span>
-                                <span className="text-sm text-cyanGlow font-bold">Grade {currentGrade}</span>
+                                {user.isAdmin ? (
+                                    <select 
+                                        className="text-sm text-cyanGlow font-bold bg-transparent border border-cyanGlow rounded px-1 outline-none cursor-pointer"
+                                        value={currentGrade}
+                                        onChange={(e) => {
+                                            const updatedUser = { ...user, gradeLevel: e.target.value };
+                                            setUser(updatedUser);
+                                            localStorage.setItem("mindmetric-user", JSON.stringify(updatedUser));
+                                        }}
+                                    >
+                                        <option value="Pre-K" className="bg-slate-900 text-white">Pre-K</option>
+                                        <option value="K" className="bg-slate-900 text-white">Grade K</option>
+                                        {[...Array(12)].map((_, i) => <option key={i + 1} value={String(i + 1)} className="bg-slate-900 text-white">Grade {i + 1}</option>)}
+                                    </select>
+                                ) : (
+                                    <span className="text-sm text-cyanGlow font-bold">Grade {currentGrade}</span>
+                                )}
                                 <button onClick={onLogout} className="text-xs text-red-400">Logout</button>
                             </div>
                         )}
