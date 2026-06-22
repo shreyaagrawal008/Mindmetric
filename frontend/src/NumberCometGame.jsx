@@ -2915,8 +2915,10 @@ export default function NumberCometGame({ userId, onExit }) {
       }
       setActiveLevel(nextLevel);
       setActiveTopic(nextTopic);
+      setQuestions([]); // Clear old questions immediately so they don't ghost on screen during load
+      setCurrentQuestionIndex(0);
 
-      // Reached the end of the 30-question bundle, save progress
+      // Reached the end of the question bundle, save progress
       try {
         localStorage.setItem(`mindmetric_numbercomet_progress_${storageKey(userId)}`, JSON.stringify({
           activeLevel: nextLevel,
