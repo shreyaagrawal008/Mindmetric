@@ -2794,6 +2794,35 @@ export default function NumberCometGame({ userId, onExit }) {
     };
   }, []);
 
+  useEffect(() => {
+    if (!window.speechSynthesis) return;
+    const originalSpeak = window.speechSynthesis.speak.bind(window.speechSynthesis);
+    
+    window.speechSynthesis.speak = (utterance) => {
+      if (bgmRef.current) bgmRef.current.pause();
+      
+      const handleEndOrError = (e, originalHandler) => {
+        // Only resume if not managed by a sequence
+        if (bgmRef.current && isPlaying && (!isPlayingSequence || !isPlayingSequence.current)) {
+          bgmRef.current.play().catch(()=>{});
+        }
+        if (originalHandler) originalHandler(e);
+      };
+      
+      const oldOnEnd = utterance.onend;
+      utterance.onend = (e) => handleEndOrError(e, oldOnEnd);
+      
+      const oldOnError = utterance.onerror;
+      utterance.onerror = (e) => handleEndOrError(e, oldOnError);
+      
+      originalSpeak(utterance);
+    };
+    
+    return () => {
+      window.speechSynthesis.speak = originalSpeak;
+    };
+  }, [isPlaying]);
+
   // Handle Volume change
   const handleVolumeChange = (e) => {
     const newVol = Number(e.target.value);
@@ -2949,6 +2978,7 @@ export default function NumberCometGame({ userId, onExit }) {
   const playQuestionSequence = async () => {
     if (isPlayingSequence.current) return;
     isPlayingSequence.current = true;
+    if (bgmRef.current) bgmRef.current.pause();
     try {
       await speakText(currentQuestion.question || "Find the matching number");
       await new Promise(r => setTimeout(r, 600));
@@ -2974,6 +3004,7 @@ export default function NumberCometGame({ userId, onExit }) {
         }
       }
     } finally {
+      if (bgmRef.current && isPlaying) bgmRef.current.play().catch(()=>{});
       isPlayingSequence.current = false;
     }
   };
@@ -2982,6 +3013,7 @@ export default function NumberCometGame({ userId, onExit }) {
     e.stopPropagation();
     if (isPlayingSequence.current) return;
     isPlayingSequence.current = true;
+    if (bgmRef.current) bgmRef.current.pause();
     try {
       if (currentQuestion.options) {
         for (const opt of currentQuestion.options) {
@@ -2996,6 +3028,7 @@ export default function NumberCometGame({ userId, onExit }) {
         }
       }
     } finally {
+      if (bgmRef.current && isPlaying) bgmRef.current.play().catch(()=>{});
       isPlayingSequence.current = false;
     }
   };
