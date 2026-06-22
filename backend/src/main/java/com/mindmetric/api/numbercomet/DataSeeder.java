@@ -1486,7 +1486,15 @@ public class DataSeeder implements CommandLineRunner {
                 String json = "{\"cartonImage\":\"" + cartonImage + "\",\"sphereImage\":\"" + sphereImage + "\",\"layoutReverse\":" + layoutReverse + ",\"hueRotate\":" + hueRotate + "}";
                 return buildT("NONE", "A", "B", "C", q, "cosmic_tower_builder", json);
             }
-            case 3: return buildS("CYLINDER", shapes3d, "Smooth Cylinder");
+            case 3: {
+                String[] brands = {"Cherry Fizz", "Grape Galaxy", "Lemon Nova", "Cosmic Cola", "Star Spritz", "Meteor Melon", "Orbit Orange", "Lunar Lime", "Astro Berry", "Nebula Nectar"};
+                String[] colors = {"#ef4444", "#8b5cf6", "#eab308", "#1f2937", "#ec4899", "#f43f5e", "#f97316", "#84cc16", "#3b82f6", "#d946ef"};
+                String brand = brands[(qNum - 1) % 10];
+                String color = colors[(qNum - 1) % 10];
+                String q = "Alchemist! We have a delivery of smooth storage cylinders. We need to stack them in the elevator and roll them down the ramp. Master both moves!";
+                String json = "{\"brand\":\"" + brand + "\",\"color\":\"" + color + "\"}";
+                return buildT("NONE", "A", "B", "C", q, "soda_can_factory", json);
+            }
             case 4: return buildS("CONE", shapes3d, "Party Cone");
             case 5: return buildS(types[r(0,1)], new String[]{"FLAT", "SOLID", "LINE", "POINT", "CURVE"}, "Flat vs Solid?");
             case 6: return buildN(r(0,8), 0, 10, "Corner Counting");

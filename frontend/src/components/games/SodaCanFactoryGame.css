@@ -1,0 +1,379 @@
+.soda-can-factory {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(to bottom, #1e293b, #0f172a);
+  color: white;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.factory-supervisor {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 1rem;
+  max-width: 800px;
+  width: 100%;
+}
+
+.supervisor-avatar {
+  font-size: 3rem;
+  filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.5));
+}
+
+.supervisor-bubble {
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+.factory-stage {
+  display: flex;
+  width: 100%;
+  max-width: 900px;
+  flex: 1;
+  gap: 2rem;
+  justify-content: center;
+}
+
+/* Line A: Elevator */
+.elevator-shaft {
+  flex: 1;
+  background: rgba(0, 255, 255, 0.05);
+  border: 2px dashed rgba(0, 255, 255, 0.3);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  padding-bottom: 2rem;
+  min-height: 400px;
+}
+
+.elevator-header {
+  position: absolute;
+  top: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #00ffff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.elevator-platform {
+  width: 120px;
+  height: 20px;
+  background: #00ffff;
+  box-shadow: 0 0 15px #00ffff;
+  border-radius: 4px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* Line B: Ramp */
+.ramp-system {
+  flex: 1;
+  background: rgba(255, 0, 255, 0.05);
+  border: 2px dashed rgba(255, 0, 255, 0.3);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  min-height: 400px;
+}
+
+.ramp-header {
+  position: absolute;
+  top: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ff00ff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.ramp-surface {
+  position: absolute;
+  top: 80px;
+  left: 20px;
+  width: 80%;
+  height: 10px;
+  background: linear-gradient(90deg, #ff00ff, #ff88ff);
+  transform: rotate(20deg);
+  transform-origin: left center;
+  box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+  border-radius: 5px;
+}
+
+.delivery-crate {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 120px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 4px solid #ff00ff;
+  border-top: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  font-weight: bold;
+  color: #ff00ff;
+  padding-bottom: 10px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  box-shadow: inset 0 -20px 30px rgba(0,0,0,0.5);
+}
+
+.crate-can {
+  width: 40px;
+  height: 80px;
+  background: var(--can-color);
+  position: absolute;
+  bottom: 0;
+  border-radius: 4px;
+}
+
+/* Loading Dock */
+.loading-dock {
+  width: 100%;
+  max-width: 900px;
+  background: rgba(0, 0, 0, 0.5);
+  border-top: 4px solid #4ade80;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  border-radius: 12px 12px 0 0;
+  text-align: center;
+}
+
+.hint-text {
+  color: #a7f3d0;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.dock-items {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  min-height: 120px;
+  align-items: center;
+}
+
+/* 3D Soda Can CSS */
+.soda-can {
+  width: 60px;
+  height: 120px;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.soda-can.sideways {
+  transform: rotate(90deg);
+}
+
+.soda-can:hover {
+  transform: scale(1.1);
+}
+
+.soda-can.sideways:hover {
+  transform: rotate(90deg) scale(1.1);
+}
+
+.can-top {
+  width: 100%;
+  height: 15px;
+  background: #d1d5db;
+  border-radius: 50% / 50%;
+  position: absolute;
+  top: -7.5px;
+  z-index: 2;
+  box-shadow: inset 0 -2px 5px rgba(0,0,0,0.3);
+}
+
+.can-body {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(255,255,255,0.4) 30%, rgba(0,0,0,0.3) 100%), var(--can-color);
+  position: absolute;
+  top: 0;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.can-bottom {
+  width: 100%;
+  height: 15px;
+  background: #9ca3af;
+  border-radius: 50% / 50%;
+  position: absolute;
+  bottom: -7.5px;
+  z-index: -1;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+}
+
+.can-label {
+  color: white;
+  font-weight: 900;
+  font-size: 0.75rem;
+  text-align: center;
+  text-transform: uppercase;
+  transform: rotate(-90deg);
+  white-space: nowrap;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.sideways .can-label {
+  transform: none;
+}
+
+/* Stacked Cans in Elevator */
+.stacked-can {
+  width: 60px;
+  height: 120px;
+  position: absolute;
+  background: linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(255,255,255,0.4) 30%, rgba(0,0,0,0.3) 100%), var(--can-color);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stacked-can::before {
+  content: '';
+  width: 100%;
+  height: 15px;
+  background: #d1d5db;
+  border-radius: 50% / 50%;
+  position: absolute;
+  top: -7.5px;
+}
+
+.stacked-can::after {
+  content: '';
+  width: 100%;
+  height: 15px;
+  background: #9ca3af;
+  border-radius: 50% / 50%;
+  position: absolute;
+  bottom: -7.5px;
+  z-index: -1;
+}
+
+.stacked-label {
+  color: white;
+  font-weight: 900;
+  font-size: 0.75rem;
+  text-align: center;
+  text-transform: uppercase;
+  transform: rotate(-90deg);
+  white-space: nowrap;
+}
+
+.can-level-1 {
+  bottom: 20px;
+}
+
+.can-level-2 {
+  bottom: 140px;
+}
+
+/* Stamp Machine */
+.stamp-machine {
+  position: absolute;
+  top: 60px;
+  width: 100px;
+  height: 50px;
+  background: #facc15;
+  color: #000;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  opacity: 0.3;
+  transform: translateY(-20px);
+  transition: all 0.5s ease;
+}
+
+.stamp-machine.activated {
+  opacity: 1;
+  transform: translateY(120px); /* Stamping down onto the can */
+  box-shadow: 0 0 30px #facc15;
+}
+
+/* Rolling Animation */
+.rolling-can {
+  width: 60px;
+  height: 120px;
+  position: absolute;
+  top: -60px; /* Offset to center on ramp */
+  left: 0;
+  transform: rotate(90deg);
+  animation: rollDown 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.sideways-roll {
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes rollDown {
+  0% {
+    left: 0;
+    top: -60px;
+  }
+  100% {
+    left: 90%;
+    top: 250px; /* Roll down the angle */
+    opacity: 0; /* disappear into crate */
+  }
+}
+
+@keyframes spin {
+  from { background-position: 0 0; }
+  to { background-position: 0 100%; }
+}
+
+/* Feedback Toast */
+.feedback-toast {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid #00ffff;
+  color: #00ffff;
+  padding: 1rem 2rem;
+  border-radius: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+  z-index: 100;
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+  0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}

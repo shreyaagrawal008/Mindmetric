@@ -33,6 +33,7 @@ import GridRunnerGame from './GridRunnerGame';
 import ForestPathRescueGame from './ForestPathRescueGame';
 import RetroRocketGame from './RetroRocketGame';
 import CosmicBridgeRepairGame from './CosmicBridgeRepairGame';
+import SodaCanFactoryGame from './SodaCanFactoryGame';
 
 const LEVEL_NAMES = ["Luna", "Bolt", "Orbito", "Glow", "Vega", "Zuno", "Plutox", "Spark", "Twix", "Rocketo", "Vortex"];
 
@@ -3786,6 +3787,14 @@ export default function NumberCometGame({ userId, onExit }) {
       );
     }
 
+    if (currentQuestion.type === 'soda_can_factory') {
+      return (
+        <div style={{ width: '100%', flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '300px', overflow: 'hidden' }}>
+          <SodaCanFactoryGame currentQuestion={currentQuestion} onComplete={progressToNext} />
+        </div>
+      );
+    }
+
     if (currentQuestion.type === 'cosmic_tower_builder') {
       return (
         <div style={{ width: '100%', flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '300px', overflow: 'hidden' }}>
@@ -4049,7 +4058,7 @@ export default function NumberCometGame({ userId, onExit }) {
           </div>
         </header>
 
-        {currentQuestion.type === 'inside_outside_game' || currentQuestion.type === 'greedy_gator_game' || currentQuestion.type === 'tiny_team_game' || currentQuestion.type === 'twin_sets_game' || currentQuestion.type === 'finding_leftovers_game' || currentQuestion.type === 'number_comparison_game' || currentQuestion.type === 'fairness_adjuster_game' || currentQuestion.type === 'estimation_blitz_game' || currentQuestion.type === 'ten_frame_game' || currentQuestion.type === 'base_10_anchor_game' || currentQuestion.type === 'number_castle_game' || currentQuestion.type === 'teen_tower_game' || currentQuestion.type === 'honeybee_hive_game' || currentQuestion.type === 'astromaze_rocket_game' || currentQuestion.type === 'teen_breakdown_game' || currentQuestion.type === 'dice_flash_game' || currentQuestion.type === 'dominos_flash_game' || currentQuestion.type === 'train_station_game' || currentQuestion.type === 'toy_soldier_march' || currentQuestion.type === 'cosmic_star_bridge' || currentQuestion.type === 'grid_runner' || currentQuestion.type === 'forest_path_rescue' || currentQuestion.type === 'retro_rocket_game' || currentQuestion.type === 'cosmic_bridge_repair' || currentQuestion.type === 'above_below_game' || currentQuestion.type === 'front_behind_game' || currentQuestion.type === 'cosmic_playroom' || currentQuestion.type === 'deliverySpacePort' || currentQuestion.type === 'dragAndDrop_bigSmall' || currentQuestion.type === 'comparison_realWorldSize' || currentQuestion.type === 'comparison_tallShort' || currentQuestion.type === 'comparison_tallShortRealWorld' || currentQuestion.type === 'comparison_longShortRealWorld' || currentQuestion.type === 'island_castaway_game' || currentQuestion.type === 'cosmic_bowling_game' || currentQuestion.type === 'cosmic_tower_builder' ? (
+        {currentQuestion.type === 'inside_outside_game' || currentQuestion.type === 'greedy_gator_game' || currentQuestion.type === 'tiny_team_game' || currentQuestion.type === 'twin_sets_game' || currentQuestion.type === 'finding_leftovers_game' || currentQuestion.type === 'number_comparison_game' || currentQuestion.type === 'fairness_adjuster_game' || currentQuestion.type === 'estimation_blitz_game' || currentQuestion.type === 'ten_frame_game' || currentQuestion.type === 'base_10_anchor_game' || currentQuestion.type === 'number_castle_game' || currentQuestion.type === 'teen_tower_game' || currentQuestion.type === 'honeybee_hive_game' || currentQuestion.type === 'astromaze_rocket_game' || currentQuestion.type === 'teen_breakdown_game' || currentQuestion.type === 'dice_flash_game' || currentQuestion.type === 'dominos_flash_game' || currentQuestion.type === 'train_station_game' || currentQuestion.type === 'toy_soldier_march' || currentQuestion.type === 'cosmic_star_bridge' || currentQuestion.type === 'grid_runner' || currentQuestion.type === 'forest_path_rescue' || currentQuestion.type === 'retro_rocket_game' || currentQuestion.type === 'cosmic_bridge_repair' || currentQuestion.type === 'above_below_game' || currentQuestion.type === 'front_behind_game' || currentQuestion.type === 'cosmic_playroom' || currentQuestion.type === 'deliverySpacePort' || currentQuestion.type === 'dragAndDrop_bigSmall' || currentQuestion.type === 'comparison_realWorldSize' || currentQuestion.type === 'comparison_tallShort' || currentQuestion.type === 'comparison_tallShortRealWorld' || currentQuestion.type === 'comparison_longShortRealWorld' || currentQuestion.type === 'island_castaway_game' || currentQuestion.type === 'cosmic_bowling_game' || currentQuestion.type === 'soda_can_factory' || currentQuestion.type === 'cosmic_tower_builder' ? (
           <main style={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%', minHeight: 0, background: currentQuestion.type === 'dragAndDrop_bigSmall' ? 'linear-gradient(to bottom, transparent 60%, #1a4a1a 60%, #0a2a0a 100%)' : currentQuestion.type === 'island_castaway_game' ? '#2D1B13' : 'transparent', position: 'relative' }}>
             {/* Split screen subtle effect */}
             {currentQuestion.type === 'island_castaway_game' && <div className="absolute inset-0 z-0 opacity-40 pointer-events-none" style={{ backgroundImage: 'repeating-linear-gradient(0deg, #3E2723, #3E2723 40px, #2A1710 40px, #2A1710 42px)' }}></div>}
