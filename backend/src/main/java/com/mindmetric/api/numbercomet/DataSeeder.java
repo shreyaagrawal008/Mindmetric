@@ -27,14 +27,14 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     private void seedQuestions() {
-        System.out.println("Starting Number Comet Curriculum Seeder (11 Levels x 8 Topics x 30 Questions)...");
+        System.out.println("Starting Number Comet Curriculum Seeder (11 Levels x 8 Topics x 10 Questions)...");
         questionRepository.deleteAll(); // Clean slate
 
         List<Question> batchList = new ArrayList<>();
         int batchSize = 100;
 
         for (int level = 1; level <= 11; level++) {
-            int maxQ = (level == 1) ? 10 : 30;
+            int maxQ = 10;
             for (int topic = 1; topic <= 8; topic++) {
                 Set<String> seen = new HashSet<>();
                 for (int qNum = 1; qNum <= maxQ; qNum++) {
@@ -92,7 +92,7 @@ public class DataSeeder implements CommandLineRunner {
             questionRepository.saveAll(batchList);
         }
         
-        System.out.println("Successfully seeded " + (11 * 8 * 30) + " Number Comet questions into MySQL.");
+        System.out.println("Successfully seeded " + (11 * 8 * 10) + " Number Comet questions into MySQL.");
     }
 
     private String[] generate(int level, int topic, int qNum) {
@@ -667,11 +667,6 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     private String[] genLevel4(int topic, int qNum) {
-        String[] shapes = {"CIRCLE", "SQUARE", "TRIANGLE", "RECTANGLE", "OVAL"};
-        String[] colors = {"RED", "BLUE", "GREEN", "YELLOW"};
-        String[] pos1 = {"ABOVE", "BELOW", "NEXT"};
-        String[] pos2 = {"FRONT", "BEHIND", "SIDE"};
-        String[] pos3 = {"INSIDE", "OUTSIDE", "ON"};
         switch(topic) {
                           case 1: {
                   String[][] circles = {
@@ -700,8 +695,6 @@ public class DataSeeder implements CommandLineRunner {
                   String[] c = circles[idx];
                   String[] d = distractors[idx];
                   
-                  // determine corners for distractors.
-                  // 🍉, 📐, 🍕, 🪁, 🥪 are 3 or 4. Let's just assign 3 for slice-like things, 4 for others.
                   int c0 = (d[0].equals("🍉") || d[0].equals("📐") || d[0].equals("🍕") || d[0].equals("🥪")) ? 3 : 4;
                   int c1 = (d[1].equals("🍉") || d[1].equals("📐") || d[1].equals("🍕") || d[1].equals("🥪")) ? 3 : 4;
                   
@@ -1080,7 +1073,7 @@ public class DataSeeder implements CommandLineRunner {
                 int rightCount;
                 do { rightCount = r(1, 9); } while (leftCount == rightCount);
                 
-                boolean askSymbol = qNum > 15;
+                boolean askSymbol = qNum > 5;
                 String q = askSymbol 
                     ? "Which symbol makes the Gator eat the most " + t[2] + "?"
                     : "The Gator is super hungry! Which group of " + t[2] + " will he want to eat?";
@@ -1102,7 +1095,7 @@ public class DataSeeder implements CommandLineRunner {
                 int rightCount;
                 do { rightCount = r(1, 9); } while (leftCount == rightCount);
                 
-                boolean askSymbol = qNum > 15;
+                boolean askSymbol = qNum > 5;
                 String q = askSymbol 
                     ? "Which symbol makes the " + t[5] + " carry the lighter load?"
                     : "The " + t[4] + " wants a light load! Which group of " + t[2] + " should they carry?";
@@ -1234,7 +1227,7 @@ public class DataSeeder implements CommandLineRunner {
             }
             case 8: {
                 int count = r(1, 10);
-                String[] emojis = {"🔴", "⭐", "💎", "🍎"};
+                String[] emojis = {"🔴", "⭐", "💎", "🍎", "☀️", "🌙"};
                 String itemEmoji = emojis[r(0, emojis.length - 1)];
                 
                 int wrong1, wrong2;
@@ -1242,7 +1235,6 @@ public class DataSeeder implements CommandLineRunner {
                 do { wrong2 = r(1, 10); } while (wrong2 == count || wrong2 == wrong1);
                 
                 String[] options = new String[]{String.valueOf(count), String.valueOf(wrong1), String.valueOf(wrong2)};
-                // Shuffle options
                 for (int i = options.length - 1; i > 0; i--) {
                     int j = r(0, i);
                     String temp = options[i];
@@ -1266,7 +1258,8 @@ public class DataSeeder implements CommandLineRunner {
                     {"crystals", "💎", "Energy Crystals"}, 
                     {"sticks", "🪵", "Wooden Sticks"}, 
                     {"beams", "🏗️", "Steel Beams"},
-                    {"wands", "🪄", "Magic Wands"}
+                    {"wands", "🪄", "Magic Wands"},
+                    {"orbs", "🔮", "Energy Orbs"}
                 };
                 int idx = (qNum - 1) % themes.length;
                 String[] t = themes[idx];
@@ -1279,13 +1272,13 @@ public class DataSeeder implements CommandLineRunner {
             case 2: {
                 String q = "Agent 11 and Agent 12 are wearing disguises! Can you look inside their bags to see what they are hiding?";
                 String json = "{\"target1\":11,\"target2\":12}";
-                return buildT("11", String.valueOf(qNum + 10), String.valueOf(qNum + 40), String.valueOf(qNum + 70), q, "number_castle_game", json);
+                return buildT("11", "12", "13", "14", q, "number_castle_game", json);
             }
             case 3: {
                 int target = r(13,14);
                 String q = "Let's build Tower " + target + "! First, load the foundation with a full deck of 10!";
                 String json = "{\"target\":" + target + "}";
-                return buildT(String.valueOf(target), String.valueOf(target + 10), String.valueOf(target + 20), String.valueOf(qNum + 40), q, "teen_tower_game", json);
+                return buildT(String.valueOf(target), String.valueOf(target + 10), String.valueOf(target + 20), "19", q, "teen_tower_game", json);
             }
             case 4: {
                 String[] bees = {"Benny", "Betty", "Buzz", "Barry", "Bea", "Bumble", "Barnaby", "Bella", "Buster", "Bailey", "Baxter", "Bonnie", "Bobby", "Brody", "Bree"};
@@ -1293,7 +1286,7 @@ public class DataSeeder implements CommandLineRunner {
                 String beeName = bees[(qNum - 1) % 15];
                 String q = "Let's help Worker Bee " + beeName + " store " + target + " drops of honey! First, fill the main hive frame with 10 drops!";
                 String json = "{\"target\":" + target + ",\"beeName\":\"" + beeName + "\"}";
-                return buildT(String.valueOf(target), String.valueOf(target + 10), String.valueOf(target + 20), String.valueOf(qNum + 40), q, "honeybee_hive_game", json);
+                return buildT(String.valueOf(target), String.valueOf(target + 10), String.valueOf(target + 20), "19", q, "honeybee_hive_game", json);
             }
             case 5: {
                 String[] missions = {"Apollo", "Artemis", "Voyager", "Cassini", "Hubble", "Galileo", "Kepler", "Pioneer", "Juno", "Orion"};
@@ -1301,7 +1294,7 @@ public class DataSeeder implements CommandLineRunner {
                 String missionName = missions[((qNum - 1) / 3) % 10];
                 String q = "Mission Control needs " + target + " fuel cells to launch the " + missionName + " rocket! First, load the Main Tank with 10 cells!";
                 String json = "{\"target\":" + target + ",\"missionName\":\"" + missionName + "\"}";
-                return buildT(String.valueOf(target), String.valueOf(target + 10), String.valueOf(target + 20), String.valueOf(qNum + 40), q, "astromaze_rocket_game", json);
+                return buildT(String.valueOf(target), String.valueOf(target + 10), String.valueOf(target + 20), "19", q, "astromaze_rocket_game", json);
             }
             case 6: {
                 String[] potions = {"Dragonfire", "Stardust", "Moondrop", "Elven-tears", "Sun-spark", "Void-essence", "Frost-glint", "Shadow-mist", "Fairy-dust", "Phoenix-ash"};
@@ -1309,7 +1302,7 @@ public class DataSeeder implements CommandLineRunner {
                 String potionName = potions[((qNum - 1) / 3) % 10];
                 String q = "Alchemist! We need to break down the magic matrix of " + target + " into its base components for the " + potionName + " potion! Cast your separation spell!";
                 String json = "{\"target\":" + target + ",\"potionName\":\"" + potionName + "\"}";
-                return buildT(String.valueOf(target), String.valueOf(target + 10), String.valueOf(target + 20), String.valueOf(qNum + 40), q, "teen_breakdown_game", json);
+                return buildT(String.valueOf(target), String.valueOf(target + 10), String.valueOf(target + 20), "19", q, "teen_breakdown_game", json);
             }
             case 7: {
                 String[] hats = {"Crimson", "Cobalt", "Violet", "Emerald", "Onyx"};
@@ -1317,13 +1310,12 @@ public class DataSeeder implements CommandLineRunner {
                 String hatColor = hats[((qNum - 1) / 6) % 5];
                 String q = "Quick! The " + hatColor + " hat revealed a pattern! How many dots did you see?";
                 
-                // Ensure choices have the target and two distinct random wrong options
                 int w1 = target == 1 ? 2 : target - 1;
                 int w2 = target == 6 ? 5 : target + 1;
                 if (w1 == w2) w2 = (w1 + 1) % 6 + 1;
 
                 String json = "{\"target\":" + target + ",\"hatColor\":\"" + hatColor + "\"}";
-                return buildT(String.valueOf(target), String.valueOf(w1), String.valueOf(w2), String.valueOf(target + 10), q, "dice_flash_game", json);
+                return buildT(String.valueOf(target), String.valueOf(w1), String.valueOf(w2), "10", q, "dice_flash_game", json);
             }
             case 8: {
                 int[][] dominos = {{1,2}, {2,2}, {3,1}, {4,1}, {3,2}, {3,3}, {4,2}, {4,3}, {5,3}, {5,4}};
@@ -1337,13 +1329,12 @@ public class DataSeeder implements CommandLineRunner {
                 
                 String q = "Power levels detected in Sector " + sector + "! What was the total matrix weight on that domino card?";
                 
-                // Ensure choices have the target and two distinct random wrong options
                 int w1 = target == 3 ? 4 : target - 1;
                 int w2 = target == 9 ? 8 : target + 1;
                 if (w1 == w2) w2 = target + 2;
 
                 String json = "{\"target\":" + target + ",\"left\":" + left + ",\"right\":" + right + ",\"sector\":\"" + sector + "\"}";
-                return buildT(String.valueOf(target), String.valueOf(w1), String.valueOf(w2), String.valueOf(target + 10), q, "dominos_flash_game", json);
+                return buildT(String.valueOf(target), String.valueOf(w1), String.valueOf(w2), "10", q, "dominos_flash_game", json);
             }
             default: return buildN(1, 1, 10, "Error");
         }
@@ -1355,7 +1346,6 @@ public class DataSeeder implements CommandLineRunner {
                 String[] colors = {"Crimson", "Midnight", "Forest", "Iron", "Brass"};
                 String[] destinations = {"Timber Peak", "Rocky Valley", "Snowcap City", "Crystal Lake", "Echo Canyon", "Sunset Ridge"};
                 
-                // Generates decades from 20 to 90
                 int targetDecade = (((qNum - 1) % 8) + 2) * 10;
                 String color = colors[((qNum - 1) / 8) % 5];
                 String destination = destinations[qNum % 6];
@@ -1363,26 +1353,26 @@ public class DataSeeder implements CommandLineRunner {
                 String q = "Look! There is one lone log left on the platform. Tap it to load the " + color + " Engine heading to " + destination + "!";
                 String json = "{\"color\":\"" + color + "\",\"destination\":\"" + destination + "\",\"target\":" + targetDecade + "}";
                 
-                return buildT(String.valueOf(targetDecade), String.valueOf(targetDecade - 1), String.valueOf(targetDecade + 1), String.valueOf(targetDecade + 10), q, "train_station_game", json);
+                return buildT(String.valueOf(targetDecade), String.valueOf(targetDecade - 10), String.valueOf(targetDecade + 10), "5", q, "train_station_game", json);
             }
-            case 2: { // Toy Soldier March
-                int squads = (((qNum - 1) % 7) + 3); // 3 to 9 squads (30 to 90)
+            case 2: { 
+                int squads = (((qNum - 1) % 7) + 3); 
                 int target = squads * 10;
                 String[] colors = {"Blue", "Red", "Green", "Purple", "Gold"};
                 String color = colors[(qNum - 1) % 5];
                 String q = "Company, march! Send a squad of 10 to the first bridge gate!";
                 String json = "{\"color\":\"" + color + "\",\"target\":" + target + "}";
-                return buildT(String.valueOf(target), String.valueOf(target - 10), String.valueOf(target + 10), String.valueOf(target - 5), q, "toy_soldier_march", json);
+                return buildT(String.valueOf(target), String.valueOf(target - 10), String.valueOf(target + 10), "20", q, "toy_soldier_march", json);
             }
-            case 3: { // Cosmic Star Bridge
+            case 3: { 
                 String q = "To warp across the galaxy, our ship needs 100 star cells! Let's load them in packs of 10!";
                 String json = "{\"target\":100}";
                 return buildT("100", "50", "90", "110", q, "cosmic_star_bridge", json);
             }
-            case 4: { // Grid Runner
+            case 4: { 
                 int startRow = r(0, 3);
                 int startCol = r(1, 10);
-                int targetRow = startRow + r(3, 5); // 3 to 5 rows down
+                int targetRow = startRow + r(3, 5); 
                 int targetCol = r(1, 10);
                 if (targetCol == startCol) {
                     targetCol = (startCol % 10) + 1;
@@ -1393,12 +1383,12 @@ public class DataSeeder implements CommandLineRunner {
                 
                 String q = "Runner! The portal is open at coordinate " + target + ". Use your Jump Thrusters to reach it in the fewest moves possible!";
                 String json = "{\"start\":" + start + ",\"target\":" + target + "}";
-                return buildT(String.valueOf(target), String.valueOf(target - 1), String.valueOf(target + 1), String.valueOf(target - 10), q, "grid_runner", json);
+                return buildT(String.valueOf(target), String.valueOf(target - 1), String.valueOf(target + 1), "10", q, "grid_runner", json);
             }
-            case 5: { // Forest Path Rescue
-                int n = r(1, 80); // Squirrel is on n, target is n+1, next is n+2
+            case 5: { 
+                int n = r(1, 80); 
                 int correct = n + 1;
-                int wrong1 = n - 1 < 0 ? n + 10 : n - 1; // Anti-regression distractor
+                int wrong1 = n - 1 < 0 ? n + 10 : n - 1; 
                 int wrong2 = n + 10;
                 int wrong3 = correct + 10;
                 
@@ -1406,36 +1396,36 @@ public class DataSeeder implements CommandLineRunner {
                 String json = "{\"squirrelPos\":" + n + ",\"target\":" + correct + ",\"nextPos\":" + (n + 2) + "}";
                 return buildT(String.valueOf(correct), String.valueOf(wrong1), String.valueOf(wrong2), String.valueOf(wrong3), q, "forest_path_rescue", json);
             }
-            case 6: { // Retro Rocket Countdown Base
+            case 6: { 
                 int target = r(5, 90);
                 int correct = target - 1;
-                int wrong1 = target + 1; // Anti-forward distractor
-                int wrong2 = (target % 10) * 10 + (target / 10); // reverse digits
+                int wrong1 = target + 1; 
+                int wrong2 = (target % 10) * 10 + (target / 10); 
                 if (wrong2 == correct || wrong2 == wrong1) wrong2 = target - 10;
                 if (wrong2 <= 0) wrong2 = target + 10;
-                int wrong3 = wrong2; // duplicate so we only have 3 unique
+                int wrong3 = wrong2 + 2;
                 
                 String q = "Systems check! The ignition lock is stuck at " + target + ". Quick, enter " + target + "'s Prior Neighbor to unlock the main fuel valves!";
                 String json = "{\"target\":" + target + "}";
                 return buildT(String.valueOf(correct), String.valueOf(wrong1), String.valueOf(wrong2), String.valueOf(wrong3), q, "retro_rocket_game", json);
             }
-            case 7: { // Astromaze Cosmic Bridge Repair
+            case 7: { 
                 int prev = r(1, 90);
                 int target = prev + 1;
                 int next = prev + 2;
                 
                 int correct = target;
-                int wrong1 = prev - 1; // under-shoot
+                int wrong1 = prev - 1; 
                 if (wrong1 <= 0) wrong1 = next + 10;
-                int wrong2 = next + 1; // over-shoot
-                int wrong3 = (target % 10) * 10 + (target / 10); // reverse digits
+                int wrong2 = next + 1; 
+                int wrong3 = (target % 10) * 10 + (target / 10); 
                 if (wrong3 == correct || wrong3 == wrong1 || wrong3 == wrong2) wrong3 = target + 10;
                 
                 String q = "Runner! The cosmic energy path has a missing gap! We have " + prev + " on the left and " + next + " on the right. What magic number belongs between them to complete the bridge?";
                 String json = "{\"prev\":" + prev + ",\"next\":" + next + ",\"target\":" + target + "}";
                 return buildT(String.valueOf(correct), String.valueOf(wrong1), String.valueOf(wrong2), String.valueOf(wrong3), q, "cosmic_bridge_repair", json);
             }
-            case 8: { // Astromaze Island Castaway
+            case 8: { 
                 int target = r(6, 20);
                 String q = "We need to track our firewood bundles before the sun sets! Tap the screen to draw a tally mark for each log!";
                 String json = "{\"target\":" + target + "}";
@@ -1446,11 +1436,11 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     private String[] genLevel8(int topic, int qNum) {
-        String[] shapes3d = {"SPHERE", "CUBE", "CYLINDER", "CONE", "PYRAMID"};
-        String[] types = {"FLAT", "SOLID", "LINE"};
-        String[] faces = {"SQUARE", "CIRCLE", "TRIANGLE"};
+        String[] shapes3d = {"SPHERE", "CUBE", "CYLINDER", "CONE", "PYRAMID", "PRISM"};
+        String[] types = {"FLAT", "SOLID", "LINE", "CURVE", "POINT"};
+        String[] faces = {"SQUARE", "CIRCLE", "TRIANGLE", "RECTANGLE", "STAR", "OVAL"};
         switch(topic) {
-            case 1: { // Astromaze Cosmic Bowling Alley
+            case 1: { 
                 String[] colors = {"red", "blue", "green", "purple", "orange"};
                 String[] colorHexes = {"#ef4444", "#3b82f6", "#10b981", "#8b5cf6", "#f59e0b"};
                 int sIdx = r(0, 4);
@@ -1461,10 +1451,10 @@ public class DataSeeder implements CommandLineRunner {
                 String cubeColor = colorHexes[cIdx];
                 String spherePos = r(0, 1) == 0 ? "left" : "right";
                 
-                String[] correctShapes = {"sphere", "wheel", "ring"};
-                String[] wrongShapes = {"cube", "pyramid", "prism"};
-                String correctShape = correctShapes[r(0, 2)];
-                String wrongShape = wrongShapes[r(0, 2)];
+                String[] correctShapes = {"sphere", "wheel", "ring", "ball", "marble"};
+                String[] wrongShapes = {"cube", "pyramid", "prism", "box", "die"};
+                String correctShape = correctShapes[r(0, 4)];
+                String wrongShape = wrongShapes[r(0, 4)];
                 
                 String[] voiceovers = {
                     "Astronaut! We need to activate the docking bridge switch at the bottom of the ramp. Pick the magic shape that can roll!",
@@ -1476,11 +1466,10 @@ public class DataSeeder implements CommandLineRunner {
                 String json = "{\"sphereColor\":\"" + sphereColor + "\",\"cubeColor\":\"" + cubeColor + "\",\"spherePos\":\"" + spherePos + "\",\"correctShape\":\"" + correctShape + "\",\"wrongShape\":\"" + wrongShape + "\"}";
                 return buildT("NONE", "A", "B", "C", q, "cosmic_bowling_game", json);
             }
-            case 2: { // Astromaze Cosmic Tower Builder
-                // Create 30 strictly unique objects using 10 images and 3 CSS hue rotations (0, 120, 240)
-                int imageIdx = ((qNum - 1) % 10) + 1; // 1 to 10
-                int hueIdx = (qNum - 1) / 10; // 0 to 2
-                int hueRotate = hueIdx * 120;
+            case 2: { 
+                int imageIdx = ((qNum - 1) % 10) + 1;
+                int hueIdx = (qNum - 1) / 3;
+                int hueRotate = hueIdx * 40;
                 
                 String cartonImage = "/images/cartons/carton" + imageIdx + ".png";
                 String sphereImage = "/images/cartons/sphere.png";
@@ -1499,10 +1488,10 @@ public class DataSeeder implements CommandLineRunner {
             }
             case 3: return buildS("CYLINDER", shapes3d, "Smooth Cylinder");
             case 4: return buildS("CONE", shapes3d, "Party Cone");
-            case 5: return buildS(types[r(0,1)], types, "Flat vs Solid?");
+            case 5: return buildS(types[r(0,1)], new String[]{"FLAT", "SOLID", "LINE", "POINT", "CURVE"}, "Flat vs Solid?");
             case 6: return buildN(r(0,8), 0, 10, "Corner Counting");
-            case 7: return buildS(faces[r(0,2)], faces, "Face Matching");
-            case 8: return buildS("SHAPE", new String[]{"SHAPE", "BROKEN", "FLAT"}, "Shape Building");
+            case 7: return buildS(faces[r(0,2)], new String[]{"SQUARE", "CIRCLE", "TRIANGLE", "RECTANGLE", "STAR", "OVAL"}, "Face Matching");
+            case 8: return buildS("SHAPE", new String[]{"SHAPE", "BROKEN", "FLAT", "MESSY", "OPEN", "LINE"}, "Shape Building");
             default: return buildN(1, 1, 5, "Error");
         }
     }
@@ -1510,8 +1499,8 @@ public class DataSeeder implements CommandLineRunner {
     private String[] genLevel9(int topic) {
         switch(topic) {
             case 1: { int a = r(1,3), b = r(1,2); return buildN(a+b, 1, 6, "Join " + a + " and " + b); }
-            case 2: return buildS("PLUS", new String[]{"PLUS", "MINUS", "EQUAL"}, "What sign is this?");
-            case 3: return buildS("EQUAL", new String[]{"EQUAL", "PLUS", "MINUS"}, "What sign is this?");
+            case 2: return buildS("PLUS", new String[]{"PLUS", "MINUS", "EQUAL", "TIMES", "DIVIDE"}, "What sign is this?");
+            case 3: return buildS("EQUAL", new String[]{"EQUAL", "PLUS", "MINUS", "TIMES", "DIVIDE"}, "What sign is this?");
             case 4: { int a = r(1,8); return buildN(a+1, 1, 10, a + " + 1 = ?"); }
             case 5: { int a = r(1,7); return buildN(a+2, 1, 10, a + " + 2 = ?"); }
             case 6: { int a = r(1,2), b = r(1,2); return buildN(a+b, 1, 5, "Picture Math: " + a + " + " + b); }
@@ -1524,7 +1513,7 @@ public class DataSeeder implements CommandLineRunner {
     private String[] genLevel10(int topic) {
         switch(topic) {
             case 1: { int a = r(3,5), b = r(1,2); return buildN(a-b, 1, 5, "Take away " + b + " from " + a); }
-            case 2: return buildS("MINUS", new String[]{"MINUS", "PLUS", "EQUAL"}, "What sign is this?");
+            case 2: return buildS("MINUS", new String[]{"MINUS", "PLUS", "EQUAL", "TIMES", "DIVIDE"}, "What sign is this?");
             case 3: { int a = r(3,5), b = r(1,2); return buildN(a-b, 1, 5, "Pop " + b + " bubbles out of " + a); }
             case 4: { int a = r(2,10); return buildN(a-1, 1, 10, a + " - 1 = ?"); }
             case 5: { int a = r(3,10); return buildN(a-2, 1, 10, a + " - 2 = ?"); }
