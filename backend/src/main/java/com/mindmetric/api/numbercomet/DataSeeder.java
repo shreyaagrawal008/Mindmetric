@@ -31,14 +31,22 @@ public class DataSeeder implements CommandLineRunner {
         int batchSize = 100;
 
         for (int level = 1; level <= 11; level++) {
+            int maxQ = (level == 1) ? 10 : 30;
             for (int topic = 1; topic <= 8; topic++) {
-                for (int qNum = 1; qNum <= 30; qNum++) {
+                Set<String> seen = new HashSet<>();
+                for (int qNum = 1; qNum <= maxQ; qNum++) {
                     Question q = new Question();
                     q.setLevelId(level);
                     q.setTopicId(topic);
                     q.setQuestionNumber(qNum);
 
-                    String[] qData = generate(level, topic, qNum);
+                    String[] qData;
+                    int attempts = 0;
+                    do {
+                        qData = generate(level, topic, qNum);
+                        attempts++;
+                    } while (seen.contains(String.join("|", qData)) && attempts < 100);
+                    seen.add(String.join("|", qData));
                     String correct = qData[0];
                     String d1 = qData[1];
                     String d2 = qData[2];
@@ -140,18 +148,12 @@ public class DataSeeder implements CommandLineRunner {
             "🐻", "🦁", "🐯", "🐘", "🐵", "🐧", "🐸", "🐢", "🐍", "🐛"
         };
         String obj = objects[random.nextInt(objects.length)];
-        
-        int d1 = (qNum % 15) + 2; 
-        int d2 = ((qNum + 5) % 15) + 2;
-        if (d1 == d2) d2++;
 
         switch(topic) {
             case 1: {
                 int correctNum = random.nextInt(5) + 1; // 1 through 5 randomized
-                if(d1 == correctNum) d1 = correctNum + 6;
-                if(d2 == correctNum) d2 = correctNum + 7;
                 String qText = "Find the number <span style='color: #FFD700; font-size: 1.5em; text-shadow: 0 0 10px #FFD700; padding: 0 5px;'>" + correctNum + "</span>!";
-                return new String[]{String.valueOf(correctNum), String.valueOf(d1), String.valueOf(d2), qText, "audioCheck", "🔊"};
+                return buildT(correctNum, 1, 10, qText, "audioCheck", "🔊");
             }
             case 2: { // Tower Tally: Tall vs Short
                 String[] towerEmojis = {
@@ -160,17 +162,16 @@ public class DataSeeder implements CommandLineRunner {
                     "🚀", "🧱", "🪟", "🏔️", "⛺", "🗽", "🪵", "🧍‍♀️", "🧋", "🍾"
                 };
                 String tEmoji = towerEmojis[random.nextInt(towerEmojis.length)];
-                boolean leftTall = (qNum % 2 == 0);
-                boolean askTall = ((qNum / 2) % 2 == 0);
+                boolean leftTall = random.nextBoolean();
+                boolean askTall = random.nextBoolean();
                 String q = askTall ? "Which " + tEmoji + " is TALLER?" : "Which " + tEmoji + " is SHORTER?";
                 String ans = (leftTall == askTall) ? "A" : "B";
                 String json = String.format("{\"leftTall\":%b,\"askTall\":%b,\"emoji\":\"%s\"}", leftTall, askTall, tEmoji);
                 return buildT(ans, "A", "B", "NONE", q, "comparison_tallShort", json);
             }
             case 3: {
-                int n = (qNum % 2 == 0) ? 4 : 5;
-                if(d1 == n) d1 = n + 1; if(d2 == n) d2 = n + 2; if(d1 == d2) d2++;
-                return new String[]{String.valueOf(n), String.valueOf(d1), String.valueOf(d2), "Find the correct quantity", "countItems", repeat(obj, n)};
+                int n = random.nextInt(5) + 1;
+                return buildT(n, 1, 10, "Find the correct quantity", "countItems", repeat(obj, n));
             }
             case 4: { 
                 int n = random.nextInt(4) + 1; 
@@ -178,30 +179,25 @@ public class DataSeeder implements CommandLineRunner {
                 for(int i=1; i<=n; i++) seq += i + " ➔ ";
                 seq += "?";
                 int correct = n + 1;
-                if(d1 == correct) d1 = correct + 1; if(d2 == correct) d2 = correct + 2; if(d1 == d2) d2++;
-                return new String[]{String.valueOf(correct), String.valueOf(d1), String.valueOf(d2), "What comes next in the count?", "text", seq};
+                return buildT(correct, 1, 10, "What comes next in the count?", "text", seq);
             }
             case 5: {
                 int n = random.nextInt(5) + 1;
-                if(d1 == n) d1 = n + 1; if(d2 == n) d2 = n + 2; if(d1 == d2) d2++;
-                return new String[]{String.valueOf(n), String.valueOf(d1), String.valueOf(d2), "Touch and count the objects!", "countItems", repeat(obj, n)};
+                return buildT(n, 1, 10, "Touch and count the objects!", "countItems", repeat(obj, n));
             }
             case 6: {
                 int n = random.nextInt(5) + 1;
-                if(d1 == n) d1 = n + 1; if(d2 == n) d2 = n + 2; if(d1 == d2) d2++;
-                return new String[]{String.valueOf(n), String.valueOf(d1), String.valueOf(d2), "Count the scattered " + obj + "s!", "countItems", repeat(obj, n)};
+                return buildT(n, 1, 10, "Count the scattered " + obj + "s!", "countItems", repeat(obj, n));
             }
             case 7: {
                 int n = random.nextInt(5) + 1;
-                if(d1 == n) d1 = n + 1; if(d2 == n) d2 = n + 2; if(d1 == d2) d2++;
-                return new String[]{String.valueOf(n), String.valueOf(d1), String.valueOf(d2), "Listen and count the sounds!", "audioCheck", "🔊"};
+                return buildT(n, 1, 10, "Listen and count the sounds!", "audioCheck", "🔊");
             }
             case 8: { 
                 int n = random.nextInt(3) + 1; 
                 String seq = n + ", _ , " + (n+2);
                 int correct = n + 1;
-                if(d1 == correct) d1 = correct + 1; if(d2 == correct) d2 = correct + 2; if(d1 == d2) d2++;
-                return new String[]{String.valueOf(correct), String.valueOf(d1), String.valueOf(d2), "What is the missing number?", "text", seq}; 
+                return buildT(correct, 1, 10, "What is the missing number?", "text", seq); 
             }
             default: return new String[]{"1", "2", "3", "Error", "text", ""};
         }
