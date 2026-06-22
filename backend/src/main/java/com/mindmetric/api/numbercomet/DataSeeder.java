@@ -135,9 +135,9 @@ public class DataSeeder implements CommandLineRunner {
     // --- Level Generators ---
     private String[] genLevel1(int topic, int qNum) {
         String[] objects = {
-            "star", "rocket", "planet", "asteroid", "apple", "car", "dog", "cat", "bird", "fish",
-            "tree", "flower", "sun", "moon", "cloud", "rain", "snow", "fire", "water", "earth",
-            "bear", "lion", "tiger", "elephant", "monkey", "penguin", "frog", "turtle", "snake", "bug"
+            "⭐", "🚀", "🪐", "☄️", "🍎", "🚗", "🐶", "🐱", "🐦", "🐟",
+            "🌳", "🌸", "☀️", "🌙", "☁️", "🌧️", "❄️", "🔥", "💧", "🌍",
+            "🐻", "🦁", "🐯", "🐘", "🐵", "🐧", "🐸", "🐢", "🐍", "🐛"
         };
         String obj = objects[(qNum - 1) % objects.length];
         
@@ -232,7 +232,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     private String[] genLevel2(int topic) {
-        String[] objects = {"star", "rocket", "planet", "asteroid"};
+        String[] objects = {"⭐", "🚀", "🪐", "☄️"};
         String obj = objects[random.nextInt(objects.length)];
 
         switch(topic) {
