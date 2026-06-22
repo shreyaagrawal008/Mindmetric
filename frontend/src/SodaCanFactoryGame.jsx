@@ -115,10 +115,7 @@ const SodaCanFactoryGame = ({ currentQuestion, onComplete }) => {
     <div className="soda-can-factory" ref={containerRef}>
       {showConfetti && <Confetti width={containerRef.current?.offsetWidth || window.innerWidth} height={containerRef.current?.offsetHeight || window.innerHeight} />}
       
-      <div className="factory-supervisor">
-        <div className="supervisor-avatar">👷</div>
-        <div className="supervisor-bubble">{supervisorMsg}</div>
-      </div>
+
 
       <div className="factory-stage">
         {/* Line A: Elevator */}
