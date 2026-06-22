@@ -2846,7 +2846,7 @@ export default function NumberCometGame({ userId, onExit }) {
     const loadQuestions = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`${API_BASE}/questions/level/${activeLevel}/topic/${activeTopic}`);
+        const response = await fetch(`${API_BASE}/questions/level/${activeLevel}/topic/${activeTopic}?t=${new Date().getTime()}`);
         if (response.ok) {
           const data = await response.json();
           setQuestions(data);
