@@ -139,7 +139,7 @@ public class DataSeeder implements CommandLineRunner {
             "🌳", "🌸", "☀️", "🌙", "☁️", "🌧️", "❄️", "🔥", "💧", "🌍",
             "🐻", "🦁", "🐯", "🐘", "🐵", "🐧", "🐸", "🐢", "🐍", "🐛"
         };
-        String obj = objects[(qNum - 1) % objects.length];
+        String obj = objects[random.nextInt(objects.length)];
         
         int d1 = (qNum % 15) + 2; 
         int d2 = ((qNum + 5) % 15) + 2;
@@ -147,7 +147,7 @@ public class DataSeeder implements CommandLineRunner {
 
         switch(topic) {
             case 1: {
-                int correctNum = ((qNum - 1) % 5) + 1; // cycles 1 through 5
+                int correctNum = random.nextInt(5) + 1; // 1 through 5 randomized
                 if(d1 == correctNum) d1 = correctNum + 6;
                 if(d2 == correctNum) d2 = correctNum + 7;
                 String qText = "Find the number <span style='color: #FFD700; font-size: 1.5em; text-shadow: 0 0 10px #FFD700; padding: 0 5px;'>" + correctNum + "</span>!";
@@ -159,7 +159,7 @@ public class DataSeeder implements CommandLineRunner {
                     "🧍‍♂️", "🚪", "🪔", "💈", "🚏", "🚦", "🌵", "🌴", "🎋", "🛖",
                     "🚀", "🧱", "🪟", "🏔️", "⛺", "🗽", "🪵", "🧍‍♀️", "🧋", "🍾"
                 };
-                String tEmoji = towerEmojis[(qNum - 1) % towerEmojis.length];
+                String tEmoji = towerEmojis[random.nextInt(towerEmojis.length)];
                 boolean leftTall = (qNum % 2 == 0);
                 boolean askTall = ((qNum / 2) % 2 == 0);
                 String q = askTall ? "Which " + tEmoji + " is TALLER?" : "Which " + tEmoji + " is SHORTER?";
@@ -173,7 +173,7 @@ public class DataSeeder implements CommandLineRunner {
                 return new String[]{String.valueOf(n), String.valueOf(d1), String.valueOf(d2), "Find the correct quantity", "countItems", repeat(obj, n)};
             }
             case 4: { 
-                int n = ((qNum - 1) % 4) + 1; 
+                int n = random.nextInt(4) + 1; 
                 String seq = "";
                 for(int i=1; i<=n; i++) seq += i + " ➔ ";
                 seq += "?";
@@ -182,22 +182,22 @@ public class DataSeeder implements CommandLineRunner {
                 return new String[]{String.valueOf(correct), String.valueOf(d1), String.valueOf(d2), "What comes next in the count?", "text", seq};
             }
             case 5: {
-                int n = ((qNum - 1) % 5) + 1;
+                int n = random.nextInt(5) + 1;
                 if(d1 == n) d1 = n + 1; if(d2 == n) d2 = n + 2; if(d1 == d2) d2++;
                 return new String[]{String.valueOf(n), String.valueOf(d1), String.valueOf(d2), "Touch and count the objects!", "countItems", repeat(obj, n)};
             }
             case 6: {
-                int n = ((qNum - 1) % 5) + 1;
+                int n = random.nextInt(5) + 1;
                 if(d1 == n) d1 = n + 1; if(d2 == n) d2 = n + 2; if(d1 == d2) d2++;
                 return new String[]{String.valueOf(n), String.valueOf(d1), String.valueOf(d2), "Count the scattered " + obj + "s!", "countItems", repeat(obj, n)};
             }
             case 7: {
-                int n = ((qNum - 1) % 5) + 1;
+                int n = random.nextInt(5) + 1;
                 if(d1 == n) d1 = n + 1; if(d2 == n) d2 = n + 2; if(d1 == d2) d2++;
                 return new String[]{String.valueOf(n), String.valueOf(d1), String.valueOf(d2), "Listen and count the sounds!", "audioCheck", "🔊"};
             }
             case 8: { 
-                int n = ((qNum - 1) % 3) + 1; 
+                int n = random.nextInt(3) + 1; 
                 String seq = n + ", _ , " + (n+2);
                 int correct = n + 1;
                 if(d1 == correct) d1 = correct + 1; if(d2 == correct) d2 = correct + 2; if(d1 == d2) d2++;
