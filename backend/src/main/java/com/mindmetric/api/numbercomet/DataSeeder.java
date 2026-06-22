@@ -19,6 +19,7 @@ public class DataSeeder implements CommandLineRunner {
     private QuestionRepository questionRepository;
 
     private final Random random = new Random();
+    private List<Integer> level1Topic1Targets;
 
     @Override
     public void run(String... args) throws Exception {
@@ -153,7 +154,11 @@ public class DataSeeder implements CommandLineRunner {
 
         switch(topic) {
             case 1: {
-                int correctNum = random.nextInt(5) + 1; // 1 through 5 randomized
+                if (qNum == 1 || level1Topic1Targets == null || level1Topic1Targets.isEmpty()) {
+                    level1Topic1Targets = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+                    Collections.shuffle(level1Topic1Targets, random);
+                }
+                int correctNum = level1Topic1Targets.remove(0);
                 String qText = "Find the number <span style='color: #FFD700; font-size: 1.5em; text-shadow: 0 0 10px #FFD700; padding: 0 5px;'>" + correctNum + "</span>!";
                 return buildT(correctNum, 1, 10, qText, "audioCheck", "🔊");
             }
