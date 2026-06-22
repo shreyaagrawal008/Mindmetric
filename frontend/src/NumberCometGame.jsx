@@ -3884,6 +3884,7 @@ export default function NumberCometGame({ userId, onExit }) {
                   key={idx} 
                   onClick={() => {
                     if (!clickedItems.includes(idx)) {
+                      playFeedbackTone('pop', volume);
                       setClickedItems(prev => [...prev, idx]);
                     }
                   }}
@@ -3910,6 +3911,7 @@ export default function NumberCometGame({ userId, onExit }) {
               key={idx} 
               onClick={() => {
                 if (!clickedItems.includes(idx)) {
+                  playFeedbackTone('pop', volume);
                   setClickedItems(prev => [...prev, idx]);
                 }
               }}
