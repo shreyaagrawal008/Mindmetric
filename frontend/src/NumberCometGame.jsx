@@ -2746,6 +2746,11 @@ export default function NumberCometGame({ userId, onExit }) {
   const [shakingOption, setShakingOption] = useState(null);
   const [score, setScore] = useState(0);
   const prevScoreRef = useRef(0);
+  const [clickedItems, setClickedItems] = useState([]);
+
+  useEffect(() => {
+    setClickedItems([]);
+  }, [currentQuestionIndex, activeLevel, activeTopic]);
 
   useEffect(() => {
     if (score > prevScoreRef.current && userId) {
@@ -3844,10 +3849,18 @@ export default function NumberCometGame({ userId, onExit }) {
               return (
                 <span 
                   key={idx} 
+                  onClick={() => {
+                    if (!clickedItems.includes(idx)) {
+                      setClickedItems(prev => [...prev, idx]);
+                    }
+                  }}
                   style={{ 
                     position: 'absolute', top, left,
                     fontSize: '3rem',
-                    transform: `rotate(${rot}deg)`
+                    transform: `rotate(${rot}deg)`,
+                    cursor: 'pointer',
+                    filter: clickedItems.includes(idx) ? 'drop-shadow(0 0 15px rgba(255, 255, 0, 0.8))' : 'none',
+                    transition: 'filter 0.2s ease-in-out'
                   }}
                 >
                   {['star', 'asteroid', 'planet', 'rocket'].includes(item) ? (item === 'star' ? '⭐' : item === 'asteroid' ? '🪨' : item === 'planet' ? '🪐' : '🚀') : item}
@@ -3862,9 +3875,17 @@ export default function NumberCometGame({ userId, onExit }) {
           {currentQuestion.asset.map((item, idx) => (
             <span 
               key={idx} 
+              onClick={() => {
+                if (!clickedItems.includes(idx)) {
+                  setClickedItems(prev => [...prev, idx]);
+                }
+              }}
               style={{ 
                 fontSize: currentQuestion.asset.length > 6 ? '2.3rem' : '3rem',
-                display: 'inline-block'
+                display: 'inline-block',
+                cursor: 'pointer',
+                filter: clickedItems.includes(idx) ? 'drop-shadow(0 0 15px rgba(255, 255, 0, 0.8))' : 'none',
+                transition: 'filter 0.2s ease-in-out'
               }}
             >
               {['star', 'asteroid', 'planet', 'rocket'].includes(item) ? (item === 'star' ? '⭐' : item === 'asteroid' ? '🪨' : item === 'planet' ? '🪐' : '🚀') : item}
