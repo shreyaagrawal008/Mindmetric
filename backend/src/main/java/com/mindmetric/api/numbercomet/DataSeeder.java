@@ -1487,12 +1487,14 @@ public class DataSeeder implements CommandLineRunner {
                 return buildT("NONE", "A", "B", "C", q, "cosmic_tower_builder", json);
             }
             case 3: {
-                String[] brands = {"Cherry Fizz", "Grape Galaxy", "Lemon Nova", "Cosmic Cola", "Star Spritz", "Meteor Melon", "Orbit Orange", "Lunar Lime", "Astro Berry", "Nebula Nectar"};
-                String[] colors = {"#ef4444", "#8b5cf6", "#eab308", "#1f2937", "#ec4899", "#f43f5e", "#f97316", "#84cc16", "#3b82f6", "#d946ef"};
-                String brand = brands[(qNum - 1) % 10];
+                String[] objTypes = {"can", "log", "dustbin", "jar", "can", "log", "dustbin", "jar", "can", "log"};
+                String[] labels = {"Cherry Fizz", "Oak Wood", "City Waste", "Sweet Honey", "Cosmic Cola", "Birch Wood", "Recycling", "Berry Jam", "Lemon Nova", "Pine Wood"};
+                String[] colors = {"#ef4444", "#8B4513", "#9ca3af", "#eab308", "#1f2937", "#f5f5dc", "#3b82f6", "#d946ef", "#84cc16", "#2f4f4f"};
+                String objType = objTypes[(qNum - 1) % 10];
+                String label = labels[(qNum - 1) % 10];
                 String color = colors[(qNum - 1) % 10];
                 String q = "Alchemist! We have a delivery of smooth storage cylinders. We need to stack them in the elevator and roll them down the ramp. Master both moves!";
-                String json = "{\"brand\":\"" + brand + "\",\"color\":\"" + color + "\"}";
+                String json = "{\"objType\":\"" + objType + "\",\"label\":\"" + label + "\",\"color\":\"" + color + "\"}";
                 return buildT("NONE", "A", "B", "C", q, "soda_can_factory", json);
             }
             case 4: return buildS("CONE", shapes3d, "Party Cone");

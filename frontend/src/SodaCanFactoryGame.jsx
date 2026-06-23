@@ -14,21 +14,26 @@ const SodaCanFactoryGame = ({ currentQuestion, onComplete }) => {
   
   const containerRef = useRef(null);
 
-  let brand = "Cosmic Cola";
+  let label = "Cosmic Cola";
   let color = "#ef4444";
+  let objType = "can";
   
   if (currentQuestion && currentQuestion.asset) {
     if (typeof currentQuestion.asset === 'string') {
       try {
         const parsed = JSON.parse(currentQuestion.asset);
-        if (parsed.brand) brand = parsed.brand;
+        if (parsed.brand) label = parsed.brand;
+        if (parsed.label) label = parsed.label;
         if (parsed.color) color = parsed.color;
+        if (parsed.objType) objType = parsed.objType;
       } catch (e) {
         console.error("Failed to parse asset", e);
       }
     } else {
-        if (currentQuestion.asset.brand) brand = currentQuestion.asset.brand;
+        if (currentQuestion.asset.brand) label = currentQuestion.asset.brand;
+        if (currentQuestion.asset.label) label = currentQuestion.asset.label;
         if (currentQuestion.asset.color) color = currentQuestion.asset.color;
+        if (currentQuestion.asset.objType) objType = currentQuestion.asset.objType;
     }
   }
 
@@ -96,7 +101,7 @@ const SodaCanFactoryGame = ({ currentQuestion, onComplete }) => {
   // Helper component to render a 3D soda can
   const renderSodaCan = (style = {}) => (
     <div 
-      className={`soda-can ${canOrientation}`} 
+      className={`soda-can ${canOrientation} obj-${objType}`} 
       style={{ '--can-color': color, ...style }}
       onClick={handleToggleOrientation}
       draggable
@@ -105,7 +110,7 @@ const SodaCanFactoryGame = ({ currentQuestion, onComplete }) => {
     >
       <div className="can-top"></div>
       <div className="can-body">
-        <span className="can-label">{brand}</span>
+        {objType !== 'log' && <span className="can-label">{label}</span>}
       </div>
       <div className="can-bottom"></div>
     </div>
@@ -123,13 +128,13 @@ const SodaCanFactoryGame = ({ currentQuestion, onComplete }) => {
           <div className="elevator-header">Line A: Elevator</div>
           <div className="elevator-platform">
             {elevatorStack > 0 && (
-              <div className="stacked-can can-level-1" style={{ '--can-color': color }}>
-                <span className="stacked-label">{brand}</span>
+              <div className={`stacked-can can-level-1 obj-${objType}`} style={{ '--can-color': color }}>
+                {objType !== 'log' && <span className="stacked-label">{label}</span>}
               </div>
             )}
             {elevatorStack > 1 && (
-              <div className="stacked-can can-level-2" style={{ '--can-color': color }}>
-                <span className="stacked-label">{brand}</span>
+              <div className={`stacked-can can-level-2 obj-${objType}`} style={{ '--can-color': color }}>
+                {objType !== 'log' && <span className="stacked-label">{label}</span>}
               </div>
             )}
           </div>
@@ -141,13 +146,15 @@ const SodaCanFactoryGame = ({ currentQuestion, onComplete }) => {
           <div className="ramp-header">Line B: Conveyor Ramp</div>
           <div className="ramp-surface">
             {isRolling && (
-              <div className="rolling-can" style={{ '--can-color': color }}>
-                 <div className="can-body sideways-roll"><span className="can-label">{brand}</span></div>
+              <div className={`rolling-can obj-${objType}`} style={{ '--can-color': color }}>
+                 <div className="can-body sideways-roll">
+                    {objType !== 'log' && <span className="can-label">{label}</span>}
+                 </div>
               </div>
             )}
           </div>
           <div className="delivery-crate">
-            {cansRolled > 0 && <div className="crate-can" style={{ '--can-color': color }}></div>}
+            {cansRolled > 0 && <div className={`crate-can obj-${objType}`} style={{ '--can-color': color }}></div>}
             CRATE
           </div>
         </div>
