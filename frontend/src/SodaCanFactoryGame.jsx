@@ -122,8 +122,9 @@ const SodaCanFactoryGame = ({ currentQuestion, onComplete }) => {
       
 
 
-      <div className="factory-stage">
-        {/* Line A: Elevator */}
+      <div className="game-layout-wrapper" style={{ display: 'flex', width: '100%', maxWidth: '850px', gap: '2rem', justifyContent: 'center', alignItems: 'center' }}>
+        <div className="factory-stage" style={{ margin: 0 }}>
+          {/* Line A: Elevator */}
         <div className="elevator-shaft" onDragOver={allowDrop} onDrop={handleDropElevator}>
           <div className="elevator-header">Line A: Elevator</div>
           <div className="elevator-platform">
@@ -156,6 +157,35 @@ const SodaCanFactoryGame = ({ currentQuestion, onComplete }) => {
           <div className="delivery-crate">
             {cansRolled > 0 && <div className={`crate-can obj-${objType}`} style={{ '--can-color': color }}></div>}
             CRATE
+          </div>
+        </div>
+        </div>
+
+        {/* Instructions Panel */}
+        <div className="instructions-panel" style={{ 
+          flex: '0 0 220px', 
+          background: 'rgba(0, 0, 0, 0.6)', 
+          border: '2px solid rgba(0, 255, 255, 0.4)', 
+          borderRadius: '12px', 
+          padding: '1.2rem', 
+          display: 'flex', 
+          flexDirection: 'column', 
+          gap: '1rem',
+          height: 'fit-content',
+          boxShadow: '0 0 15px rgba(0,255,255,0.1)'
+        }}>
+          <h3 style={{ color: '#00ffff', margin: 0, fontSize: '1.1rem', textTransform: 'uppercase', borderBottom: '1px solid rgba(0,255,255,0.3)', paddingBottom: '0.5rem' }}>How to Play</h3>
+          <p style={{ margin: 0, fontSize: '0.9rem', lineHeight: '1.4', color: '#e2e8f0' }}>
+            We need to process the items on the loading dock below!
+          </p>
+          <ul style={{ margin: 0, paddingLeft: '1.2rem', fontSize: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.8rem', color: '#cbd5e1' }}>
+            <li><strong>Line A:</strong> Create a stack of <strong>2 objects</strong> in the elevator. <em>(Must stand upright)</em></li>
+            <li><strong>Line B:</strong> Put <strong>1 object</strong> on the ramp to roll it into the crate. <em>(Must be sideways)</em></li>
+          </ul>
+          <div style={{ background: 'rgba(59, 130, 246, 0.2)', padding: '0.8rem', borderRadius: '8px', borderLeft: '3px solid #3b82f6' }}>
+            <p style={{ margin: 0, fontSize: '0.85rem', color: '#93c5fd' }}>
+              <strong>Tip:</strong> Click an object in the dock below to tip it sideways or stand it up!
+            </p>
           </div>
         </div>
       </div>
