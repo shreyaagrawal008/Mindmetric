@@ -326,7 +326,7 @@
   }
   100% {
     left: 90%;
-    top: 175px; /* Roll down the angle */
+    top: -42px; /* Roll down the angle purely along local X axis */
     opacity: 0; /* disappear into crate */
   }
 }

@@ -3790,7 +3790,7 @@ export default function NumberCometGame({ userId, onExit }) {
     if (currentQuestion.type === 'soda_can_factory') {
       return (
         <div style={{ width: '100%', flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '300px', overflow: 'hidden' }}>
-          <SodaCanFactoryGame currentQuestion={currentQuestion} onComplete={progressToNext} />
+          <SodaCanFactoryGame key={currentQuestion.id} currentQuestion={currentQuestion} onComplete={progressToNext} />
         </div>
       );
     }
