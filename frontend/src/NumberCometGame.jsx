@@ -4064,9 +4064,9 @@ export default function NumberCometGame({ userId, onExit }) {
             {currentQuestion.type === 'island_castaway_game' && <div className="absolute inset-0 z-0 opacity-40 pointer-events-none" style={{ backgroundImage: 'repeating-linear-gradient(0deg, #3E2723, #3E2723 40px, #2A1710 40px, #2A1710 42px)' }}></div>}
             {currentQuestion.type === 'dragAndDrop_bigSmall' && <div style={{ position: 'absolute', top: 0, left: '50%', width: '2px', height: '100%', background: 'rgba(255,255,255,0.1)', zIndex: 0 }}></div>}
             
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '15px', margin: '20px auto 0', maxWidth: '90%', zIndex: 20 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '15px', margin: '10px auto 0', maxWidth: '90%', zIndex: 20 }}>
               <h2 className="question-text" style={{ 
-                fontSize: '1.8rem', 
+                fontSize: displayQuestionText().length > 80 ? '1.1rem' : displayQuestionText().length > 40 ? '1.4rem' : '1.8rem', 
                 margin: '0',
                 padding: '10px 20px',
                 textAlign: 'center',

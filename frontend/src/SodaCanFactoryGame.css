@@ -58,8 +58,8 @@
   align-items: center;
   justify-content: flex-end;
   position: relative;
-  padding-bottom: 2rem;
-  min-height: 250px;
+  padding-bottom: 1rem;
+  min-height: 160px;
 }
 
 .elevator-header {
@@ -95,7 +95,7 @@
   flex-direction: column;
   align-items: center;
   position: relative;
-  min-height: 250px;
+  min-height: 160px;
 }
 
 .ramp-header {
@@ -110,35 +110,36 @@
 
 .ramp-surface {
   position: absolute;
-  top: 80px;
-  left: 20px;
+  top: 40px;
+  left: 10px;
   width: 80%;
-  height: 10px;
+  height: 8px;
   background: linear-gradient(90deg, #ff00ff, #ff88ff);
-  transform: rotate(20deg);
+  transform: rotate(15deg);
   transform-origin: left center;
-  box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+  box-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
   border-radius: 5px;
 }
 
 .delivery-crate {
   position: absolute;
-  bottom: 20px;
-  right: 20px;
-  width: 120px;
-  height: 80px;
+  bottom: 10px;
+  right: 10px;
+  width: 90px;
+  height: 60px;
   background: rgba(255, 255, 255, 0.1);
-  border: 4px solid #ff00ff;
+  border: 3px solid #ff00ff;
   border-top: none;
   display: flex;
   align-items: flex-end;
   justify-content: center;
   font-weight: bold;
+  font-size: 0.9rem;
   color: #ff00ff;
-  padding-bottom: 10px;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  box-shadow: inset 0 -20px 30px rgba(0,0,0,0.5);
+  padding-bottom: 5px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  box-shadow: inset 0 -10px 20px rgba(0,0,0,0.5);
 }
 
 .crate-can {
@@ -156,10 +157,15 @@
   max-width: 900px;
   background: rgba(0, 0, 0, 0.5);
   border-top: 4px solid #4ade80;
-  padding: 1rem;
-  margin-top: 1rem;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
   border-radius: 12px 12px 0 0;
   text-align: center;
+}
+
+.loading-dock h3 {
+  font-size: 1rem;
+  margin: 0.2rem 0;
 }
 
 .hint-text {
@@ -171,8 +177,8 @@
 .dock-items {
   display: flex;
   justify-content: center;
-  gap: 2rem;
-  min-height: 100px;
+  gap: 1rem;
+  min-height: 80px;
   align-items: center;
 }
 
