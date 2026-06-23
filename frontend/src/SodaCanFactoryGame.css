@@ -23,7 +23,7 @@
 .factory-stage {
   display: flex;
   width: 100%;
-  max-width: 900px;
+  max-width: 630px;
   flex: 1;
   gap: 2rem;
   justify-content: center;
@@ -34,19 +34,19 @@
   flex: 1;
   background: rgba(0, 255, 255, 0.05);
   border: 2px dashed rgba(0, 255, 255, 0.3);
-  border-radius: 12px;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
   position: relative;
   padding-bottom: 2rem;
-  min-height: 400px;
+  min-height: 280px;
 }
 
 .elevator-header {
   position: absolute;
-  top: 10px;
+  top: 7px;
   font-size: 1.2rem;
   font-weight: bold;
   color: #00ffff;
@@ -55,11 +55,11 @@
 }
 
 .elevator-platform {
-  width: 120px;
-  height: 20px;
+  width: 84px;
+  height: 14px;
   background: #00ffff;
-  box-shadow: 0 0 15px #00ffff;
-  border-radius: 4px;
+  box-shadow: 0 0 11px #00ffff;
+  border-radius: 3px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -72,17 +72,17 @@
   flex: 1;
   background: rgba(255, 0, 255, 0.05);
   border: 2px dashed rgba(255, 0, 255, 0.3);
-  border-radius: 12px;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
-  min-height: 400px;
+  min-height: 280px;
 }
 
 .ramp-header {
   position: absolute;
-  top: 10px;
+  top: 7px;
   font-size: 1.2rem;
   font-weight: bold;
   color: #ff00ff;
@@ -92,55 +92,55 @@
 
 .ramp-surface {
   position: absolute;
-  top: 80px;
-  left: 20px;
+  top: 56px;
+  left: 14px;
   width: 80%;
-  height: 10px;
+  height: 7px;
   background: linear-gradient(90deg, #ff00ff, #ff88ff);
   transform: rotate(20deg);
   transform-origin: left center;
-  box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
-  border-radius: 5px;
+  box-shadow: 0 0 11px rgba(255, 0, 255, 0.5);
+  border-radius: 4px;
 }
 
 .delivery-crate {
   position: absolute;
-  bottom: 20px;
-  right: 20px;
-  width: 120px;
-  height: 80px;
+  bottom: 14px;
+  right: 14px;
+  width: 84px;
+  height: 56px;
   background: rgba(255, 255, 255, 0.1);
-  border: 4px solid #ff00ff;
+  border: 3px solid #ff00ff;
   border-top: none;
   display: flex;
   align-items: flex-end;
   justify-content: center;
   font-weight: bold;
   color: #ff00ff;
-  padding-bottom: 10px;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  box-shadow: inset 0 -20px 30px rgba(0,0,0,0.5);
+  padding-bottom: 7px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  box-shadow: inset 0 -14px 21px rgba(0,0,0,0.5);
 }
 
 .crate-can {
-  width: 40px;
-  height: 80px;
+  width: 28px;
+  height: 56px;
   background: var(--can-color);
   position: absolute;
   bottom: 0;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
 /* Loading Dock */
 .loading-dock {
   width: 100%;
-  max-width: 900px;
+  max-width: 630px;
   background: rgba(0, 0, 0, 0.5);
-  border-top: 4px solid #4ade80;
+  border-top: 3px solid #4ade80;
   padding: 1.5rem;
   margin-top: 2rem;
-  border-radius: 12px 12px 0 0;
+  border-radius: 8px 8px 0 0;
   text-align: center;
 }
 
@@ -154,14 +154,14 @@
   display: flex;
   justify-content: center;
   gap: 2rem;
-  min-height: 120px;
+  min-height: 84px;
   align-items: center;
 }
 
 /* 3D Soda Can CSS */
 .soda-can {
-  width: 60px;
-  height: 120px;
+  width: 42px;
+  height: 84px;
   position: relative;
   cursor: pointer;
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -181,13 +181,13 @@
 
 .can-top {
   width: 100%;
-  height: 15px;
+  height: 11px;
   background: #d1d5db;
   border-radius: 50% / 50%;
   position: absolute;
-  top: -7.5px;
+  top: -5px;
   z-index: 2;
-  box-shadow: inset 0 -2px 5px rgba(0,0,0,0.3);
+  box-shadow: inset 0 -2px 4px rgba(0,0,0,0.3);
 }
 
 .can-body {
@@ -196,7 +196,7 @@
   background: linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(255,255,255,0.4) 30%, rgba(0,0,0,0.3) 100%), var(--can-color);
   position: absolute;
   top: 0;
-  border-radius: 5px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -205,13 +205,13 @@
 
 .can-bottom {
   width: 100%;
-  height: 15px;
+  height: 11px;
   background: #9ca3af;
   border-radius: 50% / 50%;
   position: absolute;
-  bottom: -7.5px;
+  bottom: -5px;
   z-index: -1;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 7px rgba(0,0,0,0.5);
 }
 
 .can-label {
@@ -231,11 +231,11 @@
 
 /* Stacked Cans in Elevator */
 .stacked-can {
-  width: 60px;
-  height: 120px;
+  width: 42px;
+  height: 84px;
   position: absolute;
   background: linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(255,255,255,0.4) 30%, rgba(0,0,0,0.3) 100%), var(--can-color);
-  border-radius: 5px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -244,21 +244,21 @@
 .stacked-can::before {
   content: '';
   width: 100%;
-  height: 15px;
+  height: 11px;
   background: #d1d5db;
   border-radius: 50% / 50%;
   position: absolute;
-  top: -7.5px;
+  top: -5px;
 }
 
 .stacked-can::after {
   content: '';
   width: 100%;
-  height: 15px;
+  height: 11px;
   background: #9ca3af;
   border-radius: 50% / 50%;
   position: absolute;
-  bottom: -7.5px;
+  bottom: -5px;
   z-index: -1;
 }
 
@@ -273,43 +273,43 @@
 }
 
 .can-level-1 {
-  bottom: 20px;
+  bottom: 14px;
 }
 
 .can-level-2 {
-  bottom: 140px;
+  bottom: 98px;
 }
 
 /* Stamp Machine */
 .stamp-machine {
   position: absolute;
-  top: 60px;
-  width: 100px;
-  height: 50px;
+  top: 42px;
+  width: 70px;
+  height: 35px;
   background: #facc15;
   color: #000;
   font-weight: 900;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
+  border-radius: 6px;
   opacity: 0.3;
-  transform: translateY(-20px);
+  transform: translateY(-14px);
   transition: all 0.5s ease;
 }
 
 .stamp-machine.activated {
   opacity: 1;
-  transform: translateY(120px); /* Stamping down onto the can */
-  box-shadow: 0 0 30px #facc15;
+  transform: translateY(84px); /* Stamping down onto the can */
+  box-shadow: 0 0 21px #facc15;
 }
 
 /* Rolling Animation */
 .rolling-can {
-  width: 60px;
-  height: 120px;
+  width: 42px;
+  height: 84px;
   position: absolute;
-  top: -60px; /* Offset to center on ramp */
+  top: -42px; /* Offset to center on ramp */
   left: 0;
   transform: rotate(90deg);
   animation: rollDown 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
@@ -322,11 +322,11 @@
 @keyframes rollDown {
   0% {
     left: 0;
-    top: -60px;
+    top: -42px;
   }
   100% {
     left: 90%;
-    top: 250px; /* Roll down the angle */
+    top: 175px; /* Roll down the angle */
     opacity: 0; /* disappear into crate */
   }
 }
@@ -346,11 +346,11 @@
   border: 2px solid #00ffff;
   color: #00ffff;
   padding: 1rem 2rem;
-  border-radius: 20px;
+  border-radius: 14px;
   font-size: 1.5rem;
   font-weight: bold;
   text-align: center;
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+  box-shadow: 0 0 14px rgba(0, 255, 255, 0.4);
   z-index: 100;
   animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
