@@ -20,6 +20,13 @@ public class DataSeeder implements CommandLineRunner {
 
     private final Random random = new Random();
     private List<Integer> level1Topic1Targets;
+    private List<Integer> level1Topic3Targets;
+    private List<Integer> level1Topic5Targets;
+    private List<Integer> level1Topic6Targets;
+    private List<Integer> level1Topic7Targets;
+    private List<Integer> level2Topic1Targets;
+    private List<Integer> level2Topic5Targets;
+    private List<Integer> level2Topic8Targets;
 
     @Override
     public void run(String... args) throws Exception {
@@ -98,7 +105,7 @@ public class DataSeeder implements CommandLineRunner {
     private String[] generate(int level, int topic, int qNum) {
         switch(level) {
             case 1: return genLevel1(topic, qNum);
-            case 2: return genLevel2(topic);
+            case 2: return genLevel2(topic, qNum);
             case 3: return genLevel3(topic, qNum);
             case 4: return genLevel4(topic, qNum);
             case 5: return genLevel5(topic, qNum);
@@ -177,7 +184,11 @@ public class DataSeeder implements CommandLineRunner {
                 return buildT(ans, "A", "B", "NONE", q, "comparison_tallShort", json);
             }
             case 3: {
-                int n = random.nextInt(5) + 1;
+                if (qNum == 1 || level1Topic3Targets == null || level1Topic3Targets.isEmpty()) {
+                    level1Topic3Targets = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 1, 2, 3, 4, 5));
+                    Collections.shuffle(level1Topic3Targets, random);
+                }
+                int n = level1Topic3Targets.remove(0);
                 return buildT(n, 1, 10, "Find the correct quantity", "countItems", repeat(obj, n));
             }
             case 4: { 
@@ -189,15 +200,27 @@ public class DataSeeder implements CommandLineRunner {
                 return buildT(correct, 1, 10, "What comes next in the count?", "text", seq);
             }
             case 5: {
-                int n = random.nextInt(5) + 1;
+                if (qNum == 1 || level1Topic5Targets == null || level1Topic5Targets.isEmpty()) {
+                    level1Topic5Targets = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 1, 2, 3, 4, 5));
+                    Collections.shuffle(level1Topic5Targets, random);
+                }
+                int n = level1Topic5Targets.remove(0);
                 return buildT(n, 1, 10, "Touch and count the objects!", "countItems", repeat(obj, n));
             }
             case 6: {
-                int n = random.nextInt(5) + 1;
+                if (qNum == 1 || level1Topic6Targets == null || level1Topic6Targets.isEmpty()) {
+                    level1Topic6Targets = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 1, 2, 3, 4, 5));
+                    Collections.shuffle(level1Topic6Targets, random);
+                }
+                int n = level1Topic6Targets.remove(0);
                 return buildT(n, 1, 10, "Count the scattered " + obj + "s!", "countItems", repeat(obj, n));
             }
             case 7: {
-                int n = random.nextInt(5) + 1;
+                if (qNum == 1 || level1Topic7Targets == null || level1Topic7Targets.isEmpty()) {
+                    level1Topic7Targets = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 1, 2, 3, 4, 5));
+                    Collections.shuffle(level1Topic7Targets, random);
+                }
+                int n = level1Topic7Targets.remove(0);
                 return buildT(n, 1, 10, "Listen and count the sounds!", "audioCheck", "🔊");
             }
             case 8: { 
@@ -234,13 +257,17 @@ public class DataSeeder implements CommandLineRunner {
         return new String[]{correct, d1, d2, inst, type, asset};
     }
 
-    private String[] genLevel2(int topic) {
+    private String[] genLevel2(int topic, int qNum) {
         String[] objects = {"⭐", "🚀", "🪐", "☄️"};
         String obj = objects[random.nextInt(objects.length)];
 
         switch(topic) {
             case 1: {
-                int n = r(1,10);
+                if (qNum == 1 || level2Topic1Targets == null || level2Topic1Targets.isEmpty()) {
+                    level2Topic1Targets = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+                    Collections.shuffle(level2Topic1Targets, random);
+                }
+                int n = level2Topic1Targets.remove(0);
                 return buildT(n, 1, 10, "How many fingers?", "countItems", repeat("☝️", n));
             }
             case 2: {
@@ -257,7 +284,11 @@ public class DataSeeder implements CommandLineRunner {
                 return buildT(n, 1, 10, "Count the objects!", "countItems", repeat(obj, n));
             }
             case 5: {
-                int n = r(1,9);
+                if (qNum == 1 || level2Topic5Targets == null || level2Topic5Targets.isEmpty()) {
+                    level2Topic5Targets = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 5));
+                    Collections.shuffle(level2Topic5Targets, random);
+                }
+                int n = level2Topic5Targets.remove(0);
                 return buildT(10 - n, 1, 10, "How many more fuel blocks to launch?", "tenFrame", String.valueOf(n));
             }
             case 6: {

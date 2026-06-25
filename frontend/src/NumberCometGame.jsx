@@ -2983,11 +2983,10 @@ export default function NumberCometGame({ userId, onExit }) {
     isPlayingSequence.current = true;
     if (bgmRef.current) bgmRef.current.pause();
     try {
-      await speakText(currentQuestion.question || "Find the matching number");
-      await new Promise(r => setTimeout(r, 600));
-
       const qText = (currentQuestion.question || "").toLowerCase();
       if (qText.includes('sounds')) {
+         await speakText("Listen and count the sounds!");
+         await new Promise(r => setTimeout(r, 600));
          const numBeats = Number(currentQuestion.answer || currentQuestion.correctAnswer);
          if (!isNaN(numBeats) && numBeats > 0) {
             for(let i=0; i<numBeats; i++) {
@@ -2995,16 +2994,30 @@ export default function NumberCometGame({ userId, onExit }) {
                await new Promise(r => setTimeout(r, 600)); // slightly faster pace for counting bloops
             }
          }
-      } else if (sfxRef.current) {
-        const ans = String(currentQuestion.answer || currentQuestion.correctAnswer).toLowerCase();
-        // Skip playing the standalone mp3 if the spoken question text already contains the number!
-        if (!qText.includes(ans)) {
-          await new Promise((resolve) => {
-            sfxRef.current.onended = resolve;
-            sfxRef.current.onerror = resolve;
-            sfxRef.current.play().catch(resolve);
-          });
-        }
+      } else if (currentQuestion.type === 'audioCheck') {
+         await speakText("Listen to the audio!");
+         await new Promise(r => setTimeout(r, 400));
+         if (sfxRef.current) {
+           sfxRef.current.currentTime = 0;
+           await new Promise((resolve) => {
+             sfxRef.current.onended = resolve;
+             sfxRef.current.onerror = resolve;
+             sfxRef.current.play().catch(resolve);
+           });
+         }
+      } else {
+         await speakText(currentQuestion.question || "Find the matching number");
+         await new Promise(r => setTimeout(r, 600));
+         if (sfxRef.current) {
+           const ans = String(currentQuestion.answer || currentQuestion.correctAnswer).toLowerCase();
+           if (!qText.includes(ans)) {
+             await new Promise((resolve) => {
+               sfxRef.current.onended = resolve;
+               sfxRef.current.onerror = resolve;
+               sfxRef.current.play().catch(resolve);
+             });
+           }
+         }
       }
     } finally {
       if (bgmRef.current && isPlaying) bgmRef.current.play().catch(()=>{});
