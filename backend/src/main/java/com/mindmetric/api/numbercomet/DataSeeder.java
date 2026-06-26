@@ -26,6 +26,7 @@ public class DataSeeder implements CommandLineRunner {
     private List<Integer> level1Topic7Targets;
     private List<Integer> level2Topic1Targets;
     private List<Integer> level2Topic5Targets;
+    private List<Integer> level2Topic6Targets;
     private List<Integer> level2Topic8Targets;
 
     @Override
@@ -292,7 +293,11 @@ public class DataSeeder implements CommandLineRunner {
                 return buildT(10 - n, 1, 10, "How many more fuel blocks to launch?", "tenFrame", String.valueOf(n));
             }
             case 6: {
-                int n = r(0,10);
+                if (qNum == 1 || level2Topic6Targets == null || level2Topic6Targets.isEmpty()) {
+                    level2Topic6Targets = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
+                    Collections.shuffle(level2Topic6Targets, random);
+                }
+                int n = level2Topic6Targets.remove(0);
                 return buildT(n, 0, 10, "Which number traces this path?", "traceShape", String.valueOf(n));
             }
             case 7: { 

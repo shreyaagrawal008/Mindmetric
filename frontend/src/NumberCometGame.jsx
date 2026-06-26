@@ -3126,7 +3126,7 @@ export default function NumberCometGame({ userId, onExit }) {
     if (currentQuestion.type === 'traceShape') {
       return (
         <div style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <TraceGame targetDigit={currentQuestion.asset} onVictory={() => setTraceCompleted(true)} />
+          <TraceGame key={currentQuestionIndex} targetDigit={currentQuestion.asset} onVictory={() => setTraceCompleted(true)} />
         </div>
       );
     }
