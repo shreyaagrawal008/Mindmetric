@@ -1,0 +1,297 @@
+[
+  {
+    "id": 81,
+    "levelId": 2,
+    "topicId": 1,
+    "questionNumber": 1,
+    "instructionText": "How many fingers?",
+    "correctAnswer": "6",
+    "optionBlue": "3",
+    "optionPink": "5",
+    "optionGreen": "6",
+    "assetAudioPath": "/audio/answers/6.mp3",
+    "questionType": "countItems",
+    "assetValue": "☝️,☝️,☝️,☝️,☝️,☝️",
+    "options": [
+      "3",
+      "5",
+      "6"
+    ],
+    "type": "countItems",
+    "answer": "6",
+    "question": "How many fingers?",
+    "asset": [
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️"
+    ]
+  },
+  {
+    "id": 82,
+    "levelId": 2,
+    "topicId": 1,
+    "questionNumber": 2,
+    "instructionText": "How many fingers?",
+    "correctAnswer": "7",
+    "optionBlue": "3",
+    "optionPink": "7",
+    "optionGreen": "2",
+    "assetAudioPath": "/audio/answers/7.mp3",
+    "questionType": "countItems",
+    "assetValue": "☝️,☝️,☝️,☝️,☝️,☝️,☝️",
+    "options": [
+      "3",
+      "7",
+      "2"
+    ],
+    "type": "countItems",
+    "answer": "7",
+    "question": "How many fingers?",
+    "asset": [
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️"
+    ]
+  },
+  {
+    "id": 83,
+    "levelId": 2,
+    "topicId": 1,
+    "questionNumber": 3,
+    "instructionText": "How many fingers?",
+    "correctAnswer": "1",
+    "optionBlue": "5",
+    "optionPink": "9",
+    "optionGreen": "1",
+    "assetAudioPath": "/audio/answers/1.mp3",
+    "questionType": "countItems",
+    "assetValue": "☝️",
+    "options": [
+      "5",
+      "9",
+      "1"
+    ],
+    "type": "countItems",
+    "answer": "1",
+    "question": "How many fingers?",
+    "asset": [
+      "☝️"
+    ]
+  },
+  {
+    "id": 84,
+    "levelId": 2,
+    "topicId": 1,
+    "questionNumber": 4,
+    "instructionText": "How many fingers?",
+    "correctAnswer": "10",
+    "optionBlue": "10",
+    "optionPink": "7",
+    "optionGreen": "3",
+    "assetAudioPath": "/audio/answers/10.mp3",
+    "questionType": "countItems",
+    "assetValue": "☝️,☝️,☝️,☝️,☝️,☝️,☝️,☝️,☝️,☝️",
+    "options": [
+      "10",
+      "7",
+      "3"
+    ],
+    "type": "countItems",
+    "answer": "10",
+    "question": "How many fingers?",
+    "asset": [
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️"
+    ]
+  },
+  {
+    "id": 85,
+    "levelId": 2,
+    "topicId": 1,
+    "questionNumber": 5,
+    "instructionText": "How many fingers?",
+    "correctAnswer": "5",
+    "optionBlue": "2",
+    "optionPink": "3",
+    "optionGreen": "5",
+    "assetAudioPath": "/audio/answers/5.mp3",
+    "questionType": "countItems",
+    "assetValue": "☝️,☝️,☝️,☝️,☝️",
+    "options": [
+      "2",
+      "3",
+      "5"
+    ],
+    "type": "countItems",
+    "answer": "5",
+    "question": "How many fingers?",
+    "asset": [
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️"
+    ]
+  },
+  {
+    "id": 86,
+    "levelId": 2,
+    "topicId": 1,
+    "questionNumber": 6,
+    "instructionText": "How many fingers?",
+    "correctAnswer": "9",
+    "optionBlue": "1",
+    "optionPink": "8",
+    "optionGreen": "9",
+    "assetAudioPath": "/audio/answers/9.mp3",
+    "questionType": "countItems",
+    "assetValue": "☝️,☝️,☝️,☝️,☝️,☝️,☝️,☝️,☝️",
+    "options": [
+      "1",
+      "8",
+      "9"
+    ],
+    "type": "countItems",
+    "answer": "9",
+    "question": "How many fingers?",
+    "asset": [
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️"
+    ]
+  },
+  {
+    "id": 87,
+    "levelId": 2,
+    "topicId": 1,
+    "questionNumber": 7,
+    "instructionText": "How many fingers?",
+    "correctAnswer": "3",
+    "optionBlue": "3",
+    "optionPink": "6",
+    "optionGreen": "8",
+    "assetAudioPath": "/audio/answers/3.mp3",
+    "questionType": "countItems",
+    "assetValue": "☝️,☝️,☝️",
+    "options": [
+      "3",
+      "6",
+      "8"
+    ],
+    "type": "countItems",
+    "answer": "3",
+    "question": "How many fingers?",
+    "asset": [
+      "☝️",
+      "☝️",
+      "☝️"
+    ]
+  },
+  {
+    "id": 88,
+    "levelId": 2,
+    "topicId": 1,
+    "questionNumber": 8,
+    "instructionText": "How many fingers?",
+    "correctAnswer": "2",
+    "optionBlue": "10",
+    "optionPink": "2",
+    "optionGreen": "9",
+    "assetAudioPath": "/audio/answers/2.mp3",
+    "questionType": "countItems",
+    "assetValue": "☝️,☝️",
+    "options": [
+      "10",
+      "2",
+      "9"
+    ],
+    "type": "countItems",
+    "answer": "2",
+    "question": "How many fingers?",
+    "asset": [
+      "☝️",
+      "☝️"
+    ]
+  },
+  {
+    "id": 89,
+    "levelId": 2,
+    "topicId": 1,
+    "questionNumber": 9,
+    "instructionText": "How many fingers?",
+    "correctAnswer": "8",
+    "optionBlue": "3",
+    "optionPink": "9",
+    "optionGreen": "8",
+    "assetAudioPath": "/audio/answers/8.mp3",
+    "questionType": "countItems",
+    "assetValue": "☝️,☝️,☝️,☝️,☝️,☝️,☝️,☝️",
+    "options": [
+      "3",
+      "9",
+      "8"
+    ],
+    "type": "countItems",
+    "answer": "8",
+    "question": "How many fingers?",
+    "asset": [
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️"
+    ]
+  },
+  {
+    "id": 90,
+    "levelId": 2,
+    "topicId": 1,
+    "questionNumber": 10,
+    "instructionText": "How many fingers?",
+    "correctAnswer": "4",
+    "optionBlue": "5",
+    "optionPink": "1",
+    "optionGreen": "4",
+    "assetAudioPath": "/audio/answers/4.mp3",
+    "questionType": "countItems",
+    "assetValue": "☝️,☝️,☝️,☝️",
+    "options": [
+      "5",
+      "1",
+      "4"
+    ],
+    "type": "countItems",
+    "answer": "4",
+    "question": "How many fingers?",
+    "asset": [
+      "☝️",
+      "☝️",
+      "☝️",
+      "☝️"
+    ]
+  }
+]

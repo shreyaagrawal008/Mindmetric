@@ -1,0 +1,272 @@
+[
+  {
+    "id": 41,
+    "levelId": 1,
+    "topicId": 5,
+    "questionNumber": 1,
+    "instructionText": "Touch and count the objects!",
+    "correctAnswer": "4",
+    "optionBlue": "4",
+    "optionPink": "3",
+    "optionGreen": "8",
+    "assetAudioPath": "/audio/answers/4.mp3",
+    "questionType": "countItems",
+    "assetValue": "🐻,🐻,🐻,🐻",
+    "options": [
+      "4",
+      "3",
+      "8"
+    ],
+    "type": "countItems",
+    "answer": "4",
+    "question": "Touch and count the objects!",
+    "asset": [
+      "🐻",
+      "🐻",
+      "🐻",
+      "🐻"
+    ]
+  },
+  {
+    "id": 42,
+    "levelId": 1,
+    "topicId": 5,
+    "questionNumber": 2,
+    "instructionText": "Touch and count the objects!",
+    "correctAnswer": "5",
+    "optionBlue": "5",
+    "optionPink": "9",
+    "optionGreen": "8",
+    "assetAudioPath": "/audio/answers/5.mp3",
+    "questionType": "countItems",
+    "assetValue": "☄️,☄️,☄️,☄️,☄️",
+    "options": [
+      "5",
+      "9",
+      "8"
+    ],
+    "type": "countItems",
+    "answer": "5",
+    "question": "Touch and count the objects!",
+    "asset": [
+      "☄️",
+      "☄️",
+      "☄️",
+      "☄️",
+      "☄️"
+    ]
+  },
+  {
+    "id": 43,
+    "levelId": 1,
+    "topicId": 5,
+    "questionNumber": 3,
+    "instructionText": "Touch and count the objects!",
+    "correctAnswer": "4",
+    "optionBlue": "7",
+    "optionPink": "9",
+    "optionGreen": "4",
+    "assetAudioPath": "/audio/answers/4.mp3",
+    "questionType": "countItems",
+    "assetValue": "🐧,🐧,🐧,🐧",
+    "options": [
+      "7",
+      "9",
+      "4"
+    ],
+    "type": "countItems",
+    "answer": "4",
+    "question": "Touch and count the objects!",
+    "asset": [
+      "🐧",
+      "🐧",
+      "🐧",
+      "🐧"
+    ]
+  },
+  {
+    "id": 44,
+    "levelId": 1,
+    "topicId": 5,
+    "questionNumber": 4,
+    "instructionText": "Touch and count the objects!",
+    "correctAnswer": "2",
+    "optionBlue": "1",
+    "optionPink": "3",
+    "optionGreen": "2",
+    "assetAudioPath": "/audio/answers/2.mp3",
+    "questionType": "countItems",
+    "assetValue": "☁️,☁️",
+    "options": [
+      "1",
+      "3",
+      "2"
+    ],
+    "type": "countItems",
+    "answer": "2",
+    "question": "Touch and count the objects!",
+    "asset": [
+      "☁️",
+      "☁️"
+    ]
+  },
+  {
+    "id": 45,
+    "levelId": 1,
+    "topicId": 5,
+    "questionNumber": 5,
+    "instructionText": "Touch and count the objects!",
+    "correctAnswer": "1",
+    "optionBlue": "6",
+    "optionPink": "1",
+    "optionGreen": "9",
+    "assetAudioPath": "/audio/answers/1.mp3",
+    "questionType": "countItems",
+    "assetValue": "🌙",
+    "options": [
+      "6",
+      "1",
+      "9"
+    ],
+    "type": "countItems",
+    "answer": "1",
+    "question": "Touch and count the objects!",
+    "asset": [
+      "🌙"
+    ]
+  },
+  {
+    "id": 46,
+    "levelId": 1,
+    "topicId": 5,
+    "questionNumber": 6,
+    "instructionText": "Touch and count the objects!",
+    "correctAnswer": "1",
+    "optionBlue": "5",
+    "optionPink": "8",
+    "optionGreen": "1",
+    "assetAudioPath": "/audio/answers/1.mp3",
+    "questionType": "countItems",
+    "assetValue": "🪐",
+    "options": [
+      "5",
+      "8",
+      "1"
+    ],
+    "type": "countItems",
+    "answer": "1",
+    "question": "Touch and count the objects!",
+    "asset": [
+      "🪐"
+    ]
+  },
+  {
+    "id": 47,
+    "levelId": 1,
+    "topicId": 5,
+    "questionNumber": 7,
+    "instructionText": "Touch and count the objects!",
+    "correctAnswer": "5",
+    "optionBlue": "5",
+    "optionPink": "2",
+    "optionGreen": "3",
+    "assetAudioPath": "/audio/answers/5.mp3",
+    "questionType": "countItems",
+    "assetValue": "🚗,🚗,🚗,🚗,🚗",
+    "options": [
+      "5",
+      "2",
+      "3"
+    ],
+    "type": "countItems",
+    "answer": "5",
+    "question": "Touch and count the objects!",
+    "asset": [
+      "🚗",
+      "🚗",
+      "🚗",
+      "🚗",
+      "🚗"
+    ]
+  },
+  {
+    "id": 48,
+    "levelId": 1,
+    "topicId": 5,
+    "questionNumber": 8,
+    "instructionText": "Touch and count the objects!",
+    "correctAnswer": "3",
+    "optionBlue": "3",
+    "optionPink": "9",
+    "optionGreen": "10",
+    "assetAudioPath": "/audio/answers/3.mp3",
+    "questionType": "countItems",
+    "assetValue": "🚀,🚀,🚀",
+    "options": [
+      "3",
+      "9",
+      "10"
+    ],
+    "type": "countItems",
+    "answer": "3",
+    "question": "Touch and count the objects!",
+    "asset": [
+      "🚀",
+      "🚀",
+      "🚀"
+    ]
+  },
+  {
+    "id": 49,
+    "levelId": 1,
+    "topicId": 5,
+    "questionNumber": 9,
+    "instructionText": "Touch and count the objects!",
+    "correctAnswer": "3",
+    "optionBlue": "6",
+    "optionPink": "10",
+    "optionGreen": "3",
+    "assetAudioPath": "/audio/answers/3.mp3",
+    "questionType": "countItems",
+    "assetValue": "🐶,🐶,🐶",
+    "options": [
+      "6",
+      "10",
+      "3"
+    ],
+    "type": "countItems",
+    "answer": "3",
+    "question": "Touch and count the objects!",
+    "asset": [
+      "🐶",
+      "🐶",
+      "🐶"
+    ]
+  },
+  {
+    "id": 50,
+    "levelId": 1,
+    "topicId": 5,
+    "questionNumber": 10,
+    "instructionText": "Touch and count the objects!",
+    "correctAnswer": "2",
+    "optionBlue": "2",
+    "optionPink": "8",
+    "optionGreen": "5",
+    "assetAudioPath": "/audio/answers/2.mp3",
+    "questionType": "countItems",
+    "assetValue": "🐟,🐟",
+    "options": [
+      "2",
+      "8",
+      "5"
+    ],
+    "type": "countItems",
+    "answer": "2",
+    "question": "Touch and count the objects!",
+    "asset": [
+      "🐟",
+      "🐟"
+    ]
+  }
+]

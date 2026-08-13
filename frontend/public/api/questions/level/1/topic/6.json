@@ -1,0 +1,272 @@
+[
+  {
+    "id": 51,
+    "levelId": 1,
+    "topicId": 6,
+    "questionNumber": 1,
+    "instructionText": "Count the scattered 🐦s!",
+    "correctAnswer": "5",
+    "optionBlue": "4",
+    "optionPink": "9",
+    "optionGreen": "5",
+    "assetAudioPath": "/audio/answers/5.mp3",
+    "questionType": "countItems",
+    "assetValue": "🐦,🐦,🐦,🐦,🐦",
+    "options": [
+      "4",
+      "9",
+      "5"
+    ],
+    "type": "countItems",
+    "answer": "5",
+    "question": "Count the scattered 🐦s!",
+    "asset": [
+      "🐦",
+      "🐦",
+      "🐦",
+      "🐦",
+      "🐦"
+    ]
+  },
+  {
+    "id": 52,
+    "levelId": 1,
+    "topicId": 6,
+    "questionNumber": 2,
+    "instructionText": "Count the scattered 🌍s!",
+    "correctAnswer": "3",
+    "optionBlue": "5",
+    "optionPink": "3",
+    "optionGreen": "10",
+    "assetAudioPath": "/audio/answers/3.mp3",
+    "questionType": "countItems",
+    "assetValue": "🌍,🌍,🌍",
+    "options": [
+      "5",
+      "3",
+      "10"
+    ],
+    "type": "countItems",
+    "answer": "3",
+    "question": "Count the scattered 🌍s!",
+    "asset": [
+      "🌍",
+      "🌍",
+      "🌍"
+    ]
+  },
+  {
+    "id": 53,
+    "levelId": 1,
+    "topicId": 6,
+    "questionNumber": 3,
+    "instructionText": "Count the scattered 🐢s!",
+    "correctAnswer": "1",
+    "optionBlue": "10",
+    "optionPink": "1",
+    "optionGreen": "3",
+    "assetAudioPath": "/audio/answers/1.mp3",
+    "questionType": "countItems",
+    "assetValue": "🐢",
+    "options": [
+      "10",
+      "1",
+      "3"
+    ],
+    "type": "countItems",
+    "answer": "1",
+    "question": "Count the scattered 🐢s!",
+    "asset": [
+      "🐢"
+    ]
+  },
+  {
+    "id": 54,
+    "levelId": 1,
+    "topicId": 6,
+    "questionNumber": 4,
+    "instructionText": "Count the scattered ☄️s!",
+    "correctAnswer": "4",
+    "optionBlue": "4",
+    "optionPink": "7",
+    "optionGreen": "10",
+    "assetAudioPath": "/audio/answers/4.mp3",
+    "questionType": "countItems",
+    "assetValue": "☄️,☄️,☄️,☄️",
+    "options": [
+      "4",
+      "7",
+      "10"
+    ],
+    "type": "countItems",
+    "answer": "4",
+    "question": "Count the scattered ☄️s!",
+    "asset": [
+      "☄️",
+      "☄️",
+      "☄️",
+      "☄️"
+    ]
+  },
+  {
+    "id": 55,
+    "levelId": 1,
+    "topicId": 6,
+    "questionNumber": 5,
+    "instructionText": "Count the scattered ☀️s!",
+    "correctAnswer": "3",
+    "optionBlue": "9",
+    "optionPink": "3",
+    "optionGreen": "10",
+    "assetAudioPath": "/audio/answers/3.mp3",
+    "questionType": "countItems",
+    "assetValue": "☀️,☀️,☀️",
+    "options": [
+      "9",
+      "3",
+      "10"
+    ],
+    "type": "countItems",
+    "answer": "3",
+    "question": "Count the scattered ☀️s!",
+    "asset": [
+      "☀️",
+      "☀️",
+      "☀️"
+    ]
+  },
+  {
+    "id": 56,
+    "levelId": 1,
+    "topicId": 6,
+    "questionNumber": 6,
+    "instructionText": "Count the scattered 🐧s!",
+    "correctAnswer": "1",
+    "optionBlue": "7",
+    "optionPink": "1",
+    "optionGreen": "5",
+    "assetAudioPath": "/audio/answers/1.mp3",
+    "questionType": "countItems",
+    "assetValue": "🐧",
+    "options": [
+      "7",
+      "1",
+      "5"
+    ],
+    "type": "countItems",
+    "answer": "1",
+    "question": "Count the scattered 🐧s!",
+    "asset": [
+      "🐧"
+    ]
+  },
+  {
+    "id": 57,
+    "levelId": 1,
+    "topicId": 6,
+    "questionNumber": 7,
+    "instructionText": "Count the scattered 🐍s!",
+    "correctAnswer": "4",
+    "optionBlue": "7",
+    "optionPink": "4",
+    "optionGreen": "3",
+    "assetAudioPath": "/audio/answers/4.mp3",
+    "questionType": "countItems",
+    "assetValue": "🐍,🐍,🐍,🐍",
+    "options": [
+      "7",
+      "4",
+      "3"
+    ],
+    "type": "countItems",
+    "answer": "4",
+    "question": "Count the scattered 🐍s!",
+    "asset": [
+      "🐍",
+      "🐍",
+      "🐍",
+      "🐍"
+    ]
+  },
+  {
+    "id": 58,
+    "levelId": 1,
+    "topicId": 6,
+    "questionNumber": 8,
+    "instructionText": "Count the scattered 🪐s!",
+    "correctAnswer": "2",
+    "optionBlue": "9",
+    "optionPink": "2",
+    "optionGreen": "6",
+    "assetAudioPath": "/audio/answers/2.mp3",
+    "questionType": "countItems",
+    "assetValue": "🪐,🪐",
+    "options": [
+      "9",
+      "2",
+      "6"
+    ],
+    "type": "countItems",
+    "answer": "2",
+    "question": "Count the scattered 🪐s!",
+    "asset": [
+      "🪐",
+      "🪐"
+    ]
+  },
+  {
+    "id": 59,
+    "levelId": 1,
+    "topicId": 6,
+    "questionNumber": 9,
+    "instructionText": "Count the scattered 🌸s!",
+    "correctAnswer": "2",
+    "optionBlue": "9",
+    "optionPink": "2",
+    "optionGreen": "6",
+    "assetAudioPath": "/audio/answers/2.mp3",
+    "questionType": "countItems",
+    "assetValue": "🌸,🌸",
+    "options": [
+      "9",
+      "2",
+      "6"
+    ],
+    "type": "countItems",
+    "answer": "2",
+    "question": "Count the scattered 🌸s!",
+    "asset": [
+      "🌸",
+      "🌸"
+    ]
+  },
+  {
+    "id": 60,
+    "levelId": 1,
+    "topicId": 6,
+    "questionNumber": 10,
+    "instructionText": "Count the scattered 🐯s!",
+    "correctAnswer": "5",
+    "optionBlue": "8",
+    "optionPink": "5",
+    "optionGreen": "3",
+    "assetAudioPath": "/audio/answers/5.mp3",
+    "questionType": "countItems",
+    "assetValue": "🐯,🐯,🐯,🐯,🐯",
+    "options": [
+      "8",
+      "5",
+      "3"
+    ],
+    "type": "countItems",
+    "answer": "5",
+    "question": "Count the scattered 🐯s!",
+    "asset": [
+      "🐯",
+      "🐯",
+      "🐯",
+      "🐯",
+      "🐯"
+    ]
+  }
+]

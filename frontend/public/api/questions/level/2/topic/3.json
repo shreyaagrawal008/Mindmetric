@@ -1,0 +1,308 @@
+[
+  {
+    "id": 101,
+    "levelId": 2,
+    "topicId": 3,
+    "questionNumber": 1,
+    "instructionText": "Count the objects!",
+    "correctAnswer": "7",
+    "optionBlue": "7",
+    "optionPink": "10",
+    "optionGreen": "1",
+    "assetAudioPath": "/audio/answers/7.mp3",
+    "questionType": "countItems",
+    "assetValue": "☄️,☄️,☄️,☄️,☄️,☄️,☄️",
+    "options": [
+      "7",
+      "10",
+      "1"
+    ],
+    "type": "countItems",
+    "answer": "7",
+    "question": "Count the objects!",
+    "asset": [
+      "☄️",
+      "☄️",
+      "☄️",
+      "☄️",
+      "☄️",
+      "☄️",
+      "☄️"
+    ]
+  },
+  {
+    "id": 102,
+    "levelId": 2,
+    "topicId": 3,
+    "questionNumber": 2,
+    "instructionText": "Count the objects!",
+    "correctAnswer": "7",
+    "optionBlue": "9",
+    "optionPink": "7",
+    "optionGreen": "3",
+    "assetAudioPath": "/audio/answers/7.mp3",
+    "questionType": "countItems",
+    "assetValue": "🚀,🚀,🚀,🚀,🚀,🚀,🚀",
+    "options": [
+      "9",
+      "7",
+      "3"
+    ],
+    "type": "countItems",
+    "answer": "7",
+    "question": "Count the objects!",
+    "asset": [
+      "🚀",
+      "🚀",
+      "🚀",
+      "🚀",
+      "🚀",
+      "🚀",
+      "🚀"
+    ]
+  },
+  {
+    "id": 103,
+    "levelId": 2,
+    "topicId": 3,
+    "questionNumber": 3,
+    "instructionText": "Count the objects!",
+    "correctAnswer": "7",
+    "optionBlue": "7",
+    "optionPink": "10",
+    "optionGreen": "5",
+    "assetAudioPath": "/audio/answers/7.mp3",
+    "questionType": "countItems",
+    "assetValue": "🚀,🚀,🚀,🚀,🚀,🚀,🚀",
+    "options": [
+      "7",
+      "10",
+      "5"
+    ],
+    "type": "countItems",
+    "answer": "7",
+    "question": "Count the objects!",
+    "asset": [
+      "🚀",
+      "🚀",
+      "🚀",
+      "🚀",
+      "🚀",
+      "🚀",
+      "🚀"
+    ]
+  },
+  {
+    "id": 104,
+    "levelId": 2,
+    "topicId": 3,
+    "questionNumber": 4,
+    "instructionText": "Count the objects!",
+    "correctAnswer": "7",
+    "optionBlue": "7",
+    "optionPink": "9",
+    "optionGreen": "5",
+    "assetAudioPath": "/audio/answers/7.mp3",
+    "questionType": "countItems",
+    "assetValue": "☄️,☄️,☄️,☄️,☄️,☄️,☄️",
+    "options": [
+      "7",
+      "9",
+      "5"
+    ],
+    "type": "countItems",
+    "answer": "7",
+    "question": "Count the objects!",
+    "asset": [
+      "☄️",
+      "☄️",
+      "☄️",
+      "☄️",
+      "☄️",
+      "☄️",
+      "☄️"
+    ]
+  },
+  {
+    "id": 105,
+    "levelId": 2,
+    "topicId": 3,
+    "questionNumber": 5,
+    "instructionText": "Count the objects!",
+    "correctAnswer": "6",
+    "optionBlue": "2",
+    "optionPink": "6",
+    "optionGreen": "3",
+    "assetAudioPath": "/audio/answers/6.mp3",
+    "questionType": "countItems",
+    "assetValue": "☄️,☄️,☄️,☄️,☄️,☄️",
+    "options": [
+      "2",
+      "6",
+      "3"
+    ],
+    "type": "countItems",
+    "answer": "6",
+    "question": "Count the objects!",
+    "asset": [
+      "☄️",
+      "☄️",
+      "☄️",
+      "☄️",
+      "☄️",
+      "☄️"
+    ]
+  },
+  {
+    "id": 106,
+    "levelId": 2,
+    "topicId": 3,
+    "questionNumber": 6,
+    "instructionText": "Count the objects!",
+    "correctAnswer": "7",
+    "optionBlue": "3",
+    "optionPink": "7",
+    "optionGreen": "2",
+    "assetAudioPath": "/audio/answers/7.mp3",
+    "questionType": "countItems",
+    "assetValue": "🪐,🪐,🪐,🪐,🪐,🪐,🪐",
+    "options": [
+      "3",
+      "7",
+      "2"
+    ],
+    "type": "countItems",
+    "answer": "7",
+    "question": "Count the objects!",
+    "asset": [
+      "🪐",
+      "🪐",
+      "🪐",
+      "🪐",
+      "🪐",
+      "🪐",
+      "🪐"
+    ]
+  },
+  {
+    "id": 107,
+    "levelId": 2,
+    "topicId": 3,
+    "questionNumber": 7,
+    "instructionText": "Count the objects!",
+    "correctAnswer": "6",
+    "optionBlue": "6",
+    "optionPink": "5",
+    "optionGreen": "2",
+    "assetAudioPath": "/audio/answers/6.mp3",
+    "questionType": "countItems",
+    "assetValue": "⭐,⭐,⭐,⭐,⭐,⭐",
+    "options": [
+      "6",
+      "5",
+      "2"
+    ],
+    "type": "countItems",
+    "answer": "6",
+    "question": "Count the objects!",
+    "asset": [
+      "⭐",
+      "⭐",
+      "⭐",
+      "⭐",
+      "⭐",
+      "⭐"
+    ]
+  },
+  {
+    "id": 108,
+    "levelId": 2,
+    "topicId": 3,
+    "questionNumber": 8,
+    "instructionText": "Count the objects!",
+    "correctAnswer": "6",
+    "optionBlue": "9",
+    "optionPink": "6",
+    "optionGreen": "2",
+    "assetAudioPath": "/audio/answers/6.mp3",
+    "questionType": "countItems",
+    "assetValue": "🪐,🪐,🪐,🪐,🪐,🪐",
+    "options": [
+      "9",
+      "6",
+      "2"
+    ],
+    "type": "countItems",
+    "answer": "6",
+    "question": "Count the objects!",
+    "asset": [
+      "🪐",
+      "🪐",
+      "🪐",
+      "🪐",
+      "🪐",
+      "🪐"
+    ]
+  },
+  {
+    "id": 109,
+    "levelId": 2,
+    "topicId": 3,
+    "questionNumber": 9,
+    "instructionText": "Count the objects!",
+    "correctAnswer": "6",
+    "optionBlue": "1",
+    "optionPink": "6",
+    "optionGreen": "8",
+    "assetAudioPath": "/audio/answers/6.mp3",
+    "questionType": "countItems",
+    "assetValue": "🪐,🪐,🪐,🪐,🪐,🪐",
+    "options": [
+      "1",
+      "6",
+      "8"
+    ],
+    "type": "countItems",
+    "answer": "6",
+    "question": "Count the objects!",
+    "asset": [
+      "🪐",
+      "🪐",
+      "🪐",
+      "🪐",
+      "🪐",
+      "🪐"
+    ]
+  },
+  {
+    "id": 110,
+    "levelId": 2,
+    "topicId": 3,
+    "questionNumber": 10,
+    "instructionText": "Count the objects!",
+    "correctAnswer": "7",
+    "optionBlue": "4",
+    "optionPink": "7",
+    "optionGreen": "5",
+    "assetAudioPath": "/audio/answers/7.mp3",
+    "questionType": "countItems",
+    "assetValue": "☄️,☄️,☄️,☄️,☄️,☄️,☄️",
+    "options": [
+      "4",
+      "7",
+      "5"
+    ],
+    "type": "countItems",
+    "answer": "7",
+    "question": "Count the objects!",
+    "asset": [
+      "☄️",
+      "☄️",
+      "☄️",
+      "☄️",
+      "☄️",
+      "☄️",
+      "☄️"
+    ]
+  }
+]

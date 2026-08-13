@@ -1,0 +1,272 @@
+[
+  {
+    "id": 21,
+    "levelId": 1,
+    "topicId": 3,
+    "questionNumber": 1,
+    "instructionText": "Find the correct quantity",
+    "correctAnswer": "1",
+    "optionBlue": "5",
+    "optionPink": "9",
+    "optionGreen": "1",
+    "assetAudioPath": "/audio/answers/1.mp3",
+    "questionType": "countItems",
+    "assetValue": "🐶",
+    "options": [
+      "5",
+      "9",
+      "1"
+    ],
+    "type": "countItems",
+    "answer": "1",
+    "question": "Find the correct quantity",
+    "asset": [
+      "🐶"
+    ]
+  },
+  {
+    "id": 22,
+    "levelId": 1,
+    "topicId": 3,
+    "questionNumber": 2,
+    "instructionText": "Find the correct quantity",
+    "correctAnswer": "1",
+    "optionBlue": "10",
+    "optionPink": "2",
+    "optionGreen": "1",
+    "assetAudioPath": "/audio/answers/1.mp3",
+    "questionType": "countItems",
+    "assetValue": "⭐",
+    "options": [
+      "10",
+      "2",
+      "1"
+    ],
+    "type": "countItems",
+    "answer": "1",
+    "question": "Find the correct quantity",
+    "asset": [
+      "⭐"
+    ]
+  },
+  {
+    "id": 23,
+    "levelId": 1,
+    "topicId": 3,
+    "questionNumber": 3,
+    "instructionText": "Find the correct quantity",
+    "correctAnswer": "2",
+    "optionBlue": "8",
+    "optionPink": "10",
+    "optionGreen": "2",
+    "assetAudioPath": "/audio/answers/2.mp3",
+    "questionType": "countItems",
+    "assetValue": "🐧,🐧",
+    "options": [
+      "8",
+      "10",
+      "2"
+    ],
+    "type": "countItems",
+    "answer": "2",
+    "question": "Find the correct quantity",
+    "asset": [
+      "🐧",
+      "🐧"
+    ]
+  },
+  {
+    "id": 24,
+    "levelId": 1,
+    "topicId": 3,
+    "questionNumber": 4,
+    "instructionText": "Find the correct quantity",
+    "correctAnswer": "3",
+    "optionBlue": "1",
+    "optionPink": "10",
+    "optionGreen": "3",
+    "assetAudioPath": "/audio/answers/3.mp3",
+    "questionType": "countItems",
+    "assetValue": "🐘,🐘,🐘",
+    "options": [
+      "1",
+      "10",
+      "3"
+    ],
+    "type": "countItems",
+    "answer": "3",
+    "question": "Find the correct quantity",
+    "asset": [
+      "🐘",
+      "🐘",
+      "🐘"
+    ]
+  },
+  {
+    "id": 25,
+    "levelId": 1,
+    "topicId": 3,
+    "questionNumber": 5,
+    "instructionText": "Find the correct quantity",
+    "correctAnswer": "4",
+    "optionBlue": "2",
+    "optionPink": "10",
+    "optionGreen": "4",
+    "assetAudioPath": "/audio/answers/4.mp3",
+    "questionType": "countItems",
+    "assetValue": "☄️,☄️,☄️,☄️",
+    "options": [
+      "2",
+      "10",
+      "4"
+    ],
+    "type": "countItems",
+    "answer": "4",
+    "question": "Find the correct quantity",
+    "asset": [
+      "☄️",
+      "☄️",
+      "☄️",
+      "☄️"
+    ]
+  },
+  {
+    "id": 26,
+    "levelId": 1,
+    "topicId": 3,
+    "questionNumber": 6,
+    "instructionText": "Find the correct quantity",
+    "correctAnswer": "3",
+    "optionBlue": "3",
+    "optionPink": "1",
+    "optionGreen": "4",
+    "assetAudioPath": "/audio/answers/3.mp3",
+    "questionType": "countItems",
+    "assetValue": "🐱,🐱,🐱",
+    "options": [
+      "3",
+      "1",
+      "4"
+    ],
+    "type": "countItems",
+    "answer": "3",
+    "question": "Find the correct quantity",
+    "asset": [
+      "🐱",
+      "🐱",
+      "🐱"
+    ]
+  },
+  {
+    "id": 27,
+    "levelId": 1,
+    "topicId": 3,
+    "questionNumber": 7,
+    "instructionText": "Find the correct quantity",
+    "correctAnswer": "4",
+    "optionBlue": "4",
+    "optionPink": "10",
+    "optionGreen": "1",
+    "assetAudioPath": "/audio/answers/4.mp3",
+    "questionType": "countItems",
+    "assetValue": "🪐,🪐,🪐,🪐",
+    "options": [
+      "4",
+      "10",
+      "1"
+    ],
+    "type": "countItems",
+    "answer": "4",
+    "question": "Find the correct quantity",
+    "asset": [
+      "🪐",
+      "🪐",
+      "🪐",
+      "🪐"
+    ]
+  },
+  {
+    "id": 28,
+    "levelId": 1,
+    "topicId": 3,
+    "questionNumber": 8,
+    "instructionText": "Find the correct quantity",
+    "correctAnswer": "2",
+    "optionBlue": "9",
+    "optionPink": "2",
+    "optionGreen": "8",
+    "assetAudioPath": "/audio/answers/2.mp3",
+    "questionType": "countItems",
+    "assetValue": "🐦,🐦",
+    "options": [
+      "9",
+      "2",
+      "8"
+    ],
+    "type": "countItems",
+    "answer": "2",
+    "question": "Find the correct quantity",
+    "asset": [
+      "🐦",
+      "🐦"
+    ]
+  },
+  {
+    "id": 29,
+    "levelId": 1,
+    "topicId": 3,
+    "questionNumber": 9,
+    "instructionText": "Find the correct quantity",
+    "correctAnswer": "5",
+    "optionBlue": "8",
+    "optionPink": "5",
+    "optionGreen": "7",
+    "assetAudioPath": "/audio/answers/5.mp3",
+    "questionType": "countItems",
+    "assetValue": "🌧️,🌧️,🌧️,🌧️,🌧️",
+    "options": [
+      "8",
+      "5",
+      "7"
+    ],
+    "type": "countItems",
+    "answer": "5",
+    "question": "Find the correct quantity",
+    "asset": [
+      "🌧️",
+      "🌧️",
+      "🌧️",
+      "🌧️",
+      "🌧️"
+    ]
+  },
+  {
+    "id": 30,
+    "levelId": 1,
+    "topicId": 3,
+    "questionNumber": 10,
+    "instructionText": "Find the correct quantity",
+    "correctAnswer": "5",
+    "optionBlue": "3",
+    "optionPink": "4",
+    "optionGreen": "5",
+    "assetAudioPath": "/audio/answers/5.mp3",
+    "questionType": "countItems",
+    "assetValue": "🐵,🐵,🐵,🐵,🐵",
+    "options": [
+      "3",
+      "4",
+      "5"
+    ],
+    "type": "countItems",
+    "answer": "5",
+    "question": "Find the correct quantity",
+    "asset": [
+      "🐵",
+      "🐵",
+      "🐵",
+      "🐵",
+      "🐵"
+    ]
+  }
+]
