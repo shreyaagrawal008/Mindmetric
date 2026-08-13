@@ -2849,7 +2849,7 @@ export default function NumberCometGame({ userId, onExit }) {
       try {
         let url = `${API_BASE}/questions/level/${activeLevel}/topic/${activeTopic}`;
         if (API_BASE === "/api") {
-          url += ".json";
+          url = `/data/questions/level/${activeLevel}/topic/${activeTopic}.json`;
         }
         const response = await fetch(`${url}?t=${new Date().getTime()}`);
         if (response.ok) {
